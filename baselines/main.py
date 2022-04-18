@@ -33,7 +33,6 @@ __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 def abcd(x, stat_dict1):
     return datasets.utils.normalize_data(x,stat_dict1['target_mean'],stat_dict1['target_std'])
 
-
 # Parser check
 def restricted_float(x, inter):
     x = float(x)
@@ -46,10 +45,10 @@ parser = argparse.ArgumentParser(description='Neural message passing')
 
 parser.add_argument('--dataset', default='qm9', help='QM9')
 parser.add_argument('--datasetPath', default='./data/qm9/dsgdb9nsd/', help='dataset path')
-parser.add_argument('--logPath', default='./log/qm9/mpnn/', help='log path')
+parser.add_argument('--logPath', default='./rdist_model_log/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', default='./plot/qm9/mpnn/', help='plot path')
-parser.add_argument('--resume', default='./checkpoint/qm9/mpnn/',
+parser.add_argument('--resume', default='./rdist_model_checkpoint/qm9/mpnn/',
                     help='path to latest checkpoint')
 # Optimization Options
 parser.add_argument('--batch-size', type=int, default=100, metavar='N',
@@ -72,8 +71,9 @@ parser.add_argument('--log-interval', type=int, default=20, metavar='N',
 # Accelerating
 parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching threads.')
 
-best_er1 = 0
+parser.add_argument('--e_rep', type=str, default="chem_graph", help="edge representation")
 
+best_er1 = 0
 
 def main():
 
@@ -86,7 +86,7 @@ def main():
     # Load data
     root = args.datasetPath
 
-    print('Prepare files')
+    print('Prepare files',flush=True)
     files = [f for f in os.listdir(root) if os.path.isfile(os.path.join(root, f))]
 
     idx = np.random.permutation(len(files))
@@ -95,22 +95,19 @@ def main():
     valid_ids = [files[i] for i in idx[0:10000]]
     test_ids = [files[i] for i in idx[10000:20000]]
     train_ids = [files[i] for i in idx[20000:]]
-    valid_ids = [files[i] for i in idx[0:40]]
-    test_ids = [files[i] for i in idx[40:80]]
-    train_ids = [files[i] for i in idx[80:400]]
 
-    e_representation = 'chem_graph'
+    e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_valid = datasets.Qm9(root, valid_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_test = datasets.Qm9(root, test_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
 
     # Define model and optimizer
-    print('Define model')
+    print('Define model',flush=True)
     # Select one graph
     g_tuple, l = data_train[0]
     g, h_t, e = g_tuple
 
-    print('\tStatistics')
+    print('\tStatistics',flush=True)
     stat_dict = datasets.utils.get_graph_stats(data_valid, ['target_mean', 'target_std'])
 
     data_train.set_target_transform(abcd)
@@ -132,7 +129,7 @@ def main():
                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
                                               num_workers=args.prefetch, pin_memory=True)
 
-    print('\tCreate model')
+    print('\tCreate model',flush=True)
     in_n = [len(h_t[0]), len(list(e.values())[0])]
     hidden_state_size = 73
     message_size = 73
@@ -142,14 +139,14 @@ def main():
     model = MPNN(in_n, hidden_state_size, message_size, n_layers, l_target, type=type)
     del in_n, hidden_state_size, message_size, n_layers, l_target, type
 
-    print('Optimizer')
+    print('Optimizer',flush=True)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     criterion = nn.MSELoss()
 
     evaluation = lambda output, target: torch.mean(torch.abs(output - target) / torch.abs(target))
 
-    print('Logger')
+    print('Logger',flush=True)
     logger = Logger(args.logPath)
 
     lr_step = (args.lr-args.lr*args.lr_decay)/(args.epochs*args.schedule[1] - args.epochs*args.schedule[0])
@@ -161,19 +158,19 @@ def main():
         if not os.path.isdir(checkpoint_dir):
             os.makedirs(checkpoint_dir)
         if os.path.isfile(best_model_file):
-            print("=> loading best model '{}'".format(best_model_file))
+            print("=> loading best model '{}'".format(best_model_file),flush=True)
             checkpoint = torch.load(best_model_file)
             args.start_epoch = checkpoint['epoch']
             best_acc1 = checkpoint['best_er1']
             model.load_state_dict(checkpoint['state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer'])
-            print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']))
+            print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']),flush=True)
         else:
-            print("=> no best model found at '{}'".format(best_model_file))
+            print("=> no best model found at '{}'".format(best_model_file),flush=True)
 
-    print('Check cuda')
+    print('Check cuda',flush=True)
     if args.cuda:
-        print('\t* Cuda')
+        print('\t* Cuda',flush=True)
         model = model.cuda()
         criterion = criterion.cuda()
 
@@ -189,7 +186,7 @@ def main():
         train(train_loader, model, criterion, optimizer, epoch, evaluation, logger)
 
         # evaluate on test set
-        er1 = validate(valid_loader, model, criterion, evaluation, logger)
+        er1, output, target = validate(valid_loader, model, criterion, evaluation, logger)
 
         is_best = er1 > best_er1
         best_er1 = min(er1, best_er1)
@@ -206,7 +203,7 @@ def main():
         if not os.path.isdir(checkpoint_dir):
             os.makedirs(checkpoint_dir)
         if os.path.isfile(best_model_file):
-            print("=> loading best model '{}'".format(best_model_file))
+            print("=> loading best model '{}'".format(best_model_file),flush=True)
             checkpoint = torch.load(best_model_file)
             args.start_epoch = checkpoint['epoch']
             best_acc1 = checkpoint['best_er1']
@@ -214,14 +211,13 @@ def main():
             if args.cuda:
                 model.cuda()
             optimizer.load_state_dict(checkpoint['optimizer'])
-            print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']))
+            print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']),flush=True)
         else:
-            print("=> no best model found at '{}'".format(best_model_file))
+            print("=> no best model found at '{}'".format(best_model_file),flush=True)
 
     # For testing
     validate(test_loader, model, criterion, evaluation)
-
-
+            
 def train(train_loader, model, criterion, optimizer, epoch, evaluation, logger):
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -268,13 +264,13 @@ def train(train_loader, model, criterion, optimizer, epoch, evaluation, logger):
                   'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                   'Error Ratio {err.val:.4f} ({err.avg:.4f})'
                   .format(epoch, i, len(train_loader), batch_time=batch_time,
-                          data_time=data_time, loss=losses, err=error_ratio))
+                          data_time=data_time, loss=losses, err=error_ratio),flush=True)
                           
     logger.log_value('train_epoch_loss', losses.avg)
     logger.log_value('train_epoch_error_ratio', error_ratio.avg)
 
     print('Epoch: [{0}] Avg Error Ratio {err.avg:.3f}; Average Loss {loss.avg:.3f}; Avg Time x Batch {b_time.avg:.3f}'
-          .format(epoch, err=error_ratio, loss=losses, b_time=batch_time))
+          .format(epoch, err=error_ratio, loss=losses, b_time=batch_time),flush=True)
 
 
 def validate(val_loader, model, criterion, evaluation, logger=None):
@@ -292,10 +288,17 @@ def validate(val_loader, model, criterion, evaluation, logger=None):
         if args.cuda:
             g, h, e, target = g.cuda(), h.cuda(), e.cuda(), target.cuda()
         g, h, e, target = Variable(g), Variable(h), Variable(e), Variable(target)
-
+        
         # Compute output
-        output = model(g, h, e)
+        if i % args.log_interval == 0 and i > 0:
+            print(i)
 
+        output = model(g, h, e)
+        predictions = output.tolist()
+        ground_truth = target.tolist()
+        with open("analysis.csv", "a") as f:
+            for i, val in enumerate(predictions):
+                f.write("{}, {}\n".format(round(val[0],4), round(ground_truth[i][0],4)))
         # Logs
         losses.update(criterion(output, target).data, g.size(0))
         error_ratio.update(evaluation(output, target).data, g.size(0))
@@ -304,23 +307,21 @@ def validate(val_loader, model, criterion, evaluation, logger=None):
         batch_time.update(time.time() - end)
         end = time.time()
 
-        if i % args.log_interval == 0 and i > 0:
-            
-            print('Test: [{0}/{1}]\t'
-                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'Error Ratio {err.val:.4f} ({err.avg:.4f})'
-                  .format(i, len(val_loader), batch_time=batch_time,
-                          loss=losses, err=error_ratio))
+        print('Test: [{0}/{1}]\t'
+              'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+              'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+              'Error Ratio {err.val:.4f} ({err.avg:.4f})'
+              .format(i, len(val_loader), batch_time=batch_time,
+                      loss=losses, err=error_ratio),flush=True)
 
     print(' * Average Error Ratio {err.avg:.3f}; Average Loss {loss.avg:.3f}'
-          .format(err=error_ratio, loss=losses))
+          .format(err=error_ratio, loss=losses),flush=True)
 
     if logger is not None:
         logger.log_value('test_epoch_loss', losses.avg)
         logger.log_value('test_epoch_error_ratio', error_ratio.avg)
 
-    return error_ratio.avg
+    return error_ratio.avg, output, target
 
     
 if __name__ == '__main__':

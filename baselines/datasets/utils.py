@@ -125,11 +125,12 @@ def get_graph_stats(graph_obj_handle, prop='degrees'):
         stat_dict['edge_labels'] = list(set([d for core_res in res for file_res in core_res for d in file_res['edge_labels']]))
     if 'target_mean' in prop or 'target_std' in prop:
         param = np.array([file_res['params'] for core_res in res for file_res in core_res])
+        print(param)
     if 'target_mean' in prop:
         stat_dict['target_mean'] = np.mean(param, axis=0)
     if 'target_std' in prop:
         stat_dict['target_std'] = np.std(param, axis=0)
-
+    
     return stat_dict
 
 

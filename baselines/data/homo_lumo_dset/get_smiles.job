@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH -p RM
+#SBATCH -N 1
+#SBATCH -n 128
+#SBATCH -t 4:00:00
+
+module load anaconda3
+conda activate 10708
+
+bash get_smiles.sh
+python get_gap.py

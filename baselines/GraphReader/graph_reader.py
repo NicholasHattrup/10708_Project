@@ -388,32 +388,14 @@ def create_graph_letter(file):
 
 
 # Initialization of graph for QM9
-def init_graph(prop):
-    
+def init_graph(prop, index, tag):
+
+    g_tag = tag
+    g_index = index
     prop = prop.split()
-    g_tag = prop[0]
-    g_index = int(prop[1])
-    g_A = float(prop[2])
-    g_B = float(prop[3]) 
-    g_C = float(prop[4]) 
-    g_mu = float(prop[5])
-    g_alpha = float(prop[6]) 
-    g_homo = float(prop[7])
-    g_lumo = float(prop[8]) 
-    g_gap = float(prop[9])
-    g_r2 = float(prop[10])
-    g_zpve = float(prop[11]) 
-    g_U0 = float(prop[12]) 
-    g_U = float(prop[13])
-    g_H = float(prop[14])
-    g_G = float(prop[15])
-    g_Cv = float(prop[16])
+    g_gap = float(prop[1])
     labels = [g_gap]
     return nx.Graph(tag=g_tag, index=g_index, gap=g_gap), labels
-    labels = [g_mu, g_alpha, g_homo, g_lumo, g_gap, g_r2, g_zpve, g_U0, g_U, g_H, g_G, g_Cv]
-    return nx.Graph(tag=g_tag, index=g_index, A=g_A, B=g_B, C=g_C, mu=g_mu, alpha=g_alpha, homo=g_homo,
-                    lumo=g_lumo, gap=g_gap, r2=g_r2, zpve=g_zpve, U0=g_U0, U=g_U, H=g_H, G=g_G, Cv=g_Cv), labels
-
 
 # XYZ file reader for QM9 dataset
 def xyz_graph_reader(graph_file):
@@ -421,10 +403,13 @@ def xyz_graph_reader(graph_file):
     with open(graph_file,'r') as f:
         # Number of atoms
         na = int(f.readline())
-
+        identifier = f.readline().split(".")[0].split("_")
+        tag = "gdb"
+        index = int(identifier[1])
+        
         # Graph properties
         properties = f.readline()
-        g, l = init_graph(properties)
+        g, l = init_graph(properties, index, tag)
         
         atom_properties = []
         # Atoms properties
