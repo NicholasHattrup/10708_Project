@@ -44,11 +44,11 @@ def restricted_float(x, inter):
 parser = argparse.ArgumentParser(description='Neural message passing')
 
 parser.add_argument('--dataset', default='qm9', help='QM9')
-parser.add_argument('--datasetPath', default='./data/qm9/dsgdb9nsd/', help='dataset path')
-parser.add_argument('--logPath', default='./rdist_model_log/qm9/mpnn/', help='log path')
+parser.add_argument('--datasetPath', default='./data/qm9/xyz/', help='dataset path')
+parser.add_argument('--logPath', default='./raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', default='./plot/qm9/mpnn/', help='plot path')
-parser.add_argument('--resume', default='./rdist_model_checkpoint/qm9/mpnn/',
+parser.add_argument('--resume', default='./raw_distance_noHs/qm9/mpnn/',
                     help='path to latest checkpoint')
 # Optimization Options
 parser.add_argument('--batch-size', type=int, default=100, metavar='N',
@@ -71,7 +71,7 @@ parser.add_argument('--log-interval', type=int, default=20, metavar='N',
 # Accelerating
 parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching threads.')
 
-parser.add_argument('--e_rep', type=str, default="chem_graph", help="edge representation")
+parser.add_argument('--e_rep', type=str, default="raw_distance", help="edge representation")
 
 best_er1 = 0
 
@@ -108,14 +108,14 @@ def main():
     g, h_t, e = g_tuple
 
     print('\tStatistics',flush=True)
-    stat_dict = datasets.utils.get_graph_stats(data_valid, ['target_mean', 'target_std'])
+#    stat_dict = datasets.utils.get_graph_stats(data_valid, ['target_mean', 'target_std'])
 
-    data_train.set_target_transform(abcd)
-    data_valid.set_target_transform(abcd)
-    data_test.set_target_transform(abcd)
-    data_train.set_stat_dict(stat_dict)
-    data_valid.set_stat_dict(stat_dict)
-    data_test.set_stat_dict(stat_dict)
+#    data_train.set_target_transform(abcd)
+#    data_valid.set_target_transform(abcd)
+#    data_test.set_target_transform(abcd)
+#    data_train.set_stat_dict(stat_dict)
+#    data_valid.set_stat_dict(stat_dict)
+#    data_test.set_stat_dict(stat_dict)
 
     # Data Loader
     train_loader = torch.utils.data.DataLoader(data_train,

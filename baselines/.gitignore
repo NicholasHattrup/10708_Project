@@ -92,6 +92,7 @@ ENV/
 data/mutag/*
 data/enzymes/*
 data/qm9/*
+data/homo_lumo_dset/*
 data/data_graphml/*
 data/Washington_DB_1.0/*
 data/GWHistoGraphs/*

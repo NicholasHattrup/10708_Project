@@ -392,23 +392,31 @@ def init_graph(prop, index, tag):
 
     g_tag = tag
     g_index = index
-    prop = prop.split()
-    g_gap = float(prop[1])
+    g_gap = prop
     labels = [g_gap]
     return nx.Graph(tag=g_tag, index=g_index, gap=g_gap), labels
 
 # XYZ file reader for QM9 dataset
 def xyz_graph_reader(graph_file):
-
     with open(graph_file,'r') as f:
         # Number of atoms
         na = int(f.readline())
-        identifier = f.readline().split(".")[0].split("_")
+        second_line = f.readline().split(" ")
+        identifier = second_line[0].split(".")[0].split("_")[1]
+        gap = second_line[1].replace("\n","")
         tag = "gdb"
-        index = int(identifier[1])
-        
+        try:
+            index = int(identifier[1])
+        except:
+            print(second_line)
+            print(identifier)
+            try:
+                index = int(identifier[1][1:])
+            except:
+                index = int(identifier[0])
+    
         # Graph properties
-        properties = f.readline()
+        properties = gap
         g, l = init_graph(properties, index, tag)
         
         atom_properties = []
@@ -429,7 +437,7 @@ def xyz_graph_reader(graph_file):
         smiles = smiles[0]
         
         m = Chem.MolFromSmiles(smiles)
-        m = Chem.AddHs(m)
+#        m = Chem.AddHs(m)
 
         fdef_name = os.path.join(RDConfig.RDDataDir, 'BaseFeatures.fdef')
         factory = ChemicalFeatures.BuildFeatureFactory(fdef_name)

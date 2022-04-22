@@ -51,7 +51,7 @@ parser.add_argument('--plotPath', default='./plot/qm9/mpnn/', help='plot path')
 parser.add_argument('--resume', default='./rdist_model_checkpoint/qm9/mpnn/',
                     help='path to latest checkpoint')
 # Optimization Options
-parser.add_argument('--batch-size', type=int, default=100, metavar='N',
+parser.add_argument('--batch-size', type=int, default=10, metavar='N',
                     help='Input batch size for training (default: 20)')
 parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='Enables CUDA training')
@@ -109,23 +109,23 @@ def main():
     g, h_t, e = g_tuple
 
     print('\tStatistics',flush=True)
-    stat_dict = datasets.utils.get_graph_stats(data_valid, ['target_mean', 'target_std'])
+#    stat_dict = datasets.utils.get_graph_stats(data_test, ['target_mean', 'target_std'])
 
-    data_train.set_target_transform(abcd)
-    data_valid.set_target_transform(abcd)
-    data_test.set_target_transform(abcd)
-    data_train.set_stat_dict(stat_dict)
-    data_valid.set_stat_dict(stat_dict)
-    data_test.set_stat_dict(stat_dict)
+#    data_train.set_target_transform(abcd)
+#    data_valid.set_target_transform(abcd)
+#    data_test.set_target_transform(abcd)
+#    data_train.set_stat_dict(stat_dict)
+#    data_valid.set_stat_dict(stat_dict)
+#    data_test.set_stat_dict(stat_dict)
 
     # Data Loader
-    train_loader = torch.utils.data.DataLoader(data_train,
-                                               batch_size=args.batch_size, shuffle=True,
-                                               collate_fn=datasets.utils.collate_g,
-                                               num_workers=args.prefetch, pin_memory=True)
-    valid_loader = torch.utils.data.DataLoader(data_valid,
-                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
-                                               num_workers=args.prefetch, pin_memory=True)
+#    train_loader = torch.utils.data.DataLoader(data_train,
+#                                               batch_size=args.batch_size, shuffle=True,
+#                                               collate_fn=datasets.utils.collate_g,
+#                                               num_workers=args.prefetch, pin_memory=True)
+#    valid_loader = torch.utils.data.DataLoader(data_valid,
+#                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
+#                                               num_workers=args.prefetch, pin_memory=True)
     test_loader = torch.utils.data.DataLoader(data_test,
                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
                                               num_workers=args.prefetch, pin_memory=True)
@@ -175,8 +175,10 @@ def main():
         model = model.cuda()
         criterion = criterion.cuda()
 
+    with open("analysis.csv","w") as f:
+        f.write("prediction,ground truth\n")
     validate(test_loader, model, criterion, evaluation)
-
+    
 def validate(val_loader, model, criterion, evaluation, logger=None):
     batch_time = AverageMeter()
     losses = AverageMeter()
@@ -202,7 +204,7 @@ def validate(val_loader, model, criterion, evaluation, logger=None):
         ground_truth = target.tolist()
         with open("analysis.csv", "a") as f:
             for i, val in enumerate(predictions):
-                f.write("{}, {}\n".format(round(val[0],4), round(ground_truth[i][0],4)))
+                f.write("{},{}\n".format(round(val[0],4), round(ground_truth[i][0],4)))
         # Logs
         losses.update(criterion(output, target).data, g.size(0))
         error_ratio.update(evaluation(output, target).data, g.size(0))
