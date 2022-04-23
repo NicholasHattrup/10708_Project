@@ -1,0 +1,9 @@
+rdkit-pypi
+torch
+torchvision
+numpy
+wget
+networkx
+joblib
+tensorboard
+tensorboard-logger
