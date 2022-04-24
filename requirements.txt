@@ -2,6 +2,7 @@ rdkit-pypi
 torch
 torchvision
 numpy
+pandas
 wget
 networkx
 joblib
