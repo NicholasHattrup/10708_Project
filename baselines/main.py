@@ -167,7 +167,10 @@ def main():
         print('\t* cuda',flush=True)
         model = model.cuda()
         criterion = criterion.cuda()
-
+    else:
+        import multiprocessing
+        n_cpus = multiprocessing.cpu_count()
+        torch.set_num_threads(n_cpus)
     # Epoch for loop
     for epoch in range(0, args.epochs):
 
