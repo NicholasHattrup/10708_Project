@@ -222,11 +222,11 @@ def split_files(split_path, files, args):
 
         try:
             with open(split_path+"valid_ids.txt", 'r') as f:
-                valid_ids = parse_lines(lines=f.readlines(), files=files, fn=overal_path+"valid_ids.txt")
+                valid_ids = [line.strip("\n") for line in f.readlines()]
             with open(split_path+"test_ids.txt", 'r') as f:
-                test_ids = parse_lines(lines=f.readlines(), files=files, fn=overal_path+"test_ids.txt")
+                test_ids = [line.strip("\n") for line in f.read]
             with open(split_path+"train_ids.txt", 'r') as f:
-                train_ids = parse_lines(lines=f.readlines(), files=files, fn=overal_path+"train_ids.txt")
+                train_ids = [line.strip("\n") for line in f.readlines()]
             return valid_ids, test_ids, train_ids
         except:
             print(f"No pre-defined split information found. New split info will be used instead.", flush=True)
