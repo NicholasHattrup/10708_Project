@@ -213,9 +213,9 @@ def parse_lines(lines, files, fn):
 
 
 def split_files(split_path, files, args):
-    print(os.cwd())
+    print(os.getcwd())
     overal_path = split_path
-    split_path = "../" + overal_path
+    split_path = overal_path
     
     if args.datasetSplitDone:
         print(f'Gathering dataset split information from {overal_path}',flush=True)
