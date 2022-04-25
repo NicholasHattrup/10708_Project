@@ -98,7 +98,8 @@ data/Washington_DB_1.0/*
 data/GWHistoGraphs/*
 data/Letter/*
 data/GREC/*
-
+*log/*
+checkpoint*/*
 # log
 log/*
 # plot
@@ -107,3 +108,4 @@ plot/*
 checkpoint/*
 # Pycharm
 .idea
+

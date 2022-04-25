@@ -86,36 +86,30 @@ def main():
     # Load data
     root = args.datasetPath
 
-    print('Prepare files',flush=True)
-    files = [f for f in os.listdir(root) if os.path.isfile(os.path.join(root, f))]
-
-    idx = np.random.permutation(len(files))
-    idx = idx.tolist()
-
-    valid_ids = [files[i] for i in idx[0:10000]]
-    test_ids = [files[i] for i in idx[10000:20000]]
-    train_ids = [files[i] for i in idx[20000:]]
-
+    print(f'gathering train, validation, and test sets from {root}',flush=True)
+    train_ids = []
+    valid_ids = []
+    test_ids = []
+    with open(root+"train_ids.txt", "r") as f:
+        for line in f:
+            train_ids.append(line.replace("\n",""))
+    with open(root+"valid_ids.txt", "r") as f:
+        for line in f:
+            valid_ids.append(line.replace("\n",""))
+    with open(root+"test_ids.txt", "r") as f:
+        for line in test_ids:
+            test_ids.append(line.replace("\n",""))
+    
     e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_valid = datasets.Qm9(root, valid_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_test = datasets.Qm9(root, test_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
 
     # Define model and optimizer
-    print('Define model',flush=True)
+    print('\tdefining model',flush=True)
     # Select one graph
     g_tuple, l = data_train[0]
     g, h_t, e = g_tuple
-
-    print('\tStatistics',flush=True)
-#    stat_dict = datasets.utils.get_graph_stats(data_valid, ['target_mean', 'target_std'])
-
-#    data_train.set_target_transform(abcd)
-#    data_valid.set_target_transform(abcd)
-#    data_test.set_target_transform(abcd)
-#    data_train.set_stat_dict(stat_dict)
-#    data_valid.set_stat_dict(stat_dict)
-#    data_test.set_stat_dict(stat_dict)
 
     # Data Loader
     train_loader = torch.utils.data.DataLoader(data_train,
@@ -129,7 +123,7 @@ def main():
                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
                                               num_workers=args.prefetch, pin_memory=True)
 
-    print('\tCreate model',flush=True)
+    print('\tcreating model',flush=True)
     in_n = [len(h_t[0]), len(list(e.values())[0])]
     hidden_state_size = 73
     message_size = 73
@@ -139,14 +133,14 @@ def main():
     model = MPNN(in_n, hidden_state_size, message_size, n_layers, l_target, type=type)
     del in_n, hidden_state_size, message_size, n_layers, l_target, type
 
-    print('Optimizer',flush=True)
+    print('\tcreating optimizer',flush=True)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     criterion = nn.MSELoss()
 
     evaluation = lambda output, target: torch.mean(torch.abs(output - target) / torch.abs(target))
 
-    print('Logger',flush=True)
+    print('\tcreating logger',flush=True)
     logger = Logger(args.logPath)
 
     lr_step = (args.lr-args.lr*args.lr_decay)/(args.epochs*args.schedule[1] - args.epochs*args.schedule[0])
@@ -168,9 +162,9 @@ def main():
         else:
             print("=> no best model found at '{}'".format(best_model_file),flush=True)
 
-    print('Check cuda',flush=True)
+    print('check cuda',flush=True)
     if args.cuda:
-        print('\t* Cuda',flush=True)
+        print('\t* cuda',flush=True)
         model = model.cuda()
         criterion = criterion.cuda()
 

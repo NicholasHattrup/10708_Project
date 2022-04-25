@@ -87,16 +87,24 @@ def main():
     root = args.datasetPath
 
     print('Prepare files',flush=True)
-    files = [f for f in os.listdir(root) if os.path.isfile(os.path.join(root, f))]
 
-    idx = np.random.permutation(len(files))
-    idx = idx.tolist()
+    if args.dataset == 'qm9':
+        train_ids = []
+        valid_ids = []
+        test_ids = []
+        with open(root+"train_ids.txt", "r") as f:
+            for line in f:
+                train_ids.append(line.replace("\n",""))
 
-    valid_ids = [files[i] for i in idx[0:10000]]
-    test_ids = [files[i] for i in idx[10000:20000]]
-    test_ids = files
-    train_ids = [files[i] for i in idx[20000:]]
+        with open(root+"valid_ids.txt", "r") as f:
+            for line in f:
+                train_ids.append(line.replace("\n",""))
 
+        with open(root+"test_ids.txt", "r") as f:
+            for line in f:
+                train_ids.append(line.replace("\n",""))
+    else:
+        test_ids = [f for f in os.listdir(root) if os.path.isfile(os.path.join(root, f))]
     e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_valid = datasets.Qm9(root, valid_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
@@ -108,24 +116,8 @@ def main():
     g_tuple, l = data_train[0]
     g, h_t, e = g_tuple
 
-    print('\tStatistics',flush=True)
-#    stat_dict = datasets.utils.get_graph_stats(data_test, ['target_mean', 'target_std'])
-
-#    data_train.set_target_transform(abcd)
-#    data_valid.set_target_transform(abcd)
-#    data_test.set_target_transform(abcd)
-#    data_train.set_stat_dict(stat_dict)
-#    data_valid.set_stat_dict(stat_dict)
-#    data_test.set_stat_dict(stat_dict)
-
     # Data Loader
-#    train_loader = torch.utils.data.DataLoader(data_train,
-#                                               batch_size=args.batch_size, shuffle=True,
-#                                               collate_fn=datasets.utils.collate_g,
-#                                               num_workers=args.prefetch, pin_memory=True)
-#    valid_loader = torch.utils.data.DataLoader(data_valid,
-#                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
-#                                               num_workers=args.prefetch, pin_memory=True)
+
     test_loader = torch.utils.data.DataLoader(data_test,
                                               batch_size=args.batch_size, collate_fn=datasets.utils.collate_g,
                                               num_workers=args.prefetch, pin_memory=True)
@@ -149,8 +141,6 @@ def main():
 
     print('Logger',flush=True)
     logger = Logger(args.logPath)
-
-#    lr_step = (args.lr-args.lr*args.lr_decay)/(args.epochs*args.schedule[1] - args.epochs*args.schedule[0])
 
     # get the best checkpoint if available without training
     if args.resume:
