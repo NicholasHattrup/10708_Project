@@ -97,7 +97,7 @@ def main():
     root = args.datasetPath
     
     files = [f for f in os.listdir(root) if f.endswith(".xyz")]
-    split_path = "/".join(root.split('/')[:-2])
+    split_path = "/".join(root.split('/')[:-1]) + '/'
     print(split_path)
     valid_ids, test_ids, train_ids = utils.split_files(split_path=split_path, files=files, args=args)
     e_representation = args.e_rep
