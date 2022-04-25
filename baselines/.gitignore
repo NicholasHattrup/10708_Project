@@ -91,7 +91,7 @@ ENV/
 # Data folders
 data/mutag/*
 data/enzymes/*
-data/qm9/xyz/*
+data/qm9/xyz/*xyz
 data/qm9/ignore/*
 data/homo_lumo_dset/xyz*/*
 data/homo_lumo_dset/scripts/*
