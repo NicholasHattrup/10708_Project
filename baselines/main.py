@@ -73,6 +73,8 @@ parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching thread
 
 parser.add_argument('--e_rep', type=str, default="raw_distance", help="edge representation")
 
+parser.add_argument('--no_split', action='store_true', default=False, help='to split or not to split')
+
 parser.add_argument('--valid', type=float, default=0.1, help='split fraction for validation set')
 
 parser.add_argument('--test', type=float, default=0.1, help='split fraction for test set')
@@ -96,24 +98,41 @@ def main():
     idx = np.random.permutation(len(files))
     idx = idx.tolist()
 
-    valid_end = int(round(len(files)*args.valid,0))
-    test_end = int(round(len(files)*(args.valid+args.test),0))
+    if args.no_split:
+        print(f"using already split data => valid = {args.valid}, test = {args.test}, root = {root}")
+        valid_ids = []
+        test_ids = []
+        train_ids = []
+        with open(root+"valid_ids.txt", "r") as f:
+            for line in f:
+                valid_ids.append(line.replace("\n",""))
+        with open(root+"test_ids.txt", "r") as f:
+            for line in f:
+                test_ids.append(line.replace("\n",""))
 
-    valid_ids = [files[i] for i in idx[0:valid_end]]
-    test_ids = [files[i] for i in idx[valid_end:test_end]]
-    train_ids = [files[i] for i in idx[test_end:]]
+        with open(root+"train_ids.txt", "r") as f:
+            for line in f:
+                train_ids.append(line.replace("\n",""))
+    else:
+        print(f"splitting data => valid = {args.valid}, test = {args.test}, root = {root}")
+        valid_end = int(round(len(files)*args.valid,0))
+        test_end = int(round(len(files)*(args.valid+args.test),0))
     
-    with open(root+"valid_ids.txt", "w") as f:
-        for i in valid_ids:
-            f.write(i+"\n")
+        valid_ids = [files[i] for i in idx[0:valid_end]]
+        test_ids = [files[i] for i in idx[valid_end:test_end]]
+        train_ids = [files[i] for i in idx[test_end:]]
+    
+        with open(root+"valid_ids.txt", "w") as f:
+            for i in valid_ids:
+                f.write(i+"\n")
 
-    with open(root+"test_ids.txt", "w")	as f:
-        for i in test_ids:
-            f.write(i+"\n")
+        with open(root+"test_ids.txt", "w") as f:
+            for i in test_ids:
+                f.write(i+"\n")
 
-    with open(root+"train_ids.txt", "w")	as f:
-        for i in train_ids:
-            f.write(i+"\n")
+        with open(root+"train_ids.txt", "w") as f:
+            for i in train_ids:
+                f.write(i+"\n")
 
     print(f'gathering train, validation, and test sets from {root}',flush=True)
     train_ids = []
