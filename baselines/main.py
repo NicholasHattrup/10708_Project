@@ -171,6 +171,7 @@ def main():
         import multiprocessing
         n_cpus = multiprocessing.cpu_count()
         torch.set_num_threads(n_cpus)
+        print(f"cpus => {n_cpus}")
     # Epoch for loop
     for epoch in range(0, args.epochs):
 
