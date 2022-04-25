@@ -213,6 +213,7 @@ def parse_lines(lines, files, fn):
 
 
 def split_files(split_path, files, args):
+    print(os.cwd())
     overal_path = split_path
     split_path = "../" + overal_path
     
