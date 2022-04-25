@@ -89,6 +89,7 @@ ENV/
 .ropeproject
 
 # Data folders
+data/
 data/mutag/*
 data/enzymes/*
 data/qm9/xyz/*xyz
