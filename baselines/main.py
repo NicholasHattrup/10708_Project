@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/pythonA
 # -*- coding: utf-8 -*-
 
 """
@@ -19,7 +19,7 @@ from torch.autograd import Variable
 import time
 import argparse
 import os
-import numpy as np
+import numpy as npdsgdb9nsd_080297
 
 # Our Modules
 import datasets
@@ -91,14 +91,15 @@ def main():
 
     # Check if CUDA is enabled
     args.cuda = not args.no_cuda and torch.cuda.is_available()
-
+    print(torch.cuda.is_available())
+    print(args.cuda)
     # Load data
     root = args.datasetPath
     
-    files = [file for file in os.listdir(root) if file.endswith(".xyz")]
-    split_path = "/".join(root.split('/')[:-1])
+    files = [f for f in os.listdir(root) if f.endswith(".xyz")]
+    split_path = "/".join(root.split('/')[:-2])
+    print(split_path)
     valid_ids, test_ids, train_ids = utils.split_files(split_path=split_path, files=files, args=args)
-    
     e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_valid = datasets.Qm9(root, valid_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
