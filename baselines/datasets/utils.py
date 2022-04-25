@@ -214,11 +214,9 @@ def parse_lines(lines, files, fn):
 
 def split_files(split_path, files, args):
     print(os.getcwd())
-    overal_path = split_path
-    split_path = overal_path
     
     if args.datasetSplitDone:
-        print(f'Gathering dataset split information from {overal_path}',flush=True)
+        print(f'Gathering dataset split information from {split_path}',flush=True)
 
         try:
             with open(split_path+"valid_ids.txt", 'r') as f:
@@ -254,6 +252,6 @@ def split_files(split_path, files, args):
         f.write("\n".join(test_ids)+"\n")
     with open(split_path+"train_ids.txt", "w") as f:
         f.write("\n".join(train_ids)+"\n")
-    print(f"Split configuration is dumped in {overal_path}",flush=True)
+    print(f"Split configuration is dumped in {split_path}",flush=True)
     
     return valid_ids, test_ids, train_ids
