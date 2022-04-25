@@ -73,6 +73,11 @@ parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching thread
 
 parser.add_argument('--e_rep', type=str, default="raw_distance", help="edge representation")
 
+parser.add_argument('--valid', type=float, default=0.1, help='split fraction for validation set')
+
+parser.add_argument('--test', type=float, default=0.1, help='split fraction for test set')
+
+
 best_er1 = 0
 
 def main():
@@ -85,6 +90,34 @@ def main():
 
     # Load data
     root = args.datasetPath
+    
+    files = os.listdir(root)
+
+    idx = np.random.permutation(len(files))
+    idx = idx.tolist()
+
+    valid_end = int(round(len(files)*args.valid,0))
+    test_end = int(round(len(files)*(args.valid+args.test),0))
+
+    valid_ids = [files[i] for i in idx[0:valid_end]]
+    test_ids = [files[i] for i in idx[valid_end:test_end]]
+    train_ids = [files[i] for i in idx[test_end:]]
+
+    print(len(valid_ids))
+    print(len(test_ids))
+    print(len(train_ids))
+    
+    with open(root+"valid_ids.txt", "w") as f:
+        for i in valid_ids:
+            f.write(i+"\n")
+
+    with open(root+"test_ids.txt", "w")	as f:
+        for i in test_ids:
+            f.write(i+"\n")
+
+    with open(root+"train_ids.txt", "w")	as f:
+        for i in train_ids:
+            f.write(i+"\n")
 
     print(f'gathering train, validation, and test sets from {root}',flush=True)
     train_ids = []
