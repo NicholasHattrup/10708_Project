@@ -8,4 +8,4 @@ tensorboard
 tensorboard-logger
 torch
 torchvision
-wgetß
+wget
