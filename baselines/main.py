@@ -45,6 +45,8 @@ parser = argparse.ArgumentParser(description='Neural message passing')
 
 parser.add_argument('--dataset', default='qm9', help='QM9')
 parser.add_argument('--datasetPath', default='./data/qm9/xyz/', help='dataset path')
+parser.add_argument('--datasetSplitDone', type=bool, default=True, help=' use pre-split dataset')
+parser.add_argument('--splitRatio', type=str, default='10000_10000', help='*validation_test*, with automated train')
 parser.add_argument('--logPath', default='./raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', default='./plot/qm9/mpnn/', help='plot path')
@@ -93,60 +95,9 @@ def main():
     # Load data
     root = args.datasetPath
     
-    files = os.listdir(root)
-
-    idx = np.random.permutation(len(files))
-    idx = idx.tolist()
-
-    if args.no_split:
-        print(f"using already split data => valid = {args.valid}, test = {args.test}, root = {root}")
-        valid_ids = []
-        test_ids = []
-        train_ids = []
-        with open(root+"valid_ids.txt", "r") as f:
-            for line in f:
-                valid_ids.append(line.replace("\n",""))
-        with open(root+"test_ids.txt", "r") as f:
-            for line in f:
-                test_ids.append(line.replace("\n",""))
-
-        with open(root+"train_ids.txt", "r") as f:
-            for line in f:
-                train_ids.append(line.replace("\n",""))
-    else:
-        print(f"splitting data => valid = {args.valid}, test = {args.test}, root = {root}")
-        valid_end = int(round(len(files)*args.valid,0))
-        test_end = int(round(len(files)*(args.valid+args.test),0))
-    
-        valid_ids = [files[i] for i in idx[0:valid_end]]
-        test_ids = [files[i] for i in idx[valid_end:test_end]]
-        train_ids = [files[i] for i in idx[test_end:]]
-    
-        with open(root+"valid_ids.txt", "w") as f:
-            for i in valid_ids:
-                f.write(i+"\n")
-
-        with open(root+"test_ids.txt", "w") as f:
-            for i in test_ids:
-                f.write(i+"\n")
-
-        with open(root+"train_ids.txt", "w") as f:
-            for i in train_ids:
-                f.write(i+"\n")
-
-    print(f'gathering train, validation, and test sets from {root}',flush=True)
-    train_ids = []
-    valid_ids = []
-    test_ids = []
-    with open(root+"train_ids.txt", "r") as f:
-        for line in f:
-            train_ids.append(line.replace("\n",""))
-    with open(root+"valid_ids.txt", "r") as f:
-        for line in f:
-            valid_ids.append(line.replace("\n",""))
-    with open(root+"test_ids.txt", "r") as f:
-        for line in test_ids:
-            test_ids.append(line.replace("\n",""))
+    files = [file for file in os.listdir(root) if file.endswith(".xyz")]
+    split_path = "/".join(root.split('/')[:-1])
+    valid_ids, test_ids, train_ids = utils.split_files(split_path=split_path, files=files, args=args)
     
     e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
