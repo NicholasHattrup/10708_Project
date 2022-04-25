@@ -1,10 +1,11 @@
-rdkit-pypi
-torch
-torchvision
+joblib
+networkx
 numpy
 pandas
-wget
-networkx
-joblib
+rdkit-pypi
+scikit-learnß
 tensorboard
 tensorboard-logger
+torch
+torchvision
+wget
