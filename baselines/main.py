@@ -102,10 +102,6 @@ def main():
     valid_ids = [files[i] for i in idx[0:valid_end]]
     test_ids = [files[i] for i in idx[valid_end:test_end]]
     train_ids = [files[i] for i in idx[test_end:]]
-
-    print(len(valid_ids))
-    print(len(test_ids))
-    print(len(train_ids))
     
     with open(root+"valid_ids.txt", "w") as f:
         for i in valid_ids:
