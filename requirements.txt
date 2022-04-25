@@ -3,9 +3,9 @@ networkx
 numpy
 pandas
 rdkit-pypi
-scikit-learnß
+scikit-learn
 tensorboard
 tensorboard-logger
 torch
 torchvision
-wget
+wgetß
