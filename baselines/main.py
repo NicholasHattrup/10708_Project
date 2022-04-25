@@ -19,7 +19,7 @@ from torch.autograd import Variable
 import time
 import argparse
 import os
-import numpy as npdsgdb9nsd_080297
+import numpy as np
 
 # Our Modules
 import datasets
