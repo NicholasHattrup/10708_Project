@@ -437,7 +437,7 @@ def xyz_graph_reader(graph_file):
         smiles = smiles[0]
         
         m = Chem.MolFromSmiles(smiles)
-#        m = Chem.AddHs(m)
+        # m = Chem.AddHs(m)
 
         fdef_name = os.path.join(RDConfig.RDDataDir, 'BaseFeatures.fdef')
         factory = ChemicalFeatures.BuildFeatureFactory(fdef_name)
