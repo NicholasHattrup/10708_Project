@@ -212,9 +212,7 @@ def parse_lines(lines, files, fn):
     return verified_lines
 
 
-def split_files(split_path, files, args):
-    print(os.getcwd())
-    
+def split_files(split_path, files, args):    
     if args.datasetSplitDone:
         print(f'Gathering dataset split information from {split_path}',flush=True)
 
