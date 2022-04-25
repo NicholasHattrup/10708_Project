@@ -91,14 +91,12 @@ def main():
 
     # Check if CUDA is enabled
     args.cuda = not args.no_cuda and torch.cuda.is_available()
-    print(torch.cuda.is_available())
-    print(args.cuda)
+
     # Load data
     root = args.datasetPath
     
     files = [f for f in os.listdir(root) if f.endswith(".xyz")]
     split_path = "/".join(root.split('/')[:-1]) + '/'
-    print(split_path)
     valid_ids, test_ids, train_ids = utils.split_files(split_path=split_path, files=files, args=args)
     e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
@@ -168,10 +166,12 @@ def main():
         model = model.cuda()
         criterion = criterion.cuda()
     else:
+        print('Cuda is not available.', flush=True)
         import multiprocessing
         n_cpus = multiprocessing.cpu_count()
         torch.set_num_threads(n_cpus)
         print(f"cpus => {n_cpus}")
+    
     # Epoch for loop
     for epoch in range(0, args.epochs):
 
