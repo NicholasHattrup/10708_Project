@@ -75,12 +75,6 @@ parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching thread
 
 parser.add_argument('--e_rep', type=str, default="raw_distance", help="edge representation")
 
-parser.add_argument('--no_split', action='store_true', default=False, help='to split or not to split')
-
-parser.add_argument('--valid', type=float, default=0.1, help='split fraction for validation set')
-
-parser.add_argument('--test', type=float, default=0.1, help='split fraction for test set')
-
 
 best_er1 = 0
 
