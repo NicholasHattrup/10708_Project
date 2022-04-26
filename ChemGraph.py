@@ -35,7 +35,7 @@ def get_substruc(mol, atoms):
     try:
         new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=True)
         new_mol = Chem.MolFromSmiles(new_smi)
-        new_mol = Chem.Kekulize(new_mol.GetMol())
+        new_mol = Chem.Sanitize(new_mol.GetMol())
         return new_smi, new_mol
     except:
         raise Warning(f"New molecule creation failed.")
