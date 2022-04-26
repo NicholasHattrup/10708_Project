@@ -437,7 +437,7 @@ def xyz_graph_reader(graph_file):
         smiles = smiles[0]
         
         m = Chem.MolFromSmiles(smiles)
-#        m = Chem.AddHs(m)
+        # m = Chem.AddHs(m)
 
         fdef_name = os.path.join(RDConfig.RDDataDir, 'BaseFeatures.fdef')
         factory = ChemicalFeatures.BuildFeatureFactory(fdef_name)
@@ -468,7 +468,7 @@ def xyz_graph_reader(graph_file):
                 e_ij = m.GetBondBetweenAtoms(i, j)
                 if e_ij is not None:
                     g.add_edge(i, j, b_type=e_ij.GetBondType(),
-                               distance=np.linalg.norm(g.nodes[i]['coord']-g.nodes[j]['coord']))
+                               distance=np.linalg.norm(g.nodes[i]['coord'] - g.nodes[j]['coord']))
                 else:
                     # Unbonded
                     g.add_edge(i, j, b_type=None,
