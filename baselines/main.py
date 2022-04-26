@@ -47,7 +47,7 @@ parser.add_argument('--dataset', default='qm9', help='QM9')
 parser.add_argument('--datasetPath', default='./data/qm9/xyz/', help='dataset path')
 parser.add_argument('--datasetSplitDone', type=bool, default=True, help=' use pre-split dataset')
 parser.add_argument('--splitRatio', type=str, default='10000_10000', help='*validation_test*, with automated train')
-parser.add_argument('--logPath', default='./raw_distance_noHs/qm9/mpnn/', help='log path')
+parser.add_argument('--logPath', default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', default='./plot/qm9/mpnn/', help='plot path')
 parser.add_argument('--resume', default='./raw_distance_noHs/qm9/mpnn/',
@@ -68,7 +68,7 @@ parser.add_argument('--schedule', type=list, default=[0.1, 0.9], metavar='S',
 parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
                     help='SGD momentum (default: 0.9)')
 # i/o
-parser.add_argument('--log-interval', type=int, default=20, metavar='N',
+parser.add_argument('--log-interval', type=int, default=200, metavar='N',
                     help='How many batches to wait before logging training status')
 # Accelerating
 parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching threads.')
@@ -88,7 +88,8 @@ def main():
 
     global args, best_er1
     args = parser.parse_args()
-
+    start_epoch = 0
+    
     # Check if CUDA is enabled
     args.cuda = not args.no_cuda and torch.cuda.is_available()
 
@@ -152,7 +153,7 @@ def main():
         if os.path.isfile(best_model_file):
             print("=> loading best model '{}'".format(best_model_file),flush=True)
             checkpoint = torch.load(best_model_file)
-            args.start_epoch = checkpoint['epoch']
+            start_epoch = checkpoint['epoch']
             best_acc1 = checkpoint['best_er1']
             model.load_state_dict(checkpoint['state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer'])
@@ -173,7 +174,7 @@ def main():
         print(f"cpus => {n_cpus}")
     
     # Epoch for loop
-    for epoch in range(0, args.epochs):
+    for epoch in range(start_epoch, args.epochs):
 
         if epoch > args.epochs * args.schedule[0] and epoch < args.epochs * args.schedule[1]:
             args.lr -= lr_step
@@ -203,7 +204,7 @@ def main():
         if os.path.isfile(best_model_file):
             print("=> loading best model '{}'".format(best_model_file),flush=True)
             checkpoint = torch.load(best_model_file)
-            args.start_epoch = checkpoint['epoch']
+            start_epoch = checkpoint['epoch']
             best_acc1 = checkpoint['best_er1']
             model.load_state_dict(checkpoint['state_dict'])
             if args.cuda:
