@@ -20,7 +20,7 @@ def get_atom(mol, idx):
     
     return new_atom
 
-def get_substruc(mol, atoms):
+def get_substruct_for_edge(mol, atoms):
     new_mol = Chem.RWMol(Chem.MolFromSmiles(''))
     new_atom_map = {}
     for idx in atoms:
@@ -40,6 +40,59 @@ def get_substruc(mol, atoms):
     except:
         raise Warning(f"New molecule creation failed.")
         return None, None
+
+def bond_to_str(bond_type):
+    bt = str(bond_type).lower()
+    if bt=='single':
+        return ''
+    elif bt=='double':
+        return '='
+    elif bt=='triple':
+        return '#'
+    else:
+        raise Warning(f"Aromatic ring found. Check again.")
+        return None
+
+def sort_ring(mol, atoms):
+    bond_type = mol.GetBondBetweenAtoms(atoms[0], atoms[-1]).GetBondType()
+    if str(bond_type).lower()=='single':
+        return atoms
+    else:
+        return sort_ring(mol, atoms[1:] + [atoms[0]])
+    
+def get_substruct(smi, atoms):
+    mol = Chem.MolFromSmiles(smi, sanitize=False)
+
+    if len(atoms) == 1:
+        new_smi = mol.GetAtomWithIdx(atoms[0]).GetSymbol()
+    elif len(atoms) == 2:
+        symbol_1 = mol.GetAtomWithIdx(atoms[0]).GetSymbol()
+        symbol_2 = mol.GetAtomWithIdx(atoms[1]).GetSymbol()
+        bond_type = mol.GetBondBetweenAtoms(atoms[0], atoms[1]).GetBondType()
+        new_smi = symbol_1 + bond_to_str(bond_type) + symbol_2
+    elif len(atoms) > 2:
+        
+        bt = str(mol.GetBondBetweenAtoms(atoms[0], atoms[1]).GetBondType()).lower()
+        if bt=='aromatic':
+            try:
+                symbols = [mol.GetAtomWithIdx(idx).GetSymbol() for idx in atoms]
+                new_smi = "".join(symbols).lower()
+                new_smi = new_smi[0] + '1' + new_smi[1:] + '1'
+                new_mol = Chem.MolFromSmiles(new_smi)
+                Chem.AddHs(new_mol)
+                return new_smi, new_mol
+            except:
+                pass
+        atoms = sort_ring(mol, atoms)
+        new_smi = mol.GetAtomWithIdx(atoms[0]).GetSymbol()
+        for i in range(len(atoms)-1):
+            bond_type = mol.GetBondBetweenAtoms(atoms[i], atoms[i+1]).GetBondType()
+            new_smi += bond_to_str(bond_type) + mol.GetAtomWithIdx(atoms[i+1]).GetSymbol()
+        new_smi = new_smi[0] + '1' + new_smi[1:] + '1'
+    
+    new_mol = Chem.MolFromSmiles(new_smi, sanitize=True)
+    Chem.AddHs(new_mol)
+    return new_smi, new_mol
 
 class SubstructGraph(object):
     """
@@ -95,16 +148,8 @@ class SubstructGraph(object):
         graph.add_nodes_from([(i, {'AtomIdxs': atoms}) for i, atoms in enumerate(_nodes)])
         
         for i in graph.nodes:
-            # try:  
-            #     _smi = Chem.MolFragmentToSmiles(self.mol, graph.nodes[i]['AtomIdxs'], kekuleSmiles=True)
-            # except:
-            #     _smi = Chem.MolFragmentToSmiles(self.mol, graph.nodes[i]['AtomIdxs'], kekuleSmiles=False)
-            #     print(f"Node failed\t{_smi}\t{self.filaname}")
-            # _mol = Chem.MolFromSmiles(_smi, sanitize=True)
-            try:
-                _smi, _mol = get_substruc(self.mol, graph.nodes[i]['AtomIdxs'])
-            except:
-                print(f"Node failed\t{self.smi}\t{graph.nodes[i]['AtomIdxs']}")
+            # print(f"Node failed\t{self.smi}\t{graph.nodes[i]['AtomIdxs']}")
+            _smi, _mol = get_substruct(self.smi, graph.nodes[i]['AtomIdxs'])
             if Hs_in_fragments:
                 _mol = Chem.AddHs(_mol)
             
@@ -123,16 +168,11 @@ class SubstructGraph(object):
                 shared_atoms = list(set(graph.nodes[a]['AtomIdxs']) & set(graph.nodes[b]['AtomIdxs']))
                 if shared_atoms:
                     graph.add_edge(a, b, LinkAtomIdxs=shared_atoms)
-                    # try:
-                    #     _smi = Chem.MolFragmentToSmiles(self.mol, shared_atoms, kekuleSmiles=True)
-                    # except:
-                    #     _smi = Chem.MolFragmentToSmiles(self.mol, shared_atoms, kekuleSmiles=False)
-                    #     print(f"Edge failed\t{_smi}\t{self.filaname}")
-                    # _mol = Chem.MolFromSmiles(_smi, sanitize=True)
-                    try:
-                        _smi, _mol = get_substruc(self.mol, shared_atoms)
-                    except:
-                        print(f"Edge failed\t{self.smi}\t{shared_atoms}")
+                    # print(f"Edge failed\t{self.smi}\t{shared_atoms}")
+                    # _smi, _mol = get_substruct(self.smi, shared_atoms)
+                    _smi = Chem.MolFragmentToSmiles(self.mol, shared_atoms, kekuleSmiles=True)
+                    _mol = Chem.MolFromSmiles(_smi, sanitize=True)
+                    _smi = Chem.MolToSmiles(_mol, kekuleSmiles=True)
                     if Hs_in_linkages:
                         _mol = Chem.AddHs(_mol)
 
@@ -168,5 +208,8 @@ if __name__ == '__main__':
 
     file_path = "./baselines/data/qm9/xyz/dsgdb9nsd_000608.xyz"
     filenames = [filename for filename in os.listdir("./baselines/data/qm9/xyz/") if filename.endswith(".xyz")]
-    for file_path in filenames[10:40]:
-        G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
+    for file_path in filenames:
+        try:
+            G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
+        except:
+            print(f"Darn it. Thif file failed: {file_path}")
