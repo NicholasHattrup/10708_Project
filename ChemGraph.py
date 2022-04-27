@@ -1,4 +1,5 @@
 import types
+from importlib_resources import path
 from sklearn.decomposition import PCA
 #from matplotlib.pyplot import get
 import numpy as np
@@ -137,8 +138,11 @@ class SubstructGraph(object):
             self.fragments.append(_smi)
             graph.nodes[i]['Smiles'] = _smi
             graph.nodes[i]['Molecule'] = _mol
-            graph.nodes[i]['Atoms'] = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
-            graph.nodes[i]['Coords'] = [self.coords[x] for x in graph.nodes[i]['AtomIdxs']]
+            # graph.nodes[i]['Atoms'] = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
+            # graph.nodes[i]['Coords'] = [self.coords[x] for x in graph.nodes[i]['AtomIdxs']]
+            weights = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
+            coords = np.array([self.coords[x] for x in graph.nodes[i]['AtomIdxs']])
+            graph.nodes[i]['WeightedCoords'] = list(np.average(coords, weights=weights, axis=0))
         
         self.n_fragments = len(self.fragments)
         for i in range(self.n_fragments-1):
@@ -153,11 +157,14 @@ class SubstructGraph(object):
                     self.linkages.append(_smi)
                     graph.edges[a, b]['Smiles'] = _smi
                     graph.edges[a, b]['Molecule'] = _mol
-                    graph.edges[a, b]['Atoms'] = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
-                    graph.edges[a, b]['Coords'] = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
+                    # graph.edges[a, b]['Atoms'] = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
+                    # graph.edges[a, b]['Coords'] = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
+                    # weights = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
+                    # coords = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
+                    # graph.edges[a, b]['WeightedCoords'] = list(np.average(coords, weights=weights, axis=0))
         return graph
     
-    def update_feature(self, NodeConverter=None, EdgeConverter=None):
+    def update_graph(self, NodeConverter=None, EdgeConverter=None):
         """Extract features from nodes and/or edges or update previous features.
 
         Args:
@@ -175,7 +182,32 @@ class SubstructGraph(object):
                 self.graph.edges[a, b]['Features'] = EdgeConverter(mol)
         elif EdgeConverter is not None:
             raise Exception("EdgeConverter is not a valid converting function.")
+    
+    @staticmethod
+    def update_features(graph, NodeConverter=None, EdgeConverter=None):
+        """Extract features from nodes and/or edges or update previous features.
 
+        Args:
+            g (nx.Graph)
+            NodeConverter (Function, optional): Node feature extraction function. Defaults to None.
+            EdgeConverter (Function, optional): Edge feature extraction function. Defaults to None.
+        """
+        if not isinstance(graph, nx.Graph):
+            raise TypeError(f"Input graph is not a valid nx.Graph object.")
+            return None
+        if isinstance(NodeConverter, types.FunctionType):
+            for i in list(graph.nodes):
+                graph[i]['Features'] = NodeConverter(graph[i]['Molecule'])
+        elif NodeConverter is not None:
+            raise Exception("NodeConverter is not a valid converting function.")
+
+        if isinstance(EdgeConverter, types.FunctionType):
+            for (a, b, mol) in graph.edges.data('Molecule'):
+                graph.edges[a, b]['Features'] = EdgeConverter(mol)
+        elif EdgeConverter is not None:
+            raise Exception("EdgeConverter is not a valid converting function.")
+        
+        return graph
 
 def fingerprint_pca(fp_list, n_comps):
     pca = PCA(n_components=n_comps)
@@ -184,30 +216,51 @@ def fingerprint_pca(fp_list, n_comps):
     return crds
 
 
-def GraphLibrary(object):
+class GraphLibrary(object):
     """A library collection of substucture graphs.
     """
-    def __init__(self, path="")
+    def __init__(self, directory="./data/qm9/xyz/", filenames=None):
+        if filenames is None:
+            filenames = [filename for filename in os.listdir(directory) if filename.endswith(".xyz")]
+        self.directory = directory
+        self.filenames = filenames
+
+        self.graph_library = []
+        for filename in filenames:
+            G = SubstructGraph(directory+filename)
+            self.graph_library.append(G)
+    
+    def init_reduction(self):
+        self.fragment_library = set([])
+        self.linkage_library = set([])
+        
+        for G in self.graph_library:
+            fragments = set(G.fragments)
+            linkages = set(G.linkages)
+            self.fragment_library = self.fragment_library.union(fragments)
+            self.linkage_library = self.linkage_library.union(linkages)
+
+
 
 if __name__ == '__main__':
     import os
     print(os.getcwd())
 
-    file_path = "./baselines/data/qm9/xyz/dsgdb9nsd_000608.xyz"
+    filepath = "./baselines/data/qm9/xyz/dsgdb9nsd_000608.xyz"
     filenames = [filename for filename in os.listdir("./baselines/data/qm9/xyz/") if filename.endswith(".xyz")]
 
     all_fps = []
     num_of_fps_per_mol_map = {}
     files_dict = {}
     print(f"{len(filenames)} xyz files")
-    for n,file_path in enumerate(filenames):
-        G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
+    for n,filepath in enumerate(filenames):
+        G = SubstructGraph("./baselines/data/qm9/xyz/"+filepath)
         node_fp_list = []
         for i in G.graph.nodes:
             node_m = G.graph.nodes[i]['Molecule']
             node_fp = Chem.GetMorganFingerprintAsBitVect(node_m,2,nBits=1024)
             node_fp_list.append(node_fp)
-        files_dict[n] = file_path
+        files_dict[n] = filepath
         num_of_fps_per_mol_map[n] = len(node_fp_list)
         all_fps.append(node_fp_list)
         if n % 100 == 0:

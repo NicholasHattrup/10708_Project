@@ -45,7 +45,7 @@ parser = argparse.ArgumentParser(description='Neural message passing')
 
 parser.add_argument('--dataset', default='qm9', help='QM9')
 parser.add_argument('--datasetPath', default='./data/qm9/xyz/', help='dataset path')
-parser.add_argument('--datasetSplitDone', type=bool, default=True, help=' use pre-split dataset')
+parser.add_argument('--datasetSplitDone', type=bool, default=True, help='use pre-split dataset')
 parser.add_argument('--splitRatio', type=str, default='10000_10000', help='*validation_test*, with automated train')
 parser.add_argument('--logPath', default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', default=False, help='allow plotting the data')
