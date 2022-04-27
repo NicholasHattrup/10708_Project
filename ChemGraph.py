@@ -1,5 +1,4 @@
 import types
-from importlib_resources import path
 from sklearn.decomposition import PCA
 #from matplotlib.pyplot import get
 import numpy as np
@@ -197,7 +196,7 @@ class SubstructGraph(object):
             return None
         if isinstance(NodeConverter, types.FunctionType):
             for i in list(graph.nodes):
-                graph[i]['Features'] = NodeConverter(graph[i]['Molecule'])
+                graph.nodes[i]['Features'] = NodeConverter(graph[i]['Molecule'])
         elif NodeConverter is not None:
             raise Exception("NodeConverter is not a valid converting function.")
 
@@ -219,7 +218,7 @@ def fingerprint_pca(fp_list, n_comps):
 class GraphLibrary(object):
     """A library collection of substucture graphs.
     """
-    def __init__(self, directory="./data/qm9/xyz/", filenames=None):
+    def __init__(self, directory="./data/qm9/xyz/", filenames=None, NodeConverter=None, EdgeConverter=None):
         if filenames is None:
             filenames = [filename for filename in os.listdir(directory) if filename.endswith(".xyz")]
         self.directory = directory
@@ -228,6 +227,8 @@ class GraphLibrary(object):
         self.graph_library = []
         for filename in filenames:
             G = SubstructGraph(directory+filename)
+            dummy_fn = lambda x: list(np.random.random(size=2))
+            G.update_graph(NodeConverter=dummy_fn, EdgeConverter=dummy_fn)
             self.graph_library.append(G)
     
     def init_reduction(self):

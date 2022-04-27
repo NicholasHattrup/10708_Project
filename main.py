@@ -1,19 +1,20 @@
 import os, sys
 import argparse
-from xmlrpc.client import boolean
+import json
+from datetime import datetime as dt
 
-print("wtf00")
-# import torch
-# import torch.optim as optim
-# import torch.nn as nn
-# from torch.autograd import Variable
+import torch
+import torch.optim as optim
+import torch.nn as nn
+from torch.autograd import Variable
 
-print("wtf0")
+from sklearn.decomposition import PCA
+
 # Our own modules
 import utils
 from utils import *
 from ChemGraph import *
-print("wtf1")
+
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
 
 parser.add_argument('--dataset', type=str, default='qm9',
@@ -24,6 +25,7 @@ parser.add_argument('--datasetSplitDone', type=bool, default=True,
                     help='whether or not to use pre-split dataset, default: True')
 parser.add_argument('--splitRatio', type=str, default='10000_10000',
                     help='split ratio, *validation_test*, with automated train')
+parser.add_argument('--')
 parser.add_argument('--logPath', type=str, default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', type=bool, default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', type=str, default='./plot/qm9/mpnn/', help='plot path')
@@ -71,11 +73,32 @@ def main():
     print(split_path)
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
-    graph_lib = GraphLibrary(directory=root, filenames=valid_ids)
+    t1 = dt.now()
+    graph_lib = GraphLibrary(directory=root, filenames=train_ids[:100])
     graph_lib.init_reduction()
-    print(graph_lib.fragment_library)
-    print(graph_lib.linkage_library)
+    t2 = dt.now()
+    print(t2-t1)
+    fragments = graph_lib.fragment_library
+    linkages = graph_lib.linkage_library
+    # print(graph_lib.fragment_library)
+    # print(graph_lib.linkage_library)
 
+    t3 = dt.now()
+    frag_fps = [Chem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=1024) for smi in fragments]
+    link_fps = [Chem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=1024) for smi in linkages]
+
+    nc = 50
+    pca_frag = PCA().fit(frag_fps)
+    ratio_frag = pca_frag.explained_variance_ratio_[:nc]
+    print(ratio_frag)
+    print([sum(ratio_frag[:i+1]) for i in range(nc)])
+    pca_link = PCA().fit(link_fps)
+    ratio_link = pca_link.explained_variance_ratio_[:nc]
+    print(ratio_link)
+    print([sum(ratio_link[:i+1]) for i in range(nc)])
+
+    t4 = dt.now()
+    print(t4-t3)
 
 
 if __name__ == '__main__':
