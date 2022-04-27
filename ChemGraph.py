@@ -99,7 +99,7 @@ class SubstructGraph(object):
     """
     Substructure graph of a molecule. Hydrogen atoms are ignored when building the graph but may be considered in features.
     """
-    def __init__(self, xyz_file, Hs_in_fragments=True, Hs_in_linkages=False):
+    def __init__(self, xyz_file, Hs_in_fragments=True, Hs_in_linkages=True):
         self.filepath = xyz_file
         self.filaname = xyz_file.split("/")[-1]
         self.parse_xyz_file()  # self.n_atoms, self.smi, self.atoms, self.coord, self.gap
@@ -125,7 +125,7 @@ class SubstructGraph(object):
             f.readline()    # frequencies
             self.smi = f.readline().split()[0]
 
-    def init_graph(self, Hs_in_fragments=True, Hs_in_linkages=False):
+    def init_graph(self, Hs_in_fragments=True, Hs_in_linkages=True):
         """
         Decompose the atomic graph of a molecule into a substructure graph. Hydrogen atoms are ignored.
         -------------------------------------------------------------------------------------------
@@ -151,9 +151,10 @@ class SubstructGraph(object):
         for i in graph.nodes:
             # print(f"Node failed\t{self.smi}\t{graph.nodes[i]['AtomIdxs']}")
             _smi, _mol = get_substruct(self.smi, graph.nodes[i]['AtomIdxs'])
+            _smi = Chem.MolToSmiles(_mol, kekuleSmiles=True)
             if Hs_in_fragments:
                 _mol = Chem.AddHs(_mol)
-            
+
             self.fragments.append(_smi)
             graph.nodes[i]['Smiles'] = _smi
             graph.nodes[i]['Molecule'] = _mol
@@ -183,7 +184,7 @@ class SubstructGraph(object):
 
         return graph
     
-    def update_graph(self, NodeConverter=None, EdgeConverter=None):
+    def update_feature(self, NodeConverter=None, EdgeConverter=None):
         """Extract features from nodes and/or edges or update previous features.
 
         Args:
@@ -215,6 +216,7 @@ if __name__ == '__main__':
 
     file_path = "./baselines/data/qm9/xyz/dsgdb9nsd_000608.xyz"
     filenames = [filename for filename in os.listdir("./baselines/data/qm9/xyz/") if filename.endswith(".xyz")]
+
     all_fps = []
     num_of_fps_per_mol_map = {}
     files_dict = {}
@@ -254,3 +256,9 @@ if __name__ == '__main__':
     with open('reduced_fps.json', 'w') as f:
         json.dump(reduced_fp_dict, f)
     print(f"reduced finger prints obtained for => {len(reduced_fp_dict)} xyz files")
+
+    for file_path in filenames:
+        try:
+            G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
+        except:
+            print(f"Darn it. Thif file failed: {file_path}")
