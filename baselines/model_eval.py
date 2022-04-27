@@ -44,14 +44,16 @@ def restricted_float(x, inter):
 parser = argparse.ArgumentParser(description='Neural message passing')
 
 parser.add_argument('--dataset', default='qm9', help='QM9')
-parser.add_argument('--datasetPath', default='./data/qm9/dsgdb9nsd/', help='dataset path')
-parser.add_argument('--logPath', default='./rdist_model_log/qm9/mpnn/', help='log path')
+parser.add_argument('--datasetPath', default='./data/qm9/xyz/', help='dataset path')
+parser.add_argument('--datasetSplitDone', type=bool, default=True, help=' use pre-split dataset')
+parser.add_argument('--splitRatio', type=str, default='10000_10000', help='*validation_test*, with automated train')
+parser.add_argument('--logPath', default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', default='./plot/qm9/mpnn/', help='plot path')
-parser.add_argument('--resume', default='./rdist_model_checkpoint/qm9/mpnn/',
+parser.add_argument('--resume', default='./raw_distance_noHs/qm9/mpnn/',
                     help='path to latest checkpoint')
 # Optimization Options
-parser.add_argument('--batch-size', type=int, default=10, metavar='N',
+parser.add_argument('--batch-size', type=int, default=100, metavar='N',
                     help='Input batch size for training (default: 20)')
 parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='Enables CUDA training')
@@ -66,12 +68,13 @@ parser.add_argument('--schedule', type=list, default=[0.1, 0.9], metavar='S',
 parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
                     help='SGD momentum (default: 0.9)')
 # i/o
-parser.add_argument('--log-interval', type=int, default=20, metavar='N',
+parser.add_argument('--log-interval', type=int, default=200, metavar='N',
                     help='How many batches to wait before logging training status')
 # Accelerating
 parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching threads.')
 
-parser.add_argument('--e_rep', type=str, default="chem_graph", help="edge representation")
+parser.add_argument('--e_rep', type=str, default="raw_distance", help="edge representation")
+
 
 best_er1 = 0
 
@@ -88,23 +91,9 @@ def main():
 
     print('Prepare files',flush=True)
 
-    if args.dataset == 'qm9':
-        train_ids = []
-        valid_ids = []
-        test_ids = []
-        with open(root+"train_ids.txt", "r") as f:
-            for line in f:
-                train_ids.append(line.replace("\n",""))
-
-        with open(root+"valid_ids.txt", "r") as f:
-            for line in f:
-                train_ids.append(line.replace("\n",""))
-
-        with open(root+"test_ids.txt", "r") as f:
-            for line in f:
-                train_ids.append(line.replace("\n",""))
-    else:
-        test_ids = [f for f in os.listdir(root) if os.path.isfile(os.path.join(root, f))]
+    files = [f for f in os.listdir(root) if f.endswith(".xyz")]
+    split_path = "/".join(root.split('/')[:-2]) + '/'
+    valid_ids, test_ids, train_ids = utils.split_files(split_path=split_path, files=files, args=args)
     e_representation = args.e_rep
     data_train = datasets.Qm9(root, train_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
     data_valid = datasets.Qm9(root, valid_ids, edge_transform=utils.qm9_edges, e_representation=e_representation)
