@@ -41,3 +41,6 @@ def get_substruct_for_edge(mol, atoms):
     except:
         raise Warning(f"New molecule creation failed.")
         return None, None
+
+
+X = np.random.randint((5,5))

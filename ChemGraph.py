@@ -1,10 +1,11 @@
-import types
+import os, types
 from sklearn.decomposition import PCA
 #from matplotlib.pyplot import get
 import numpy as np
 #import pandas as pd
 from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import GetSymmSSSR as SSSR
+from sklearn.decomposition import PCA
 import networkx as nx
 
 
@@ -136,7 +137,7 @@ class SubstructGraph(object):
 
             self.fragments.append(_smi)
             graph.nodes[i]['Smiles'] = _smi
-            graph.nodes[i]['Molecule'] = _mol
+            # graph.nodes[i]['Molecule'] = _mol
             # graph.nodes[i]['Atoms'] = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
             # graph.nodes[i]['Coords'] = [self.coords[x] for x in graph.nodes[i]['AtomIdxs']]
             weights = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
@@ -155,7 +156,7 @@ class SubstructGraph(object):
 
                     self.linkages.append(_smi)
                     graph.edges[a, b]['Smiles'] = _smi
-                    graph.edges[a, b]['Molecule'] = _mol
+                    # graph.edges[a, b]['Molecule'] = _mol
                     # graph.edges[a, b]['Atoms'] = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
                     # graph.edges[a, b]['Coords'] = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
                     # weights = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
@@ -172,13 +173,13 @@ class SubstructGraph(object):
         """
         if isinstance(NodeConverter, types.FunctionType):
             for i in list(self.graph.nodes):
-                self.graph[i]['Features'] = NodeConverter(self.graph[i]['Molecule'])
+                self.graph.nodes[i]['Features'] = NodeConverter(self.graph.nodes[i]['Smiles'])
         elif NodeConverter is not None:
             raise Exception("NodeConverter is not a valid converting function.")
 
         if isinstance(EdgeConverter, types.FunctionType):
-            for (a, b, mol) in self.graph.edges.data('Molecule'):
-                self.graph.edges[a, b]['Features'] = EdgeConverter(mol)
+            for (a, b, smi) in self.graph.edges.data('Smiles'):
+                self.graph.edges[a, b]['Features'] = EdgeConverter(smi)
         elif EdgeConverter is not None:
             raise Exception("EdgeConverter is not a valid converting function.")
     
@@ -240,7 +241,10 @@ class GraphLibrary(object):
             linkages = set(G.linkages)
             self.fragment_library = self.fragment_library.union(fragments)
             self.linkage_library = self.linkage_library.union(linkages)
-
+    
+    def update_library(self, NodeConverter=None, EdgeConverter=None):
+        for G in self.graph_library:
+            G.update_graph(NodeConverter, EdgeConverter)
 
 
 if __name__ == '__main__':

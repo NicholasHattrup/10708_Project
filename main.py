@@ -25,7 +25,10 @@ parser.add_argument('--datasetSplitDone', type=bool, default=True,
                     help='whether or not to use pre-split dataset, default: True')
 parser.add_argument('--splitRatio', type=str, default='10000_10000',
                     help='split ratio, *validation_test*, with automated train')
-parser.add_argument('--')
+parser.add_argument('--n-pcs', type=str, default='32_16',
+                    help='number of principle components to use, *node_edge*, float would be for explained variance ratio (max 64)')
+parser.add_argument('--pcPath', type=str, default='./data/qm9/xyz/',
+                    help="path to pre-trained PCA model")
 parser.add_argument('--logPath', type=str, default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', type=bool, default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', type=str, default='./plot/qm9/mpnn/', help='plot path')
@@ -66,22 +69,34 @@ def main():
 
     # Load data
     root = args.datasetPath
-    print(root)
     
     files = [f for f in os.listdir(root) if f.endswith(".xyz")]
     split_path = "/".join(root.split('/')[:-2]) + '/'
-    print(split_path)
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
+    train_lib = GraphLibrary(directory=root, filenames=train_ids[:400])
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[:200])
+    test_lib = GraphLibrary(directory=root, filenames=test_ids[:200])
+
+    t0 = dt.now()
+    KEY = GetMD5(train_ids)
+    libs = [train_lib, valid_lib, test_lib]
+    NodeConverter, EdgeConverter = GetCumstomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
+    print(dt.now() - t0)
+
     t1 = dt.now()
+    train_lib.update_library(NodeConverter, EdgeConverter)
+    valid_lib.update_library(NodeConverter, EdgeConverter)
+    test_lib.update_library(NodeConverter, EdgeConverter)
+    print(dt.now()-t1)
+
+    print(f"Congrats! PCA is done!")
+    sys.exit(0)
+
     graph_lib = GraphLibrary(directory=root, filenames=train_ids[:100])
     graph_lib.init_reduction()
-    t2 = dt.now()
-    print(t2-t1)
     fragments = graph_lib.fragment_library
     linkages = graph_lib.linkage_library
-    # print(graph_lib.fragment_library)
-    # print(graph_lib.linkage_library)
 
     t3 = dt.now()
     frag_fps = [Chem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=1024) for smi in fragments]

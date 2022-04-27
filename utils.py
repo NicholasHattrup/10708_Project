@@ -1,5 +1,9 @@
 import argparse
 import numpy as np
+import os, hashlib
+from rdkit.Chem import AllChem as Chem
+from sklearn.decomposition import PCA
+from joblib import dump, load
 
 
 def float_bounds(bounds):
@@ -14,7 +18,6 @@ def float_bounds(bounds):
             raise argparse.ArgumentTypeError(f"{x} is out of bound {bounds}.")
     
     return restricted_float
-
 
 
 def parse_lines(lines, files, fn):
@@ -69,3 +72,100 @@ def split_files(split_path, files, args):
     print(f"Split configuration is dumped in {split_path}",flush=True)
     
     return valid_ids, test_ids, train_ids
+
+
+def GetMD5(ids):
+    ids = "".join([id.split('_')[1] for id in ids])
+    md5 = hashlib.md5()
+    md5.update(ids.encode('utf-8'))
+    return md5.hexdigest()
+
+
+def parse_n_pcs_arg(n_pcs_arg):
+    arg = n_pcs_arg.split('_')
+    for i, x in enumerate(arg):
+        if float(x) >= 1:
+            arg[i] = int(x)
+        elif float(x) > 0:
+            arg[i] = float(x)
+        else:
+            raise argparse.ArgumentTypeError(f"{n_pcs_arg} cannot be parsed.")
+    
+    if len(arg) == 2:
+        n1, n2 = arg[0], arg[1]
+    elif len(arg) == 1:
+        n1, n2 = arg[0], arg[0]
+    else:
+        raise argparse.ArgumentTypeError(f"{n_pcs_arg} cannot be parsed.")
+    
+    return n1, n2
+
+
+def smiles_to_fps(smiles, nBits=1024):
+    if isinstance(smiles, str):
+        smiles = [smiles]
+    mols = [Chem.MolFromSmiles(smi, sanitize=True) for smi in smiles]
+    mols = [Chem.AddHs(mol) for mol in mols]
+    return [Chem.GetMorganFingerprintAsBitVect(mol,2,nBits=nBits) for mol in mols]
+
+
+def GetCumstomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=1024):
+    train_lib, valid_lib, test_lib = libs
+    node_n, edge_n = parse_n_pcs_arg(n_pcs_arg)
+    node_pca, edge_pca = None, None
+    for file in os.listdir(modelPath):
+        if file.endswith(verificationKey+".joblib") and file.startswith("node"):
+            node_pca = load(file)
+            print(f"Loading pre-trained PCA model for nodes...", flush=True)
+        if file.endswith(verificationKey+".joblib") and file.startswith("edge"):
+            edge_pca = load(file)
+            print(f"Loading pre-trained PCA model for edges...", flush=True)
+    
+    train_lib.init_reduction()
+    train_fragments = train_lib.fragment_library
+    train_linkages = train_lib.linkage_library
+
+    if node_pca is None:
+        train_frag_fps = smiles_to_fps(train_fragments, nBits)
+        node_pca = PCA(n_components=64).fit(train_frag_fps)
+        dump(node_pca, modelPath+"node_"+verificationKey+".joblib")
+    if edge_pca is None:
+        train_link_fps = smiles_to_fps(train_linkages, nBits)
+        edge_pca = PCA(n_components=64).fit(train_link_fps)
+        dump(node_pca, modelPath+"edge_"+verificationKey+".joblib")
+    
+    node_cev = [sum(node_pca.explained_variance_ratio_[:i]) for i in range(64)] # cummulative explained variance
+    edge_cev = [sum(edge_pca.explained_variance_ratio_[:i]) for i in range(64)]
+    if isinstance(node_n, float):
+        for i, x in enumerate(node_cev):
+            if x < node_n:
+                node_n = i+1
+                break
+    if isinstance(edge_n, float):
+        for i, x in enumerate(edge_cev):
+            if x < edge_n:
+                edge_n = i+1
+                break
+    print(f"Number of PCs: node ({node_n}, {node_cev[node_n-1]}) \t edge ({edge_n}, {[edge_n-1]})", flush=True)
+
+    fragments, linkages = train_fragments, train_linkages
+    valid_lib.init_reduction()
+    fragments = fragments.union(valid_lib.fragment_library)
+    linkages = linkages.union(valid_lib.linkage_library)
+    test_lib.init_reduction()
+    fragments = fragments.union(test_lib.fragment_library)
+    linkages = linkages.union(test_lib.linkage_library)
+
+    frag_fps = node_pca.transform(smiles_to_fps(fragments))[:, :node_n]
+    link_fps = node_pca.transform(smiles_to_fps(linkages))[:, :edge_n]
+
+    frag_fp_dict = {fragments[i]: frag_fps[i] for i in range(len(fragments))}
+    link_fp_dict = {linkages[i]: link_fps[i] for i in range(len(linkages))}
+
+    def NodeConverter(x): return frag_fp_dict[x]
+    def EdgeConverter(x): return link_fp_dict[x]
+
+    return NodeConverter, EdgeConverter
+
+      
+
