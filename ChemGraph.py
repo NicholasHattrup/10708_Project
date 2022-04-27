@@ -10,6 +10,7 @@ import networkx as nx
 
 PTABLE = Chem.GetPeriodicTable()
 
+
 def bond_to_str(bond_type):
     bt = str(bond_type).lower()
     if bt=='single':
@@ -28,10 +29,9 @@ def sort_ring(mol, atoms):
         return atoms
     else:
         return sort_ring(mol, atoms[1:] + [atoms[0]])
-    
-def get_substruct(smi, atoms):
-    mol = Chem.MolFromSmiles(smi, sanitize=False)
 
+ 
+def get_substruct_node(mol, atoms, add_Hs=True):
     if len(atoms) == 1:
         new_smi = mol.GetAtomWithIdx(atoms[0]).GetSymbol()
     elif len(atoms) == 2:
@@ -48,8 +48,9 @@ def get_substruct(smi, atoms):
                 new_smi = "".join(symbols).lower()
                 new_smi = new_smi[0] + '1' + new_smi[1:] + '1'
                 new_mol = Chem.MolFromSmiles(new_smi)
-                Chem.AddHs(new_mol)
-                new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=True)
+                if add_Hs:
+                    Chem.AddHs(new_mol)
+                new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=False)
                 return new_smi, new_mol
             except:
                 pass
@@ -61,9 +62,20 @@ def get_substruct(smi, atoms):
         new_smi = new_smi[0] + '1' + new_smi[1:] + '1'
     
     new_mol = Chem.MolFromSmiles(new_smi, sanitize=True)
-    Chem.AddHs(new_mol)
-    new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=True)
+    new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=False)
+    if add_Hs:
+        Chem.AddHs(new_mol)
     return new_smi, new_mol
+
+
+def get_substruct_edge(mol, atoms, add_Hs=True):
+    new_smi = Chem.MolFragmentToSmiles(mol, atoms, kekuleSmiles=False)
+    new_mol = Chem.MolFromSmiles(new_smi, sanitize=True)
+    new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=False)
+    if add_Hs:
+        new_mol = Chem.AddHs(new_mol)
+    return new_smi, new_mol
+
 
 class SubstructGraph(object):
     """
@@ -71,9 +83,10 @@ class SubstructGraph(object):
     """
     def __init__(self, xyz_file, Hs_in_fragments=True, Hs_in_linkages=True):
         self.filepath = xyz_file
-        self.filaname = xyz_file.split("/")[-1]
+        self.filename = xyz_file.split("/")[-1]
         self.parse_xyz_file()  # self.n_atoms, self.smi, self.atoms, self.coord, self.gap
         self.mol = Chem.MolFromSmiles(self.smi)
+        self.mol_unsanitized = Chem.MolFromSmiles(self.smi, sanitize=False)
         self.mol_Hs = Chem.AddHs(self.mol)
 
         self.fragments = []
@@ -91,7 +104,7 @@ class SubstructGraph(object):
                 line = f.readline().split()
                 self.atoms.append(line[0])
                 self.atomic_nums.append(PTABLE.GetAtomicNumber(line[0]))
-                self.coords.append([float(x.replace('.*^', 'e').replace('*^', 'e')) for x in line[1:]])
+                self.coords.append([float(x.replace('.*^', 'e').replace('*^', 'e')) for x in line[1:4]])
             f.readline()    # frequencies
             self.smi = f.readline().split()[0]
 
@@ -119,39 +132,29 @@ class SubstructGraph(object):
         graph.add_nodes_from([(i, {'AtomIdxs': atoms}) for i, atoms in enumerate(_nodes)])
         
         for i in graph.nodes:
-            # print(f"Node failed\t{self.smi}\t{graph.nodes[i]['AtomIdxs']}")
-            _smi, _mol = get_substruct(self.smi, graph.nodes[i]['AtomIdxs'])
-            _smi = Chem.MolToSmiles(_mol, kekuleSmiles=True)
-            if Hs_in_fragments:
-                _mol = Chem.AddHs(_mol)
+            _smi, _mol = get_substruct_node(self.mol_unsanitized, graph.nodes[i]['AtomIdxs'], add_Hs=Hs_in_fragments)
 
             self.fragments.append(_smi)
             graph.nodes[i]['Smiles'] = _smi
             graph.nodes[i]['Molecule'] = _mol
             graph.nodes[i]['Atoms'] = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
-            graph.nodes[i]['Coordinates'] = [self.coords[x] for x in graph.nodes[i]['AtomIdxs']]
+            graph.nodes[i]['Coords'] = [self.coords[x] for x in graph.nodes[i]['AtomIdxs']]
         
         self.n_fragments = len(self.fragments)
-        _edges = {}
-        for i in range(self.n_fragments)[:-1]:
+        for i in range(self.n_fragments-1):
             a = list(graph.nodes)[i]
-            for j in range(self.n_fragments)[i+1:]:
+            for j in range(i+1, self.n_fragments):
                 b = list(graph.nodes)[j]
                 shared_atoms = list(set(graph.nodes[a]['AtomIdxs']) & set(graph.nodes[b]['AtomIdxs']))
                 if shared_atoms:
-                    graph.add_edge(a, b, LinkAtomIdxs=shared_atoms)
-                    # print(f"Edge failed\t{self.smi}\t{shared_atoms}")
-                    # _smi, _mol = get_substruct(self.smi, shared_atoms)
-                    _smi = Chem.MolFragmentToSmiles(self.mol, shared_atoms, kekuleSmiles=True)
-                    _mol = Chem.MolFromSmiles(_smi, sanitize=True)
-                    _smi = Chem.MolToSmiles(_mol, kekuleSmiles=True)
-                    if Hs_in_linkages:
-                        _mol = Chem.AddHs(_mol)
+                    graph.add_edge(a, b, AtomIdxs=shared_atoms)
+                    _smi, _mol = get_substruct_edge(self.mol_unsanitized, shared_atoms, add_Hs=Hs_in_linkages)
 
                     self.linkages.append(_smi)
                     graph.edges[a, b]['Smiles'] = _smi
                     graph.edges[a, b]['Molecule'] = _mol
-
+                    graph.edges[a, b]['Atoms'] = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
+                    graph.edges[a, b]['Coords'] = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
         return graph
     
     def update_feature(self, NodeConverter=None, EdgeConverter=None):
@@ -231,4 +234,4 @@ if __name__ == '__main__':
         try:
             G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
         except:
-            print(f"Darn it. Thif file failed: {file_path}")
+            print(f"Darn it. This file failed: {file_path}")
