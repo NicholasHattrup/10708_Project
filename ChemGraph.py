@@ -1,7 +1,8 @@
 import types
-from matplotlib.pyplot import get
+from sklearn.decomposition import PCA
+#from matplotlib.pyplot import get
 import numpy as np
-import pandas as pd
+#import pandas as pd
 from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import GetSymmSSSR as SSSR
 import networkx as nx
@@ -179,6 +180,7 @@ class SubstructGraph(object):
                     self.linkages.append(_smi)
                     graph.edges[a, b]['Smiles'] = _smi
                     graph.edges[a, b]['Molecule'] = _mol
+
         return graph
     
     def update_graph(self, NodeConverter=None, EdgeConverter=None):
@@ -200,7 +202,12 @@ class SubstructGraph(object):
         elif EdgeConverter is not None:
             raise Exception("EdgeConverter is not a valid converting function.")
 
-
+def fingerprint_pca(fp_list, n_comps):
+    pca = PCA(n_components=n_comps)
+    crds = pca.fit_transform(fp_list)
+    
+    return crds
+        
 
 if __name__ == '__main__':
     import os
@@ -208,8 +215,42 @@ if __name__ == '__main__':
 
     file_path = "./baselines/data/qm9/xyz/dsgdb9nsd_000608.xyz"
     filenames = [filename for filename in os.listdir("./baselines/data/qm9/xyz/") if filename.endswith(".xyz")]
-    for file_path in filenames:
-        try:
-            G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
-        except:
-            print(f"Darn it. Thif file failed: {file_path}")
+    all_fps = []
+    num_of_fps_per_mol_map = {}
+    files_dict = {}
+    print(f"{len(filenames)} xyz files")
+    for n,file_path in enumerate(filenames):
+        G = SubstructGraph("./baselines/data/qm9/xyz/"+file_path)
+        node_fp_list = []
+        for i in G.graph.nodes:
+            node_m = G.graph.nodes[i]['Molecule']
+            node_fp = Chem.GetMorganFingerprintAsBitVect(node_m,2,nBits=1024)
+            node_fp_list.append(node_fp)
+        files_dict[n] = file_path
+        num_of_fps_per_mol_map[n] = len(node_fp_list)
+        all_fps.append(node_fp_list)
+        if n % 100 == 0:
+            print(f"{n} xyz files processed")
+    print(f"{len(all_fps)} xyz files processed - finished")
+    print(f"morgan fingerprints obtained for => {len(all_fps)} xyz files")
+    fp_lengths = []
+    for i in all_fps:
+        fp_lengths.append(len(i))
+    stop_indices = (np.cumsum(fp_lengths)).tolist()
+    all_fps = [item for sublist in all_fps for item in sublist]
+    print(f"{len(all_fps)} total substructures")
+    vects = fingerprint_pca(all_fps, 4).tolist()
+    print(f"{len(vects)} reduced vectors")
+    start_index = 0
+    reduced_fps = []
+    reduced_fp_dict = {}
+    for n, stop_index in enumerate(stop_indices):
+        reduced_fp = vects[start_index:stop_index]
+        reduced_fp_dict[files_dict[n]] = reduced_fp
+        start_index = stop_index
+        if num_of_fps_per_mol_map[n] != len(reduced_fp):
+            print(f"{files_dict[n]}, expected number of nodes {num_of_fps_per_mol_map[n]}, actual number of nodes {len(reduced_fp)}")
+    import json
+    with open('reduced_fps.json', 'w') as f:
+        json.dump(reduced_fp_dict, f)
+    print(f"reduced finger prints obtained for => {len(reduced_fp_dict)} xyz files")
