@@ -176,12 +176,18 @@ class SubstructGraph(object):
         elif EdgeConverter is not None:
             raise Exception("EdgeConverter is not a valid converting function.")
 
+
 def fingerprint_pca(fp_list, n_comps):
     pca = PCA(n_components=n_comps)
     crds = pca.fit_transform(fp_list)
     
     return crds
-        
+
+
+def GraphLibrary(object):
+    """A library collection of substucture graphs.
+    """
+    def __init__(self, path="")
 
 if __name__ == '__main__':
     import os
