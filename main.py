@@ -94,16 +94,12 @@ def main():
 
     print(f"Congrats! PCA is done!")
 
-    print("Preparing files")
     data_train = SDS(root, train_ids, train_lib.graph_library)
     data_valid = SDS(root, valid_ids, valid_lib.graph_library)
     data_test = SDS(root, test_ids, test_lib.graph_library)
+    print("Dataset created")
 
-    g_tuple, target = data_train[0]
-    g, nodes, edges = g_tuple
-
-    print("\t")
-    print(data_train[0])
-
+    
+    
 if __name__ == '__main__':
     main()
