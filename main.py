@@ -13,6 +13,7 @@ from sklearn.decomposition import PCA
 
 # Our own modules
 from learner import *
+from models import MPNN
 
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
 
@@ -76,9 +77,9 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids)
-    valid_lib = GraphLibrary(directory=root, filenames=valid_ids)
-    test_lib = GraphLibrary(directory=root, filenames=test_ids)
+    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:15000])
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:1])
+    test_lib = GraphLibrary(directory=root, filenames=test_ids[0:1])
     print("Building libraries took: ", dt.now() - t0)
 
     KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]

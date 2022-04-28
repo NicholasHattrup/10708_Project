@@ -6,7 +6,7 @@ import torch.nn as nn
 from torch.autograd.variable import Variable
 import torch.nn.functional as F
 
-from models import NNet, MPNN
+from NNet import NNet
 
 __author__ = "Pau Riba, Anjan Dutta"
 __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat" 
