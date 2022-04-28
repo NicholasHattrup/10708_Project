@@ -260,7 +260,7 @@ class GraphLibrary(object):
             for i in G.graph.nodes:
                 nodes.append(G.graph.nodes[i]['Features'])
             for (a, b, f) in G.graph.edges.data('Features'):
-                edges[(a, b)] = f + G.graph.edges[a, b]['Distance']
+                edges[(a, b)] = f.append(G.graph.edges[a, b]['Distance'])
 
             target = [G.graph.graph['Gap']]
             graph_tuple = (graph, nodes, edges)
