@@ -87,9 +87,9 @@ def main():
     print("Establishing PCA took", dt.now() - t0)
 
     t1 = dt.now()
-    train_lib.update_library(NodeConverter, EdgeConverter)
-    valid_lib.update_library(NodeConverter, EdgeConverter)
-    test_lib.update_library(NodeConverter, EdgeConverter)
+    train_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
+    valid_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
+    test_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     print("Updating libraries took", dt.now()-t1)
 
     print(f"Congrats! PCA is done!")

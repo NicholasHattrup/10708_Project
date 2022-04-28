@@ -178,7 +178,7 @@ class SubstructGraph(object):
         
         if isinstance(DistanceConverter, types.FunctionType):
             for (a, b, dist) in self.graph.edges.data('Distance'):
-                self.graph.edges[a, b]['Distance'] = EdgeConverter(dist)
+                self.graph.edges[a, b]['Distance'] = DistanceConverter(dist)
         elif DistanceConverter is not None:
             raise Exception("DistanceConverter is not a valid converting function.")
     
