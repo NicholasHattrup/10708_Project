@@ -17,7 +17,6 @@ from utils import *
 from ChemGraph import *
 from sds import SDS
 from LogMetric import Logger, AverageMeter
-from models import *
 
 def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, log_interval, logger):
     batch_time = AverageMeter()
@@ -104,7 +103,7 @@ def validate(test_loader, model, criterion, evaluation, cuda, log_interval):
 
     return error_ratio.avg, output, target
 
-def look_for_best(path, model, optimizer, cuda):
+def look_for_best(path, model, optimizer):
     checkpoint_dir = path
     best_model_file = os.path.join(checkpoint_dir, 'model_best.pth')
     if not os.path.isdir(checkpoint_dir):
@@ -115,8 +114,6 @@ def look_for_best(path, model, optimizer, cuda):
         start_epoch = checkpoint['epoch']
         best_acc1 = checkpoint['best_er1']    
         model.load_state_dict(checkpoint['state_dict'])    
-    if cuda:
-        model.cuda()
         optimizer.load_state_dict(checkpoint['optimizer'])
         print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']),flush=True)
     else:
