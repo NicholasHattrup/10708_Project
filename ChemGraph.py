@@ -253,8 +253,6 @@ class GraphLibrary(object):
             G.update_graph(NodeConverter, EdgeConverter, DistanceConverter)
     
     def prepare_files(self):
-        self.preped_graphs = []
-
         for G in self.graph_library:
             nodes = []
             edges = {}
@@ -262,11 +260,12 @@ class GraphLibrary(object):
             for i in G.graph.nodes:
                 nodes.append(G.graph.nodes[i]['Features'])
             for (a, b, f) in G.graph.edges.data('Features'):
-                edges[(a, b)] = f.append(G.edges[a,b]['Distance'])
-            target = G.graph.graph['Gap']
-            graph_tuple = (graph, nodes, edges, target)
-            self.preped_graphs.append(graph_tuple)
+                edges[(a, b)] = f + G.graph.edges[a, b]['Distance']
 
+            target = [G.graph.graph['Gap']]
+            graph_tuple = (graph, nodes, edges)
+
+            return graph_tuple, target 
 
 if __name__ == '__main__':
     import os
