@@ -17,8 +17,8 @@ from models import MPNN
 
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
 
-parser.add_argument('--dataset', type=str, default='qm9',
-                    help='aataset of interest, default: QM9')
+parser.add_argument('--dataset', type=str, default='qm9_sds',
+                    help='dataset of interest, default: qm9_sds')
 parser.add_argument('--datasetPath', type=str, default='./data/qm9/xyz/',
                     help='dataset path, default: ./data/qm9/xyz/')
 parser.add_argument('--datasetSplitDone', type=bool, default=True,
@@ -29,10 +29,10 @@ parser.add_argument('--n-pcs', type=str, default='32_16',
                     help='number of principle components to use, *node_edge*, float would be for explained variance ratio (max 128_64)')
 parser.add_argument('--pcPath', type=str, default='./data/qm9/xyz/',
                     help="path to pre-trained PCA model")
-parser.add_argument('--logPath', type=str, default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
+parser.add_argument('--logPath', type=str, default='./log_sds/qm9/mpnn/', help='log path')
 parser.add_argument('--plotLr', type=bool, default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', type=str, default='./plot/qm9/mpnn/', help='plot path')
-parser.add_argument('--resume', type=str, default='./raw_distance_noHs/qm9/mpnn/',
+parser.add_argument('--resume', type=str, default='./sds_model/qm9/mpnn/',
                     help='path to latest checkpoint')
 # Optimization Options
 parser.add_argument('--batch-size', type=int, default=100, metavar='N',
@@ -50,7 +50,7 @@ parser.add_argument('--schedule', type=list, default=[0.1, 0.9], metavar='S',
 parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
                     help='SGD momentum (default: 0.9)')
 # i/o
-parser.add_argument('--log-interval', type=int, default=200, metavar='N',
+parser.add_argument('--log-interval', type=int, default=100, metavar='N',
                     help='How many batches to wait before logging training status')
 # Accelerating
 parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching threads.')
@@ -77,9 +77,9 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:15000])
-    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:1])
-    test_lib = GraphLibrary(directory=root, filenames=test_ids[0:1])
+    train_lib = GraphLibrary(directory=root, filenames=train_ids)
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids)
+    test_lib = GraphLibrary(directory=root, filenames=test_ids)
     print("Building libraries took: ", dt.now() - t0)
 
     KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]
