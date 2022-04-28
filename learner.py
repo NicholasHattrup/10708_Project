@@ -28,15 +28,14 @@ def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, lo
     model.train()
     end = time.time()
     for i, (g, h, e, target) in enumerate(train_loader):
-        print((g, h, e, target))
-        # Prepare input data                                                                                                                                                                                                                               
+        # Prepare input data                                                                                                                                                                            
         if cuda:
             g, h, e, target = g.cuda(), h.cuda(), e.cuda(), target.cuda()
         g, h, e, target = Variable(g), Variable(h), Variable(e), Variable(target)
-        # Measure data loading time                                                                                                                                                                                                                        
+        # Measure data loading time                                                                                                                                                                      
         data_time.update(time.time() - end)
         optimizer.zero_grad()
-        # Compute output                                                                                                                                                                                                                                   
+        # Compute output                                                                                                                                                                                       
         output = model(g, h, e)
         train_loss = criterion(output, target)
         # Logs                                                                                                                                                                                                                                             
