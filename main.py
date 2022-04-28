@@ -81,7 +81,7 @@ def main():
     print("Building libraries took: ", dt.now() - t0)
 
     t0 = dt.now()
-    KEY = GetMD5(train_ids)
+    KEY = train_lib.MD5
     libs = [train_lib, valid_lib, test_lib]
     NodeConverter, EdgeConverter, DistanceConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
     print("Establishing PCA took", dt.now() - t0)

@@ -7,7 +7,7 @@ from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import GetSymmSSSR as SSSR
 from sklearn.decomposition import PCA
 import networkx as nx
-from utils import distance
+from utils import distance, GetMD5
 
 
 PTABLE = Chem.GetPeriodicTable()
@@ -229,6 +229,7 @@ class GraphLibrary(object):
             filenames = [filename for filename in os.listdir(directory) if filename.endswith(".xyz")]
         self.directory = directory
         self.filenames = filenames
+        self.MD5 = GetMD5(filenames)
 
         self.graph_library = []
         for filename in filenames:
