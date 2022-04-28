@@ -12,12 +12,6 @@ from torch.autograd import Variable
 from sklearn.decomposition import PCA
 
 # Our own modules
-import utils
-from utils import *
-from ChemGraph import *
-from sds import SDS
-from baselines.LogMetric import Logger, AverageMeter
-from baselines.models.MPNN import MPNN
 from learner import *
 
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
@@ -82,9 +76,9 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:100])
-    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:100])
-    test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
+    train_lib = GraphLibrary(directory=root, filenames=train_ids)
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids)
+    test_lib = GraphLibrary(directory=root, filenames=test_ids)
     print("Building libraries took: ", dt.now() - t0)
 
     KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]
@@ -166,7 +160,7 @@ def main():
     look_for_best(args.resume, model, optimizer)
 
     # run validation on test set
-    validate(test_loader, model, criterion, evaluation, cuda, int(args.log_interval))
+    validate(test_loader, model, criterion, evaluation, args.cuda, int(args.log_interval))
             
 if __name__ == '__main__':
     main()
