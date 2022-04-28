@@ -254,7 +254,7 @@ class GraphLibrary(data.Dataset):
             G.update_graph(NodeConverter, EdgeConverter, DistanceConverter)
 
     def __getitem__(self, index):
-        filename = self.get_filenames[index]
+        filename = self.filenames[index]
         G = self.graph_library[index]
         if G.graph.graph["Filename"] != filename:
             raise ValueError("Filename {filename} mismatch, index {index}")
