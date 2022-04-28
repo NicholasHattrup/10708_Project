@@ -69,7 +69,7 @@ def validate(test_loader, model, criterion, evaluation, cuda, log_interval, logg
     # switch to evaluate mode                                                                                                                                                                                                                              
     model.eval()
     end = time.time()
-    for i, (g, h, e, target) in enumerate(val_loader):
+    for i, (g, h, e, target) in enumerate(test_loader):
         # Prepare input data                                                                                                                                                                                                                               
         if cuda:
             g, h, e, target = g.cuda(), h.cuda(), e.cuda(), target.cuda()
