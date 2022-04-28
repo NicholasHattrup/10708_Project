@@ -26,7 +26,7 @@ parser.add_argument('--datasetSplitDone', type=bool, default=True,
 parser.add_argument('--splitRatio', type=str, default='10000_10000',
                     help='split ratio, *validation_test*, with automated train')
 parser.add_argument('--n-pcs', type=str, default='32_16',
-                    help='number of principle components to use, *node_edge*, float would be for explained variance ratio (max 64)')
+                    help='number of principle components to use, *node_edge*, float would be for explained variance ratio (max 64_48)')
 parser.add_argument('--pcPath', type=str, default='./data/qm9/xyz/',
                     help="path to pre-trained PCA model")
 parser.add_argument('--logPath', type=str, default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
@@ -74,21 +74,23 @@ def main():
     split_path = "/".join(root.split('/')[:-2]) + '/'
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[:400])
-    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[:200])
-    test_lib = GraphLibrary(directory=root, filenames=test_ids[:200])
+    t0 = dt.now()
+    train_lib = GraphLibrary(directory=root, filenames=train_ids)
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids)
+    test_lib = GraphLibrary(directory=root, filenames=test_ids)
+    print("Building libraries took: ", dt.now() - t0)
 
     t0 = dt.now()
     KEY = GetMD5(train_ids)
     libs = [train_lib, valid_lib, test_lib]
-    NodeConverter, EdgeConverter = GetCumstomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
-    print(dt.now() - t0)
+    NodeConverter, EdgeConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
+    print("Establishing PCA took", dt.now() - t0)
 
     t1 = dt.now()
     train_lib.update_library(NodeConverter, EdgeConverter)
     valid_lib.update_library(NodeConverter, EdgeConverter)
     test_lib.update_library(NodeConverter, EdgeConverter)
-    print(dt.now()-t1)
+    print("Updating libraries took", dt.now()-t1)
 
     print(f"Congrats! PCA is done!")
     sys.exit(0)

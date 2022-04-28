@@ -109,16 +109,16 @@ def smiles_to_fps(smiles, nBits=1024):
     return [Chem.GetMorganFingerprintAsBitVect(mol,2,nBits=nBits) for mol in mols]
 
 
-def GetCumstomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=1024):
+def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=1024):
     train_lib, valid_lib, test_lib = libs
     node_n, edge_n = parse_n_pcs_arg(n_pcs_arg)
     node_pca, edge_pca = None, None
     for file in os.listdir(modelPath):
         if file.endswith(verificationKey+".joblib") and file.startswith("node"):
-            node_pca = load(file)
+            node_pca = load(modelPath+file)
             print(f"Loading pre-trained PCA model for nodes...", flush=True)
         if file.endswith(verificationKey+".joblib") and file.startswith("edge"):
-            edge_pca = load(file)
+            edge_pca = load(modelPath+file)
             print(f"Loading pre-trained PCA model for edges...", flush=True)
     
     train_lib.init_reduction()
@@ -126,10 +126,12 @@ def GetCumstomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/",
     train_linkages = train_lib.linkage_library
 
     if node_pca is None:
+        print(f"PCA model for nodes not found. Start training and saving...")
         train_frag_fps = smiles_to_fps(train_fragments, nBits)
         node_pca = PCA(n_components=64).fit(train_frag_fps)
         dump(node_pca, modelPath+"node_"+verificationKey+".joblib")
     if edge_pca is None:
+        print(f"PCA model for edges not found. Start training and saving...")
         train_link_fps = smiles_to_fps(train_linkages, nBits)
         edge_pca = PCA(n_components=64).fit(train_link_fps)
         dump(node_pca, modelPath+"edge_"+verificationKey+".joblib")
@@ -146,15 +148,15 @@ def GetCumstomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/",
             if x < edge_n:
                 edge_n = i+1
                 break
-    print(f"Number of PCs: node ({node_n}, {node_cev[node_n-1]}) \t edge ({edge_n}, {[edge_n-1]})", flush=True)
+    print(f"Number of PCs: node ({node_n}, {node_cev[node_n-1]:.4f}) \t edge ({edge_n}, {edge_cev[edge_n-1]:.4f})", flush=True)
 
     fragments, linkages = train_fragments, train_linkages
     valid_lib.init_reduction()
     fragments = fragments.union(valid_lib.fragment_library)
     linkages = linkages.union(valid_lib.linkage_library)
     test_lib.init_reduction()
-    fragments = fragments.union(test_lib.fragment_library)
-    linkages = linkages.union(test_lib.linkage_library)
+    fragments = list(fragments.union(test_lib.fragment_library))
+    linkages = list(linkages.union(test_lib.linkage_library))
 
     frag_fps = node_pca.transform(smiles_to_fps(fragments))[:, :node_n]
     link_fps = node_pca.transform(smiles_to_fps(linkages))[:, :edge_n]
