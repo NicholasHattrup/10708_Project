@@ -83,7 +83,6 @@ def main():
     test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
 
-    """
     t0 = dt.now()
     KEY = train_lib.MD5
     libs = [train_lib, valid_lib, test_lib]
@@ -97,7 +96,6 @@ def main():
     print("Updating libraries took", dt.now()-t1)
 
     print(f"Congrats! PCA is done!")
-    """
 
     data_train = SDS(root, train_ids, train_lib.graph_library)
     data_valid = SDS(root, valid_ids, valid_lib.graph_library)
