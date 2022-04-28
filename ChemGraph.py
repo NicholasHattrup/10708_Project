@@ -34,6 +34,8 @@ def sort_ring(mol, atoms):
 
  
 def get_substruct_node(mol, atoms, add_Hs=True):
+    if mol.GetNumAtoms() == len(atoms):
+        return Chem.MolToSmiles(mol)
     if len(atoms) == 1:
         new_smi = mol.GetAtomWithIdx(atoms[0]).GetSymbol()
     elif len(atoms) == 2:
@@ -65,18 +67,14 @@ def get_substruct_node(mol, atoms, add_Hs=True):
     
     new_mol = Chem.MolFromSmiles(new_smi, sanitize=True)
     new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=False)
-    if add_Hs:
-        Chem.AddHs(new_mol)
-    return new_smi, new_mol
+    return new_smi
 
 
-def get_substruct_edge(mol, atoms, add_Hs=True):
+def get_substruct_edge(mol, atoms):
     new_smi = Chem.MolFragmentToSmiles(mol, atoms, kekuleSmiles=False)
     new_mol = Chem.MolFromSmiles(new_smi, sanitize=True)
     new_smi = Chem.MolToSmiles(new_mol, kekuleSmiles=False)
-    if add_Hs:
-        new_mol = Chem.AddHs(new_mol)
-    return new_smi, new_mol
+    return new_smi
 
 
 class SubstructGraph(object):
@@ -100,15 +98,16 @@ class SubstructGraph(object):
     def parse_xyz_file(self):
         self.atoms, self.atomic_nums, self.coords = [], [], []
         with open(self.filepath, "r") as f:
-            self.n_atoms = int(f.readline())
+            self.n_atoms_w_Hs = int(f.readline())
             self.gap = float(f.readline().split()[-1])
-            for _ in range(self.n_atoms):
+            for _ in range(self.n_atoms_w_Hs):
                 line = f.readline().split()
                 self.atoms.append(line[0])
                 self.atomic_nums.append(PTABLE.GetAtomicNumber(line[0]))
                 self.coords.append([float(x.replace('.*^', 'e').replace('*^', 'e')) for x in line[1:4]])
             f.readline()    # frequencies
             self.smi = f.readline().split()[0]
+            self.n_atoms = Chem.MolFromSmiles(self.smi).GetNumAtoms()
 
     def init_graph(self, Hs_in_fragments=True, Hs_in_linkages=True):
         """
@@ -135,7 +134,7 @@ class SubstructGraph(object):
         graph.add_nodes_from([(i, {'AtomIdxs': atoms}) for i, atoms in enumerate(_nodes)])
         
         for i in graph.nodes:
-            _smi, _mol = get_substruct_node(self.mol_unsanitized, graph.nodes[i]['AtomIdxs'], add_Hs=Hs_in_fragments)
+            _smi = get_substruct_node(self.mol_unsanitized, graph.nodes[i]['AtomIdxs'], add_Hs=Hs_in_fragments)
 
             self.fragments.append(_smi)
             graph.nodes[i]['Smiles'] = _smi
@@ -151,7 +150,7 @@ class SubstructGraph(object):
                 shared_atoms = list(set(graph.nodes[a]['AtomIdxs']) & set(graph.nodes[b]['AtomIdxs']))
                 if shared_atoms:
                     graph.add_edge(a, b, AtomIdxs=shared_atoms)
-                    _smi, _mol = get_substruct_edge(self.mol_unsanitized, shared_atoms, add_Hs=Hs_in_linkages)
+                    _smi = get_substruct_edge(self.mol_unsanitized, shared_atoms)
 
                     self.linkages.append(_smi)
                     graph.edges[a, b]['Smiles'] = _smi
@@ -235,9 +234,10 @@ class GraphLibrary(data.Dataset):
         self.graph_library = []
         for filename in filenames:
             G = SubstructGraph(directory+filename)
-            dummy_fn = lambda x: list(np.random.random(size=2))
-            G.update_graph(NodeConverter=dummy_fn, EdgeConverter=dummy_fn)
             self.graph_library.append(G)
+            if len(G.graph.nodes)==0 and len(G.graph.edges)==0:
+                print(f"Shame on you {filename} for having {len(G.graph.nodes)} nodes and {len(G.graph.edges)} edges.")
+                print(G.graph.graph["Smiles"])
     
     def init_reduction(self):
         self.fragment_library = set([])
