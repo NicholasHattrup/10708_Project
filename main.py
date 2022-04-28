@@ -2,6 +2,7 @@ import os, sys
 import argparse
 import json
 from datetime import datetime as dt
+import time
 
 import torch
 import torch.optim as optim
@@ -15,8 +16,9 @@ import utils
 from utils import *
 from ChemGraph import *
 from sds import SDS
-from baselines.LogMetric import Logger
+from baselines.LogMetric import Logger, AverageMeter
 from baselines.models.MPNN import MPNN
+from learner import *
 
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
 
@@ -61,14 +63,16 @@ parser.add_argument('--prefetch', type=int, default=2, help='Pre-fetching thread
 parser.add_argument('--distance', type=bool, default=True,
                     help="whether of not use weighted distance as a feature for edges")
 
+best_er1 = 0
 
 def main():
 
+    global args, best_er1
     args = parser.parse_args()
     start_epoch = 0
     
     # Check if CUDA is enabled
-    # args.cuda = not args.no_cuda and torch.cuda.is_available()
+    args.cuda = not args.no_cuda and torch.cuda.is_available()
 
     # Load data
     root = args.datasetPath
@@ -78,39 +82,56 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:20000])
+    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:100])
     valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:100])
     test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
 
-    KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]
+    """
+    t0 = dt.now()
+    KEY = train_lib.MD5
+    libs = [train_lib, valid_lib, test_lib]
     NodeConverter, EdgeConverter, DistanceConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
+    print("Establishing PCA took", dt.now() - t0)
 
+    t1 = dt.now()
     train_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     valid_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     test_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
+    print("Updating libraries took", dt.now()-t1)
 
-    train_loader = torch.utils.data.DataLoader(train_lib,
-                                            batch_size=args.batch_size, shuffle=True,
-                                            collate_fn=utils.collate,                                                                                                                                                                              
-                                            num_workers=args.prefetch, pin_memory=True)
+    print(f"Congrats! PCA is done!")
+    """
 
-    val_loader = torch.utils.data.DataLoader(valid_lib,
-                                            batch_size=args.batch_size, shuffle=True,
-                                            collate_fn=utils.collate,                                                                                                                                                                              
-                                            num_workers=args.prefetch, pin_memory=True)
+    data_train = SDS(root, train_ids[0:100], train_lib.graph_library)
+    data_valid = SDS(root, valid_ids[0:100], valid_lib.graph_library)
+    data_test = SDS(root, test_ids[0:100], test_lib.graph_library)
+    print("Dataset created")
 
-    test_loader = torch.utils.data.DataLoader(test_lib,
-                                            batch_size=args.batch_size, shuffle=True,
-                                            collate_fn=utils.collate,                                                                                                                                                                              
-                                            num_workers=args.prefetch, pin_memory=True)
+    train_loader = torch.utils.data.DataLoader(data_train,
+                                               batch_size=args.batch_size, shuffle=True,
+                                               collate_fn=utils.collate,                                                                                                                                                                              
+                                               num_workers=args.prefetch, pin_memory=True)
+
+    valid_loader = torch.utils.data.DataLoader(data_valid,
+                                               batch_size=args.batch_size, shuffle=True,
+                                               collate_fn=utils.collate,                                                                                                                                                                              
+                                               num_workers=args.prefetch, pin_memory=True)
+
+    test_loader = torch.utils.data.DataLoader(data_test,
+                                               batch_size=args.batch_size, shuffle=True,
+                                               collate_fn=utils.collate,                                                                                                                                                                              
+                                               num_workers=args.prefetch, pin_memory=True)
+
+    g_tuple, target = data_train[0]
+    g, nodes, edges = g_tuple
     
     print('Creating Model',flush=True)
-    in_n = [len(h_t[0]), len(list(e.values())[0])]
+    in_n = [len(nodes[0]), len(list(edges.values())[0])]
     hidden_state_size = 73
     message_size = 73
     n_layers = 3
-    l_target = len(l)
+    l_target = len(target)
     type ='regression'
     model = MPNN(in_n, hidden_state_size, message_size, n_layers, l_target, type=type)
     del in_n, hidden_state_size, message_size, n_layers, l_target, type
@@ -126,7 +147,7 @@ def main():
 
     # search for existing checkpoint
     if args.resume:
-        resume(args.resume)
+        look_for_best(args.resume, model, optimizer)
     
     # check for GPU
     print('check cuda',flush=True)
@@ -142,97 +163,24 @@ def main():
             for param_group in optimizer.param_groups:
                 param_group['lr'] = args.lr
 
-        # train for one epoch                                                                                                                                                                                                                              
-        train(train_loader, model, criterion, optimizer, epoch, evaluation, logger)
+        # train for one epoch
+        train(train_loader, model, args.cuda, criterion, optimizer, epoch, evaluation, int(args.log_interval), logger)
 
         # evaluate on test set                                                                                                                                                                                                                             
-        er1, output, target = validate(valid_loader, model, criterion, evaluation, logger)
+        er1, output, target = validate(valid_loader, model, criterion, evaluation, args.cuda, int(args.log_interval), logger)
         is_best = er1 > best_er1
         best_er1 = min(er1, best_er1)
-        utils.save_checkpoint({'epoch': epoch + 1, 'state_dict': model.state_dict(), 'best_er1': best_er1,
-                               'optimizer': optimizer.state_dict(), }, is_best=is_best, directory=args.resume)
+        utils.save_checkpoint(s={'epoch': epoch + 1, 'state_dict': model.state_dict(), 'best_er1': best_er1,
+                               'optimizer': optimizer.state_dict(), }, is_best=is_best, path=args.resume)
 
         # Logger step                                                                                                                                                                                                                                      
         logger.log_value('learning_rate', args.lr).step()
 
     # load best model
-    resume(args.resume)
+    look_for_best(args.resume, model, optimizer)
 
     # run validation on test set
-    validate(test_loader, model, criterion, evaluation)
-
-def train(train_loader, model, criterion, optimizer, epoch, evaluation, logger):
-    batch_time = AverageMeter()
-    data_time = AverageMeter()
-    losses = AverageMeter()
-    error_ratio = AverageMeter()
-
-    # start train mode
-    model.train()
-
-    end = time.time()
-    for i, (g, h, e, target) in enumerate(train_loader):
-        # check cuda and prepare data
-        if args.cuda:
-            g, h, e, target = g.cuda(), h.cuda(), e.cuda(), target.cuda()
-        g, h, e, target = Variable(g), Variable(h), Variable(e), Variable(target)
-        # Measure data loading time                                                                                                                                                                                                                         
-        data_time.update(time.time() - end)
-
-        optimizer.zero_grad()
-
-        # Compute output                                                                                                                                                                                                                                    
-        output = model(g, h, e)
-        train_loss = criterion(output, target)
-
-        # Logs                                                                                                                                                                                                                                              
-        losses.update(train_loss.data, g.size(0))
-        error_ratio.update(evaluation(output, target).data, g.size(0))
-
-        # compute gradient and do SGD step                                                                                                                                                                                                                  
-        train_loss.backward()
-        optimizer.step()
-
-        # Measure elapsed time                                                                                                                                                                                                                              
-        batch_time.update(time.time() - end)
-        end = time.time()
-
-        if i % args.log_interval == 0 and i > 0:
-
-            print(f"Epoch #{epoch}: {i} batches out of {len(train_loader)}\n\tTime {batch_time.val:.3f}\tData {data_time.val:.3f} ({data_time.avg:.3f})")
-            print('Epoch: [{0}][{1}/{2}]\t'
-                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'Error Ratio {err.val:.4f} ({err.avg:.4f})'
-                  .format(epoch, i, len(train_loader), batch_time=batch_time,
-                          data_time=data_time, loss=losses, err=error_ratio),flush=True)
-
-    logger.log_value('train_epoch_loss', losses.avg)
-    logger.log_value('train_epoch_error_ratio', error_ratio.avg)
-
-    print('Epoch: [{0}] Avg Error Ratio {err.avg:.3f}; Average Loss {loss.avg:.3f}; Avg Time x Batch {b_time.avg:.3f}'
-          .format(epoch, err=error_ratio, loss=losses, b_time=batch_time),flush=True)
-
-    
-def validate():
-    
-def resume(args.resume):
-    checkpoint_dir = args.resume
-    best_model_file = os.path.join(checkpoint_dir, 'model_best.pth')
-
-    if not os.path.isdir(checkpoint_dir):
-        os.makedirs(checkpoint_di)
-    if os.path.isfile(best_model_file):
-        print("=> loading best model '{}'".format(best_model_file),flush=True)
-        checkpoint = torch.load(best_model_file)
-        start_epoch = checkpoint['epoch']
-        best_acc1 = checkpoint['best_er1']
-        model.load_state_dict(checkpoint['state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer'])
-        print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']),flush=True)
-    else:
-        print("=> no best model found at '{}'".format(best_model_file),flush=True)
-    
+    validate(test_loader, model, criterion, evaluation, cuda, int(args.log_interval))
+            
 if __name__ == '__main__':
     main()
