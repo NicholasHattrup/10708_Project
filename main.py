@@ -75,9 +75,9 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:15000])
-    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:100])
-    test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
+    train_lib = GraphLibrary(directory=root, filenames=train_ids)
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids)
+    test_lib = GraphLibrary(directory=root, filenames=test_ids)
     print("Building libraries took: ", dt.now() - t0)
 
     t0 = dt.now()
