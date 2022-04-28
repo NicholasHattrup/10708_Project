@@ -158,8 +158,8 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
     fragments = list(fragments.union(test_lib.fragment_library))
     linkages = list(linkages.union(test_lib.linkage_library))
 
-    frag_fps = node_pca.transform(smiles_to_fps(fragments))[:, :node_n]
-    link_fps = node_pca.transform(smiles_to_fps(linkages))[:, :edge_n]
+    frag_fps = node_pca.transform(smiles_to_fps(fragments), nBits)[:, :node_n]
+    link_fps = node_pca.transform(smiles_to_fps(linkages), nBits)[:, :edge_n]
 
     frag_fp_dict = {fragments[i]: frag_fps[i] for i in range(len(fragments))}
     link_fp_dict = {linkages[i]: link_fps[i] for i in range(len(linkages))}
