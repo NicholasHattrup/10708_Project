@@ -1,9 +1,8 @@
 import os, types
 from copy import deepcopy
 from sklearn.decomposition import PCA
-#from matplotlib.pyplot import get
 import numpy as np
-#import pandas as pd
+import torch.utils.data as data
 from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import GetSymmSSSR as SSSR
 from sklearn.decomposition import PCA
@@ -222,7 +221,7 @@ def fingerprint_pca(fp_list, n_comps):
     return crds
 
 
-class GraphLibrary(object):
+class GraphLibrary(data.Dataset):
     """A library collection of substucture graphs.
     """
     def __init__(self, directory="./data/qm9/xyz/", filenames=None, NodeConverter=None, EdgeConverter=None):
@@ -252,7 +251,11 @@ class GraphLibrary(object):
     def update_library(self, NodeConverter=None, EdgeConverter=None, DistanceConverter=None):
         for G in self.graph_library:
             G.update_graph(NodeConverter, EdgeConverter, DistanceConverter)
-    
+
+    def __getitem__(self, index):
+        pass
+
+
     def prepare_files(self):
         for G in self.graph_library:
             nodes = []
