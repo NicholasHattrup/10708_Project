@@ -1,27 +1,11 @@
-#!/usr/bin/python                                                                                                                                                                                               
-# -*- coding: utf-8 -*-
+from models import NNet, MPNN
 
-"""
-    MessageFunction.py: Propagates a message depending on two nodes and their common edge.
-
-    Usage:
-
-"""
-
-from __future__ import print_function
-
-# Own modules
-import datasets
-from models.nnet import NNet
-
-import numpy as np
-import os
-import argparse
-import time
 import torch
-
 import torch.nn as nn
 from torch.autograd.variable import Variable
+
+__author__ = "Pau Riba, Anjan Dutta"
+__email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat" 
 
 
 class MessageFunction(nn.Module):
@@ -197,81 +181,3 @@ class MessageFunction(nn.Module):
     def m_mgc(self, h_v, h_w, e_vw, args):
         m = e_vw
         return m
-    
-    # Laplacian based methods
-    # Bruna et al. (2013)
-    def m_bruna(self, h_v, h_w, e_vw, args):
-        # TODO
-        m = [] 
-        return m
-
-    # Defferrard et al. (2016)
-    def m_deff(self, h_v, h_w, e_vw, args):
-        # TODO
-        m = []
-        return m
-
-    # Kipf & Welling (2016)
-    def m_kipf(self, h_v, h_w, e_vw, args):
-        # TODO
-        m = []
-        return m
-
-if __name__ == '__main__':
-    # Parse optios for downloading
-    parser = argparse.ArgumentParser(description='QM9 Object.')
-    # Optional argument
-    parser.add_argument('--root', nargs=1, help='Specify the data directory.', default=['./data/qm9/dsgdb9nsd/'])
-
-    args = parser.parse_args()
-    root = args.root[0]
-
-    files = [f for f in os.listdir(root) if os.path.isfile(os.path.join(root, f))]
-
-    idx = np.random.permutation(len(files))
-    idx = idx.tolist()
-
-    valid_ids = [files[i] for i in idx[0:10000]]
-    test_ids  = [files[i] for i in idx[10000:20000]]
-    train_ids = [files[i] for i in idx[20000:]]
-
-    data_train = datasets.Qm9(root, train_ids)
-    data_valid = datasets.Qm9(root, valid_ids)
-    data_test = datasets.Qm9(root, test_ids)
-
-    # Define message
-    m = MessageFunction('duvenaud')
-
-    print(m.get_definition())
-
-    start = time.time()
-
-    # Select one graph
-    g_tuple, l = data_train[0]
-    g, h_t, e = g_tuple
-
-    m_t = {}
-    for v in g.nodes_iter():
-        neigh = g.neighbors(v)
-        m_neigh = type(h_t)
-        for w in neigh:
-            if (v,w) in e:
-                e_vw = e[(v, w)]
-            else:
-                e_vw = e[(w, v)]
-            m_v = m.forward(h_t[v], h_t[w], e_vw)
-            if len(m_neigh):
-                m_neigh += m_v
-            else:
-                m_neigh = m_v
-
-        m_t[v] = m_neigh
-
-    end = time.time()
-
-    print('Input nodes')
-    print(h_t)
-    print('Message')
-    print(m_t)
-    print('Time')
-    print(end - start)
