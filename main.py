@@ -14,7 +14,7 @@ from sklearn.decomposition import PCA
 import utils
 from utils import *
 from ChemGraph import *
-
+from sds import SDS
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
 
 parser.add_argument('--dataset', type=str, default='qm9',
@@ -75,9 +75,9 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids)
-    valid_lib = GraphLibrary(directory=root, filenames=valid_ids)
-    test_lib = GraphLibrary(directory=root, filenames=test_ids)
+    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:100])
+    valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:100])
+    test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
 
     t0 = dt.now()
@@ -94,6 +94,16 @@ def main():
 
     print(f"Congrats! PCA is done!")
 
+    print("Preparing files")
+    data_train = SDS(root, train_ids, train_lib)
+    data_valid = SDS(root, valid_ids, valid_lib)
+    data_test = SDS(root, test_ids, test_lib)
+
+    g_tuple, target = data_train[0]
+    g, nodes, edges = g_tuple
+
+    print("\t")
+    print(data_train[0])
 
 if __name__ == '__main__':
     main()
