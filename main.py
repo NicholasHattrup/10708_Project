@@ -83,19 +83,12 @@ def main():
     test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
 
-    t0 = dt.now()
-    KEY = train_lib.MD5
-    libs = [train_lib, valid_lib, test_lib]
+    KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]
     NodeConverter, EdgeConverter, DistanceConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
-    print("Establishing PCA took", dt.now() - t0)
 
-    t1 = dt.now()
     train_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     valid_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     test_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
-    print("Updating libraries took", dt.now()-t1)
-
-    print(f"Congrats! PCA is done!")
 
     data_train = SDS(root, train_ids, train_lib.graph_library)
     data_valid = SDS(root, valid_ids, valid_lib.graph_library)
