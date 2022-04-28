@@ -1,3 +1,4 @@
+import shutil
 import argparse
 import numpy as np
 import os, hashlib
@@ -216,3 +217,14 @@ def collate(batch):
     target = torch.FloatTensor(target)
 
     return g, nodes, edges, target
+
+def save_checkpoint(s, is_best, path):
+
+    if not os.path.isdir(path):
+        os.makedirs(path)
+    chkpt = os.path.join(path, 'checkpoint.pth')
+    best = os.path.join(path, 'model_best.pth')
+    torch.save(s, chkpt)
+    if is_best:
+        shutil.copyfile(chkpt, best)
+
