@@ -75,7 +75,7 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:100])
+    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:15000])
     valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:100])
     test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
@@ -95,9 +95,9 @@ def main():
     print(f"Congrats! PCA is done!")
 
     print("Preparing files")
-    data_train = SDS(root, train_ids, train_lib)
-    data_valid = SDS(root, valid_ids, valid_lib)
-    data_test = SDS(root, test_ids, test_lib)
+    data_train = SDS(root, train_ids, train_lib.graph_library)
+    data_valid = SDS(root, valid_ids, valid_lib.graph_library)
+    data_test = SDS(root, test_ids, test_lib.graph_library)
 
     g_tuple, target = data_train[0]
     g, nodes, edges = g_tuple

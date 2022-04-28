@@ -20,7 +20,7 @@ class SDS(data.Dataset):
                 for i in G.graph.nodes:
                     nodes.append(G.graph.nodes[i]['Features'])
                 for (a, b, f) in G.graph.edges.data('Features'):
-                    feat = deepcopy(f)
+                    feat = deepcopy(f).tolist()
                     feat.append(G.graph.edges[a, b]['Distance'])
                     edges[(a, b)] = feat
                 target = [G.graph.graph['Gap']]
