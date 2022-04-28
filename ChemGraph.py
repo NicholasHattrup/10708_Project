@@ -7,6 +7,7 @@ from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import GetSymmSSSR as SSSR
 from sklearn.decomposition import PCA
 import networkx as nx
+from utils import distance
 
 
 PTABLE = Chem.GetPeriodicTable()
@@ -137,9 +138,6 @@ class SubstructGraph(object):
 
             self.fragments.append(_smi)
             graph.nodes[i]['Smiles'] = _smi
-            # graph.nodes[i]['Molecule'] = _mol
-            # graph.nodes[i]['Atoms'] = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
-            # graph.nodes[i]['Coords'] = [self.coords[x] for x in graph.nodes[i]['AtomIdxs']]
             weights = [self.atomic_nums[x] for x in graph.nodes[i]['AtomIdxs']]
             coords = np.array([self.coords[x] for x in graph.nodes[i]['AtomIdxs']])
             graph.nodes[i]['WeightedCoords'] = list(np.average(coords, weights=weights, axis=0))
@@ -156,15 +154,10 @@ class SubstructGraph(object):
 
                     self.linkages.append(_smi)
                     graph.edges[a, b]['Smiles'] = _smi
-                    # graph.edges[a, b]['Molecule'] = _mol
-                    # graph.edges[a, b]['Atoms'] = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
-                    # graph.edges[a, b]['Coords'] = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
-                    # weights = [self.atomic_nums[x] for x in graph.edges[a, b]['AtomIdxs']]
-                    # coords = [self.coords[x] for x in graph.edges[a, b]['AtomIdxs']]
-                    # graph.edges[a, b]['WeightedCoords'] = list(np.average(coords, weights=weights, axis=0))
+                    graph.edges[a, b]["Distance"] = distance(graph.nodes[a]['WeightedCoords'], graph.nodes[b]['WeightedCoords'])
         return graph
     
-    def update_graph(self, NodeConverter=None, EdgeConverter=None):
+    def update_graph(self, NodeConverter=None, EdgeConverter=None, DistanceConverter=None):
         """Extract features from nodes and/or edges or update previous features.
 
         Args:
@@ -182,9 +175,15 @@ class SubstructGraph(object):
                 self.graph.edges[a, b]['Features'] = EdgeConverter(smi)
         elif EdgeConverter is not None:
             raise Exception("EdgeConverter is not a valid converting function.")
+        
+        if isinstance(DistanceConverter, types.FunctionType):
+            for (a, b, dist) in self.graph.edges.data('Distance'):
+                self.graph.edges[a, b]['Distance'] = EdgeConverter(dist)
+        elif DistanceConverter is not None:
+            raise Exception("DistanceConverter is not a valid converting function.")
     
     @staticmethod
-    def update_features(graph, NodeConverter=None, EdgeConverter=None):
+    def update_features(graph, NodeConverter=None, EdgeConverter=None, DistanceConverter=None):
         """Extract features from nodes and/or edges or update previous features.
 
         Args:
@@ -206,6 +205,12 @@ class SubstructGraph(object):
                 graph.edges[a, b]['Features'] = EdgeConverter(mol)
         elif EdgeConverter is not None:
             raise Exception("EdgeConverter is not a valid converting function.")
+        
+        if isinstance(DistanceConverter, types.FunctionType):
+            for (a, b, dist) in graph.edges.data('Distance'):
+                graph.edges[a, b]['Distance'] = EdgeConverter(dist)
+        elif DistanceConverter is not None:
+            raise Exception("DistanceConverter is not a valid converting function.")
         
         return graph
 
@@ -242,9 +247,24 @@ class GraphLibrary(object):
             self.fragment_library = self.fragment_library.union(fragments)
             self.linkage_library = self.linkage_library.union(linkages)
     
-    def update_library(self, NodeConverter=None, EdgeConverter=None):
+    def update_library(self, NodeConverter=None, EdgeConverter=None, DistanceConverter=None):
         for G in self.graph_library:
-            G.update_graph(NodeConverter, EdgeConverter)
+            G.update_graph(NodeConverter, EdgeConverter, DistanceConverter)
+    
+    def prepare_files(self):
+        self.preped_graphs = []
+
+        for G in self.graph_library:
+            nodes = []
+            edges = {}
+            graph = nx.to_numpy_matrix(G.graph)
+            for i in G.graph.nodes:
+                nodes.append(G.graph.nodes[i]['Features'])
+            for (a, b, f) in G.graph.edges.data('Features'):
+                edges[(a, b)] = f.append(G.edges[a,b]['Distance'])
+            target = G.graph.graph['Gap']
+            graph_tuple = (graph, nodes, edges, target)
+            self.preped_graphs.append(graph_tuple)
 
 
 if __name__ == '__main__':

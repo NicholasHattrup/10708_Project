@@ -109,7 +109,7 @@ def smiles_to_fps(smiles, nBits=1024):
     return [Chem.GetMorganFingerprintAsBitVect(mol,2,nBits=nBits) for mol in mols]
 
 
-def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=1024):
+def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=1024, nMax=[128,64]):
     train_lib, valid_lib, test_lib = libs
     node_n, edge_n = parse_n_pcs_arg(n_pcs_arg)
     node_pca, edge_pca = None, None
@@ -128,12 +128,12 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
     if node_pca is None:
         print(f"PCA model for nodes not found. Start training and saving...")
         train_frag_fps = smiles_to_fps(train_fragments, nBits)
-        node_pca = PCA(n_components=64).fit(train_frag_fps)
+        node_pca = PCA(n_components=nMax[0]).fit(train_frag_fps)
         dump(node_pca, modelPath+"node_"+verificationKey+".joblib")
     if edge_pca is None:
         print(f"PCA model for edges not found. Start training and saving...")
         train_link_fps = smiles_to_fps(train_linkages, nBits)
-        edge_pca = PCA(n_components=64).fit(train_link_fps)
+        edge_pca = PCA(n_components=nMax[1]).fit(train_link_fps)
         dump(node_pca, modelPath+"edge_"+verificationKey+".joblib")
     
     node_cev = [sum(node_pca.explained_variance_ratio_[:i]) for i in range(64)] # cummulative explained variance
@@ -167,7 +167,15 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
     def NodeConverter(x): return frag_fp_dict[x]
     def EdgeConverter(x): return link_fp_dict[x]
 
-    return NodeConverter, EdgeConverter
+    distances = [dist for G in train_lib.graph_library for (a,b,dist) in G.graph.edges.data('Distance')]
+    mean = np.mean(distances)
+    std = np.std(distances)
+    def DistanceConverter(x): return (x - mean) / std
+
+    return NodeConverter, EdgeConverter, DistanceConverter
 
       
-
+def distance(coord1, coord2):
+    coord1 = np.array([coord1])
+    coord2 = np.array([coord2])
+    return np.linalg.norm(coord1 - coord2)

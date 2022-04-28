@@ -26,7 +26,7 @@ parser.add_argument('--datasetSplitDone', type=bool, default=True,
 parser.add_argument('--splitRatio', type=str, default='10000_10000',
                     help='split ratio, *validation_test*, with automated train')
 parser.add_argument('--n-pcs', type=str, default='32_16',
-                    help='number of principle components to use, *node_edge*, float would be for explained variance ratio (max 64_48)')
+                    help='number of principle components to use, *node_edge*, float would be for explained variance ratio (max 128_64)')
 parser.add_argument('--pcPath', type=str, default='./data/qm9/xyz/',
                     help="path to pre-trained PCA model")
 parser.add_argument('--logPath', type=str, default='./log_raw_distance_noHs/qm9/mpnn/', help='log path')
@@ -83,7 +83,7 @@ def main():
     t0 = dt.now()
     KEY = GetMD5(train_ids)
     libs = [train_lib, valid_lib, test_lib]
-    NodeConverter, EdgeConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
+    NodeConverter, EdgeConverter, DistanceConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
     print("Establishing PCA took", dt.now() - t0)
 
     t1 = dt.now()
