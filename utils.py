@@ -109,7 +109,7 @@ def smiles_to_fps(smiles, nBits=1024):
     return [Chem.GetMorganFingerprintAsBitVect(mol,2,nBits=nBits) for mol in mols]
 
 
-def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=1024, nMax=[128,64]):
+def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", nBits=2048, nMax=[128,64]):
     train_lib, valid_lib, test_lib = libs
     node_n, edge_n = parse_n_pcs_arg(n_pcs_arg)
     node_pca, edge_pca = None, None

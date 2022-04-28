@@ -93,29 +93,6 @@ def main():
     print("Updating libraries took", dt.now()-t1)
 
     print(f"Congrats! PCA is done!")
-    sys.exit(0)
-
-    graph_lib = GraphLibrary(directory=root, filenames=train_ids[:100])
-    graph_lib.init_reduction()
-    fragments = graph_lib.fragment_library
-    linkages = graph_lib.linkage_library
-
-    t3 = dt.now()
-    frag_fps = [Chem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=1024) for smi in fragments]
-    link_fps = [Chem.GetMorganFingerprintAsBitVect(Chem.MolFromSmiles(smi),2,nBits=1024) for smi in linkages]
-
-    nc = 50
-    pca_frag = PCA().fit(frag_fps)
-    ratio_frag = pca_frag.explained_variance_ratio_[:nc]
-    print(ratio_frag)
-    print([sum(ratio_frag[:i+1]) for i in range(nc)])
-    pca_link = PCA().fit(link_fps)
-    ratio_link = pca_link.explained_variance_ratio_[:nc]
-    print(ratio_link)
-    print([sum(ratio_link[:i+1]) for i in range(nc)])
-
-    t4 = dt.now()
-    print(t4-t3)
 
 
 if __name__ == '__main__':
