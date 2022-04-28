@@ -16,7 +16,7 @@ import utils
 from utils import *
 from ChemGraph import *
 from sds import SDS
-from baselines.LogMetric import Logger, AverageMeter
+from LogMetric import Logger, AverageMeter
 from models import *
 
 def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, log_interval, logger):
