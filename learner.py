@@ -15,7 +15,6 @@ from sklearn.decomposition import PCA
 import utils
 from utils import *
 from ChemGraph import *
-from sds import SDS
 from LogMetric import Logger, AverageMeter
 
 def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, log_interval, logger):
