@@ -1,5 +1,6 @@
 from ChemGraph import *
 import torch.utils.data as data
+from copy import deepcopy
 
 class SDS(data.Dataset):
 
@@ -19,7 +20,9 @@ class SDS(data.Dataset):
                 for i in G.graph.nodes:
                     nodes.append(G.graph.nodes[i]['Features'])
                 for (a, b, f) in G.graph.edges.data('Features'):
-                    edges[(a, b)] = f + [G.graph.edges[a, b]['Distance']]
+                    feat = deepcopy(f)
+                    feat.append(G.graph.edges[a, b]['Distance'])
+                    edges[(a, b)] = feat
                 target = [G.graph.graph['Gap']]
                 break
 
