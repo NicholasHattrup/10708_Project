@@ -87,43 +87,29 @@ def main():
     test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
 
-    """
-    t0 = dt.now()
-    KEY = train_lib.MD5
-    libs = [train_lib, valid_lib, test_lib]
+    KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]
     NodeConverter, EdgeConverter, DistanceConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
-    print("Establishing PCA took", dt.now() - t0)
 
-    t1 = dt.now()
     train_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     valid_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     test_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
-    print("Updating libraries took", dt.now()-t1)
 
-    print(f"Congrats! PCA is done!")
-    """
-
-    data_train = SDS(root, train_ids[0:100], train_lib.graph_library)
-    data_valid = SDS(root, valid_ids[0:100], valid_lib.graph_library)
-    data_test = SDS(root, test_ids[0:100], test_lib.graph_library)
-    print("Dataset created")
-
-    train_loader = torch.utils.data.DataLoader(data_train,
+    train_loader = torch.utils.data.DataLoader(train_lib,
                                                batch_size=args.batch_size, shuffle=True,
                                                collate_fn=utils.collate,                                                                                                                                                                              
                                                num_workers=args.prefetch, pin_memory=True)
 
-    valid_loader = torch.utils.data.DataLoader(data_valid,
+    valid_loader = torch.utils.data.DataLoader(valid_lib,
                                                batch_size=args.batch_size, shuffle=True,
                                                collate_fn=utils.collate,                                                                                                                                                                              
                                                num_workers=args.prefetch, pin_memory=True)
 
-    test_loader = torch.utils.data.DataLoader(data_test,
+    test_loader = torch.utils.data.DataLoader(test_lib,
                                                batch_size=args.batch_size, shuffle=True,
                                                collate_fn=utils.collate,                                                                                                                                                                              
                                                num_workers=args.prefetch, pin_memory=True)
 
-    g_tuple, target = data_train[0]
+    g_tuple, target = train_lib[0]
     g, nodes, edges = g_tuple
     
     print('Creating Model',flush=True)
