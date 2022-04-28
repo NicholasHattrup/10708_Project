@@ -29,6 +29,5 @@ class SDS(data.Dataset):
 
         return (graph, nodes, edges), target
         
-        
     def __len__(self):
         return len(self.ids)

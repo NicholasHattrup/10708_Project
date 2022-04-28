@@ -4,6 +4,7 @@ import os, hashlib
 from rdkit.Chem import AllChem as Chem
 from sklearn.decomposition import PCA
 from joblib import dump, load
+import torch
 
 
 def float_bounds(bounds):
@@ -101,7 +102,7 @@ def parse_n_pcs_arg(n_pcs_arg):
     return n1, n2
 
 
-def smiles_to_fps(smiles, nBits=1024):
+def smiles_to_fps(smiles, nBits=2048):
     if isinstance(smiles, str):
         smiles = [smiles]
     mols = [Chem.MolFromSmiles(smi, sanitize=True) for smi in smiles]
@@ -176,8 +177,8 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
 
       
 def distance(coord1, coord2):
-    coord1 = np.array([coord1])
-    coord2 = np.array([coord2])
+    coord1 = np.array(coord1)
+    coord2 = np.array(coord2)
     return np.linalg.norm(coord1 - coord2)
 
 def collate(batch):
@@ -199,9 +200,8 @@ def collate(batch):
     target = np.zeros((len(batch), len(batch[0][1])))
 
     for i in range(len(batch)):
-
         n_nodes = len(batch[i][0][1])
-	g[i, 0:n_nodes, 0:n_nodes] = batch[i][0][0]
+        g[i, 0:n_nodes, 0:n_nodes] = batch[i][0][0]
         nodes[i, 0:n_nodes, :] = batch[i][0][1]
 
         for e in batch[i][0][2].keys():

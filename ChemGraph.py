@@ -119,6 +119,7 @@ class SubstructGraph(object):
         """
         graph = nx.Graph()  # initiate graph
         graph.graph["FilePath"] = self.filepath
+        graph.graph["Filename"] = self.filename
         graph.graph['Smiles'] = self.smi
         graph.graph['Gap'] = self.gap
 
@@ -253,25 +254,26 @@ class GraphLibrary(data.Dataset):
             G.update_graph(NodeConverter, EdgeConverter, DistanceConverter)
 
     def __getitem__(self, index):
-        pass
+        filename = self.get_filenames[index]
+        G = self.graph_library[index]
+        if G.graph.graph["Filename"] != filename:
+            raise ValueError("Filename {filename} mismatch, index {index}")
+        nodes, edges = [], {}
+        g = nx.to_numpy_matrix(G.graph)     # graph matrix
+        for i in G.graph.nodes:
+            nodes.append(G.graph.nodes[i]["Features"])
+        for (a, b, feat) in  G.graph.edges.data("Features"):
+            new_feat = deepcopy(feat).append(G.graph.edges[a,b]["Distance"])
+            edges[(a,b)] = new_feat
+        target = [G.graph.graph["Gap"]]
+        return (g, nodes, edges), target
+    
+    def __len__(self):
+        return len(self.filenames)
+    
+    def __str__(self):
+        return f"File directory: {self.directory}, {len(self.filenames)} xyz files, MD5({self.MD5})"
 
-
-    def prepare_files(self):
-        for G in self.graph_library:
-            nodes = []
-            edges = {}
-            graph = nx.to_numpy_matrix(G.graph)
-            for i in G.graph.nodes:
-                nodes.append(G.graph.nodes[i]['Features'])
-            for (a, b, f) in G.graph.edges.data('Features'):
-                feat = deepcopy(f)
-                feat.append(G.graph.edges[a, b]['Distance'])
-                edges[(a, b)] = feat
-
-            target = [G.graph.graph['Gap']]
-            graph_tuple = (graph, nodes, edges)
-
-            return graph_tuple, target 
 
 if __name__ == '__main__':
     import os
@@ -288,7 +290,9 @@ if __name__ == '__main__':
         G = SubstructGraph("./baselines/data/qm9/xyz/"+filepath)
         node_fp_list = []
         for i in G.graph.nodes:
-            node_m = G.graph.nodes[i]['Molecule']
+            smi = G.graph.nodes[i]['Smiles']
+            node_m = Chem.MolFromSmiles(smi, sanitize=True)
+            node_m = Chem.AddHs(node_m)
             node_fp = Chem.GetMorganFingerprintAsBitVect(node_m,2,nBits=1024)
             node_fp_list.append(node_fp)
         files_dict[n] = filepath

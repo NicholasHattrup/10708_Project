@@ -78,7 +78,7 @@ def main():
     valid_ids, test_ids, train_ids = split_files(split_path=split_path, files=files, args=args)
 
     t0 = dt.now()
-    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:100])
+    train_lib = GraphLibrary(directory=root, filenames=train_ids[0:20000])
     valid_lib = GraphLibrary(directory=root, filenames=valid_ids[0:100])
     test_lib = GraphLibrary(directory=root, filenames=test_ids[0:100])
     print("Building libraries took: ", dt.now() - t0)
@@ -90,26 +90,21 @@ def main():
     valid_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     test_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
 
-    data_train = SDS(root, train_ids, train_lib.graph_library)
-    data_valid = SDS(root, valid_ids, valid_lib.graph_library)
-    data_test = SDS(root, test_ids, test_lib.graph_library)
-    print("Dataset created")
+    train_loader = torch.utils.data.DataLoader(train_lib,
+                                            batch_size=args.batch_size, shuffle=True,
+                                            collate_fn=utils.collate,                                                                                                                                                                              
+                                            num_workers=args.prefetch, pin_memory=True)
 
-    train_loader = torch.utils.data.DataLoader(data_train,
-                                               batch_size=args.batch_size, shuffle=True,
-                                               collate_fn=utils.collate,                                                                                                                                                                              
-                                               num_workers=args.prefetch, pin_memory=True)
+    val_loader = torch.utils.data.DataLoader(valid_lib,
+                                            batch_size=args.batch_size, shuffle=True,
+                                            collate_fn=utils.collate,                                                                                                                                                                              
+                                            num_workers=args.prefetch, pin_memory=True)
 
-    val_loader = torch.utils.data.DataLoader(data_valid,
-                                               batch_size=args.batch_size, shuffle=True,
-                                               collate_fn=utils.collate,                                                                                                                                                                              
-                                               num_workers=args.prefetch, pin_memory=True)
-
-    test_loader = torch.utils.data.DataLoader(data_test,
-                                               batch_size=args.batch_size, shuffle=True,
-                                               collate_fn=utils.collate,                                                                                                                                                                              
-                                               num_workers=args.prefetch, pin_memory=True)
-
+    test_loader = torch.utils.data.DataLoader(test_lib,
+                                            batch_size=args.batch_size, shuffle=True,
+                                            collate_fn=utils.collate,                                                                                                                                                                              
+                                            num_workers=args.prefetch, pin_memory=True)
+    
     print('Creating Model',flush=True)
     in_n = [len(h_t[0]), len(list(e.values())[0])]
     hidden_state_size = 73
@@ -204,7 +199,7 @@ def train(train_loader, model, criterion, optimizer, epoch, evaluation, logger):
 
         if i % args.log_interval == 0 and i > 0:
 
-            print(f"Epoch #{epoch}: {i} batches out of {len(train_loader)}\n\tTime {batch_time.val:.3f}\tData {data_time.val:.3f} ({data_time.avg:.3f})"
+            print(f"Epoch #{epoch}: {i} batches out of {len(train_loader)}\n\tTime {batch_time.val:.3f}\tData {data_time.val:.3f} ({data_time.avg:.3f})")
             print('Epoch: [{0}][{1}/{2}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                   'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
@@ -238,6 +233,6 @@ def resume(args.resume):
         print("=> loaded best model '{}' (epoch {})".format(best_model_file, checkpoint['epoch']),flush=True)
     else:
         print("=> no best model found at '{}'".format(best_model_file),flush=True)
-            
+    
 if __name__ == '__main__':
     main()
