@@ -179,3 +179,40 @@ def distance(coord1, coord2):
     coord1 = np.array([coord1])
     coord2 = np.array([coord2])
     return np.linalg.norm(coord1 - coord2)
+
+def collate(batch):
+
+    # len(gt[1]) => number of nodes
+    # len(gt[1][0]) => size of feature vector (should always be largest)
+    # len(gt[2]) => number of edges
+    # len(gt[2][0]) => size of feature vector (should always be largest)
+
+    batch_sizes = np.max(np.array([[len(gt_b[1]), len(gt_b[1][0]), len(gt_b[2]), len(list(gt_b[2].values())[0])]
+                                if gt_b[2] else
+                                [len(gt_b[1]), len(gt_b[1][0]), 0,0]
+                                for (gt_b, t_b) in batch]), axis=0)
+
+    g = np.zeros((len(batch), batch_sizes[0], batch_sizes[0]))
+    nodes = np.zeros((len(batch), batch_sizes[0], batch_sizes[1]))
+    edges = np.zeros((len(batch), batch_sizes[0], batch_sizes[0], batch_sizes[3]))
+
+    target = np.zeros((len(batch), len(batch[0][1])))
+
+    for i in range(len(batch)):
+
+        n_nodes = len(batch[i][0][1])
+	g[i, 0:n_nodes, 0:n_nodes] = batch[i][0][0]
+        nodes[i, 0:n_nodes, :] = batch[i][0][1]
+
+        for e in batch[i][0][2].keys():
+            edges[i, e[0], e[1], :] = batch[i][0][2][e]
+            edges[i, e[1], e[0], :] = batch[i][0][2][e]
+
+        target[i, :] = batch[i][1]
+
+    g = torch.FloatTensor(g)
+    nodes = torch.FloatTensor(nodes)
+    edges = torch.FloatTensor(edges)
+    target = torch.FloatTensor(target)
+
+    return g, nodes, edges, target
