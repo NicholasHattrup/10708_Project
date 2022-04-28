@@ -263,7 +263,10 @@ class GraphLibrary(data.Dataset):
         for i in G.graph.nodes:
             nodes.append(G.graph.nodes[i]["Features"])
         for (a, b, feat) in  G.graph.edges.data("Features"):
-            new_feat = deepcopy(feat).append(G.graph.edges[a,b]["Distance"])
+            try:
+                new_feat = deepcopy(feat).append(G.graph.edges[a,b]["Distance"])
+            except:
+                new_feat = deepcopy(feat) + [G.graph.edges[a,b]["Distance"]]
             edges[(a,b)] = new_feat
         target = [G.graph.graph["Gap"]]
         return (g, nodes, edges), target
