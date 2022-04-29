@@ -97,7 +97,7 @@ class SubstructGraph(object):
         self.atoms, self.atomic_nums, self.coords = [], [], []
         with open(self.filepath, "r") as f:
             self.n_atoms_w_Hs = int(f.readline())
-            self.gap = float(f.readline().split()[-1])
+            self.gap = float(f.readline().split()[-1]) * 10
             for _ in range(self.n_atoms_w_Hs):
                 line = f.readline().split()
                 self.atoms.append(line[0])
