@@ -110,7 +110,7 @@ def main():
     print('Creating Model',flush=True)
     in_n = [node_n, edge_n+1] #[len(nodes[0]), len(list(edges.values())[0])]
     hidden_state_size = 73 # node_n + edge_n + 1  # 73
-    message_size =  node_n + edge_n + 1  # 73
+    message_size =  73 # node_n + edge_n + 1  # 73
     n_layers = 3
     l_target = 1    # len(target)
     type ='regression'
