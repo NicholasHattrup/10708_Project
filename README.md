@@ -8,3 +8,4 @@ We thank them for providing an invaluable starting point for a few inexperienced
 # Data
 The data used in this project can be downloaded [here](https://drive.google.com/file/d/11DR28EFbWWR_EKbVwr-RKMVeLwC2gYft/view?usp=sharing)
 
+After cloning the repo, unzip the downloaded zip file above in the directory `./data/qm9/`.
