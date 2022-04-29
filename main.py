@@ -109,10 +109,10 @@ def main():
     
     print('Creating Model',flush=True)
     in_n = [node_n, edge_n] #[len(nodes[0]), len(list(edges.values())[0])]
-    hidden_state_size = 73
-    message_size = 73
+    hidden_state_size = node_n + edge_n  # 73
+    message_size = node_n + edge_n  # 73
     n_layers = 3
-    l_target = len(target)
+    l_target = 1    # len(target)
     type ='regression'
     model = MPNN(in_n, hidden_state_size, message_size, n_layers, l_target, type=type)
     del in_n, hidden_state_size, message_size, n_layers, l_target, type
