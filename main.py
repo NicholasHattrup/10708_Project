@@ -108,7 +108,7 @@ def main():
     # g, nodes, edges = g_tuple
     
     print('Creating Model',flush=True)
-    in_n = node_n + edge_n #[len(nodes[0]), len(list(edges.values())[0])]
+    in_n = [node_n, edge_n] #[len(nodes[0]), len(list(edges.values())[0])]
     hidden_state_size = 73
     message_size = 73
     n_layers = 3

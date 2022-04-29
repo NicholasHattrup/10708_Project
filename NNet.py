@@ -6,12 +6,12 @@ import torch.nn.functional as F
 
 class NNet(nn.Module):
 
-    def __init__(self, n_in, n_out, hlayers=(128, 64), act_fn=torch.tanh):
+    def __init__(self, n_in, n_out, hlayers=(128, 256, 128), act_fn=torch.tanh):
         super(NNet, self).__init__()
         self.n_hlayers = len(hlayers)
-        self.fcs = nn.ModuleList([nn.Linear(n_in, hlayers[i]) if i == 0 else
-                                  nn.Linear(hlayers[i-1], n_out) if i == self.n_hlayers else
-                                  nn.Linear(hlayers[i-1], hlayers[i]) for i in range(self.n_hlayers+1)])
+        self.fcs = nn.ModuleList([nn.Linear(n_in, hlayers[i], bias=True) if i == 0 else
+                                  nn.Linear(hlayers[i-1], n_out, bias=True) if i == self.n_hlayers else
+                                  nn.Linear(hlayers[i-1], hlayers[i], bias=True) for i in range(self.n_hlayers+1)])
         self.act_fn = act_fn
 
     def forward(self, x):
