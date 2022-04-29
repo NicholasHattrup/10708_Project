@@ -17,7 +17,7 @@ from utils import *
 from ChemGraph import *
 from LogMetric import Logger, AverageMeter
 
-def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, log_interval, logger):
+def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, log_interval, logger=None):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -60,7 +60,7 @@ def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, lo
     print('Epoch: #{0} Avg Error Ratio {err.avg:.3f}; Average Loss {loss.avg:.3f}; Avg Time x Batch {b_time.avg:.3f}'
           .format(epoch, err=error_ratio, loss=losses, b_time=batch_time),flush=True)
 
-def validate(val_loader, model, criterion, evaluation, cuda, log_interval, logger, epoch=""):
+def validate(val_loader, model, criterion, evaluation, cuda, log_interval, logger=None, epoch=""):
     batch_time = AverageMeter()
     losses = AverageMeter()
     error_ratio = AverageMeter()
