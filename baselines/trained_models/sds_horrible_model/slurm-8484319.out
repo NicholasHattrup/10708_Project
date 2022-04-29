@@ -1,0 +1,906 @@
+Gathering dataset split information from baselines/data/qm9/
+Building libraries took:  0:45:27.300222
+Loading pre-trained PCA model for nodes...
+Loading pre-trained PCA model for edges...
+Number of PCs: node (32, 0.6419) 	 edge (16, 0.4894)
+Creating Model
+Creating optimizer
+Creating logger
+=> no best model found at './sds_model/qm9/mpnn/model_best.pth'
+check cuda
+	* cuda
+Epoch #0, batch 100 of 1139
+	Time 0.132 (average => 0.137)	Data 0.005 (average => 0.009)	Loss 0.0365 (average => 0.0351)	Error Ratio 0.6472 (average => 0.6005)
+Epoch #0, batch 200 of 1139
+	Time 0.131 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0416 (average => 0.0345)	Error Ratio 0.6298 (average => 0.5881)
+Epoch #0, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.007)	Loss 0.0335 (average => 0.0343)	Error Ratio 0.5646 (average => 0.5827)
+Epoch #0, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0368 (average => 0.0344)	Error Ratio 0.6286 (average => 0.5821)
+Epoch #0, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0353 (average => 0.0344)	Error Ratio 0.5795 (average => 0.5821)
+Epoch #0, batch 600 of 1139
+	Time 0.130 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0274 (average => 0.0343)	Error Ratio 0.4996 (average => 0.5796)
+Epoch #0, batch 700 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0338 (average => 0.0342)	Error Ratio 0.5720 (average => 0.5777)
+Epoch #0, batch 800 of 1139
+	Time 0.134 (average => 0.132)	Data 0.005 (average => 0.006)	Loss 0.0342 (average => 0.0341)	Error Ratio 0.5903 (average => 0.5765)
+Epoch #0, batch 900 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.006)	Loss 0.0314 (average => 0.0341)	Error Ratio 0.5466 (average => 0.5752)
+Epoch #0, batch 1000 of 1139
+	Time 0.132 (average => 0.132)	Data 0.005 (average => 0.006)	Loss 0.0346 (average => 0.0340)	Error Ratio 0.6160 (average => 0.5749)
+Epoch #0, batch 1100 of 1139
+	Time 0.132 (average => 0.132)	Data 0.005 (average => 0.006)	Loss 0.0344 (average => 0.0341)	Error Ratio 0.5848 (average => 0.5751)
+Epoch: #0 Avg Error Ratio 0.575; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.568; Average Loss 0.034
+Epoch #1, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0302 (average => 0.0338)	Error Ratio 0.5504 (average => 0.5697)
+Epoch #1, batch 200 of 1139
+	Time 0.133 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0253 (average => 0.0336)	Error Ratio 0.4841 (average => 0.5688)
+Epoch #1, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0357 (average => 0.0335)	Error Ratio 0.5781 (average => 0.5682)
+Epoch #1, batch 400 of 1139
+	Time 0.128 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0329 (average => 0.0337)	Error Ratio 0.5503 (average => 0.5685)
+Epoch #1, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0376 (average => 0.0338)	Error Ratio 0.6254 (average => 0.5688)
+Epoch #1, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0256 (average => 0.0338)	Error Ratio 0.4760 (average => 0.5686)
+Epoch #1, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0268 (average => 0.0338)	Error Ratio 0.5036 (average => 0.5681)
+Epoch #1, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0358 (average => 0.0338)	Error Ratio 0.6010 (average => 0.5680)
+Epoch #1, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0347 (average => 0.0338)	Error Ratio 0.5613 (average => 0.5682)
+Epoch #1, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0317 (average => 0.0339)	Error Ratio 0.5288 (average => 0.5687)
+Epoch #1, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0327 (average => 0.0339)	Error Ratio 0.5840 (average => 0.5692)
+Epoch: #1 Avg Error Ratio 0.569; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.572; Average Loss 0.034
+Epoch #2, batch 100 of 1139
+	Time 0.132 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0360 (average => 0.0335)	Error Ratio 0.5637 (average => 0.5660)
+Epoch #2, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0355 (average => 0.0337)	Error Ratio 0.5796 (average => 0.5660)
+Epoch #2, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0320 (average => 0.0338)	Error Ratio 0.5441 (average => 0.5673)
+Epoch #2, batch 400 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0400 (average => 0.0338)	Error Ratio 0.6239 (average => 0.5671)
+Epoch #2, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0331 (average => 0.0338)	Error Ratio 0.5262 (average => 0.5676)
+Epoch #2, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0345 (average => 0.0339)	Error Ratio 0.5781 (average => 0.5685)
+Epoch #2, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0454 (average => 0.0340)	Error Ratio 0.6784 (average => 0.5689)
+Epoch #2, batch 800 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0435 (average => 0.0340)	Error Ratio 0.6827 (average => 0.5693)
+Epoch #2, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0297 (average => 0.0339)	Error Ratio 0.5435 (average => 0.5690)
+Epoch #2, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0387 (average => 0.0339)	Error Ratio 0.5995 (average => 0.5689)
+Epoch #2, batch 1100 of 1139
+	Time 0.132 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0327 (average => 0.0339)	Error Ratio 0.5286 (average => 0.5684)
+Epoch: #2 Avg Error Ratio 0.568; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.566; Average Loss 0.034
+Epoch #3, batch 100 of 1139
+	Time 0.132 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0456 (average => 0.0338)	Error Ratio 0.6644 (average => 0.5679)
+Epoch #3, batch 200 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0259 (average => 0.0338)	Error Ratio 0.5018 (average => 0.5665)
+Epoch #3, batch 300 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0345 (average => 0.0337)	Error Ratio 0.5577 (average => 0.5662)
+Epoch #3, batch 400 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0419 (average => 0.0337)	Error Ratio 0.6220 (average => 0.5654)
+Epoch #3, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0300 (average => 0.0338)	Error Ratio 0.5796 (average => 0.5664)
+Epoch #3, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0319 (average => 0.0338)	Error Ratio 0.5215 (average => 0.5679)
+Epoch #3, batch 700 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0292 (average => 0.0339)	Error Ratio 0.4824 (average => 0.5687)
+Epoch #3, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0357 (average => 0.0340)	Error Ratio 0.5917 (average => 0.5696)
+Epoch #3, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0337 (average => 0.0339)	Error Ratio 0.5371 (average => 0.5687)
+Epoch #3, batch 1000 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0344 (average => 0.0339)	Error Ratio 0.5847 (average => 0.5680)
+Epoch #3, batch 1100 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0350 (average => 0.0338)	Error Ratio 0.5710 (average => 0.5677)
+Epoch: #3 Avg Error Ratio 0.568; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.574; Average Loss 0.034
+Epoch #4, batch 100 of 1139
+	Time 0.134 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0356 (average => 0.0340)	Error Ratio 0.6007 (average => 0.5715)
+Epoch #4, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0368 (average => 0.0340)	Error Ratio 0.5878 (average => 0.5706)
+Epoch #4, batch 300 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0307 (average => 0.0339)	Error Ratio 0.5345 (average => 0.5680)
+Epoch #4, batch 400 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0295 (average => 0.0338)	Error Ratio 0.5151 (average => 0.5681)
+Epoch #4, batch 500 of 1139
+	Time 0.128 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0316 (average => 0.0339)	Error Ratio 0.5580 (average => 0.5685)
+Epoch #4, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0309 (average => 0.0338)	Error Ratio 0.5482 (average => 0.5663)
+Epoch #4, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0333 (average => 0.0338)	Error Ratio 0.5537 (average => 0.5664)
+Epoch #4, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0325 (average => 0.0339)	Error Ratio 0.5418 (average => 0.5666)
+Epoch #4, batch 900 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0324 (average => 0.0339)	Error Ratio 0.5529 (average => 0.5678)
+Epoch #4, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0280 (average => 0.0339)	Error Ratio 0.4844 (average => 0.5670)
+Epoch #4, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0365 (average => 0.0338)	Error Ratio 0.6034 (average => 0.5670)
+Epoch: #4 Avg Error Ratio 0.567; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.567; Average Loss 0.034
+Epoch #5, batch 100 of 1139
+	Time 0.136 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0333 (average => 0.0337)	Error Ratio 0.5842 (average => 0.5661)
+Epoch #5, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0358 (average => 0.0339)	Error Ratio 0.5701 (average => 0.5707)
+Epoch #5, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0349 (average => 0.0339)	Error Ratio 0.6065 (average => 0.5707)
+Epoch #5, batch 400 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0336 (average => 0.0339)	Error Ratio 0.5467 (average => 0.5689)
+Epoch #5, batch 500 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0351 (average => 0.0338)	Error Ratio 0.5938 (average => 0.5667)
+Epoch #5, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0284 (average => 0.0337)	Error Ratio 0.5344 (average => 0.5662)
+Epoch #5, batch 700 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0366 (average => 0.0338)	Error Ratio 0.5889 (average => 0.5664)
+Epoch #5, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0376 (average => 0.0338)	Error Ratio 0.6201 (average => 0.5666)
+Epoch #5, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0330 (average => 0.0338)	Error Ratio 0.5122 (average => 0.5666)
+Epoch #5, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0340 (average => 0.0339)	Error Ratio 0.5262 (average => 0.5671)
+Epoch #5, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0306 (average => 0.0339)	Error Ratio 0.4961 (average => 0.5672)
+Epoch: #5 Avg Error Ratio 0.567; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.565; Average Loss 0.034
+Epoch #6, batch 100 of 1139
+	Time 0.132 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0389 (average => 0.0340)	Error Ratio 0.6476 (average => 0.5685)
+Epoch #6, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0368 (average => 0.0339)	Error Ratio 0.6192 (average => 0.5666)
+Epoch #6, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0329 (average => 0.0339)	Error Ratio 0.5693 (average => 0.5671)
+Epoch #6, batch 400 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0335 (average => 0.0338)	Error Ratio 0.5502 (average => 0.5665)
+Epoch #6, batch 500 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0334 (average => 0.0338)	Error Ratio 0.5495 (average => 0.5650)
+Epoch #6, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0311 (average => 0.0338)	Error Ratio 0.5431 (average => 0.5658)
+Epoch #6, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0301 (average => 0.0338)	Error Ratio 0.4891 (average => 0.5657)
+Epoch #6, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0342 (average => 0.0338)	Error Ratio 0.5635 (average => 0.5652)
+Epoch #6, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0336 (average => 0.0338)	Error Ratio 0.5496 (average => 0.5653)
+Epoch #6, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0373 (average => 0.0338)	Error Ratio 0.6195 (average => 0.5658)
+Epoch #6, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0391 (average => 0.0338)	Error Ratio 0.6293 (average => 0.5661)
+Epoch: #6 Avg Error Ratio 0.566; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.565; Average Loss 0.034
+Epoch #7, batch 100 of 1139
+	Time 0.131 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0269 (average => 0.0336)	Error Ratio 0.4668 (average => 0.5631)
+Epoch #7, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0342 (average => 0.0338)	Error Ratio 0.5925 (average => 0.5649)
+Epoch #7, batch 300 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0298 (average => 0.0337)	Error Ratio 0.5302 (average => 0.5657)
+Epoch #7, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0370 (average => 0.0337)	Error Ratio 0.6109 (average => 0.5650)
+Epoch #7, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0311 (average => 0.0337)	Error Ratio 0.5606 (average => 0.5648)
+Epoch #7, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0356 (average => 0.0338)	Error Ratio 0.6290 (average => 0.5663)
+Epoch #7, batch 700 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0356 (average => 0.0339)	Error Ratio 0.5921 (average => 0.5670)
+Epoch #7, batch 800 of 1139
+	Time 0.133 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0296 (average => 0.0339)	Error Ratio 0.5177 (average => 0.5667)
+Epoch #7, batch 900 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0282 (average => 0.0339)	Error Ratio 0.5091 (average => 0.5665)
+Epoch #7, batch 1000 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0280 (average => 0.0338)	Error Ratio 0.5107 (average => 0.5657)
+Epoch #7, batch 1100 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0343 (average => 0.0338)	Error Ratio 0.6049 (average => 0.5658)
+Epoch: #7 Avg Error Ratio 0.566; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.565; Average Loss 0.034
+Epoch #8, batch 100 of 1139
+	Time 0.134 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0258 (average => 0.0343)	Error Ratio 0.4746 (average => 0.5708)
+Epoch #8, batch 200 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0326 (average => 0.0342)	Error Ratio 0.5360 (average => 0.5680)
+Epoch #8, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0394 (average => 0.0340)	Error Ratio 0.5846 (average => 0.5670)
+Epoch #8, batch 400 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0349 (average => 0.0341)	Error Ratio 0.6140 (average => 0.5676)
+Epoch #8, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0332 (average => 0.0340)	Error Ratio 0.5648 (average => 0.5667)
+Epoch #8, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0330 (average => 0.0340)	Error Ratio 0.5415 (average => 0.5663)
+Epoch #8, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0285 (average => 0.0339)	Error Ratio 0.5275 (average => 0.5661)
+Epoch #8, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0320 (average => 0.0338)	Error Ratio 0.5628 (average => 0.5651)
+Epoch #8, batch 900 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0313 (average => 0.0338)	Error Ratio 0.4929 (average => 0.5643)
+Epoch #8, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0302 (average => 0.0338)	Error Ratio 0.5289 (average => 0.5649)
+Epoch #8, batch 1100 of 1139
+	Time 0.137 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0355 (average => 0.0338)	Error Ratio 0.5904 (average => 0.5652)
+Epoch: #8 Avg Error Ratio 0.565; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.565; Average Loss 0.034
+Epoch #9, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0321 (average => 0.0338)	Error Ratio 0.5519 (average => 0.5696)
+Epoch #9, batch 200 of 1139
+	Time 0.135 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0385 (average => 0.0339)	Error Ratio 0.6148 (average => 0.5682)
+Epoch #9, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0325 (average => 0.0339)	Error Ratio 0.5284 (average => 0.5682)
+Epoch #9, batch 400 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0329 (average => 0.0339)	Error Ratio 0.5642 (average => 0.5669)
+Epoch #9, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0366 (average => 0.0338)	Error Ratio 0.5958 (average => 0.5663)
+Epoch #9, batch 600 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0326 (average => 0.0339)	Error Ratio 0.5863 (average => 0.5663)
+Epoch #9, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0327 (average => 0.0340)	Error Ratio 0.5938 (average => 0.5665)
+Epoch #9, batch 800 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0317 (average => 0.0339)	Error Ratio 0.5572 (average => 0.5649)
+Epoch #9, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0353 (average => 0.0338)	Error Ratio 0.5957 (average => 0.5647)
+Epoch #9, batch 1000 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0267 (average => 0.0338)	Error Ratio 0.5095 (average => 0.5647)
+Epoch #9, batch 1100 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0383 (average => 0.0338)	Error Ratio 0.6460 (average => 0.5651)
+Epoch: #9 Avg Error Ratio 0.565; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.564; Average Loss 0.034
+Epoch #10, batch 100 of 1139
+	Time 0.132 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0359 (average => 0.0341)	Error Ratio 0.6039 (average => 0.5665)
+Epoch #10, batch 200 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0310 (average => 0.0342)	Error Ratio 0.5714 (average => 0.5690)
+Epoch #10, batch 300 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0425 (average => 0.0340)	Error Ratio 0.6148 (average => 0.5682)
+Epoch #10, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0373 (average => 0.0340)	Error Ratio 0.6247 (average => 0.5681)
+Epoch #10, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0322 (average => 0.0339)	Error Ratio 0.5479 (average => 0.5659)
+Epoch #10, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0342 (average => 0.0338)	Error Ratio 0.5815 (average => 0.5648)
+Epoch #10, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0295 (average => 0.0338)	Error Ratio 0.4993 (average => 0.5648)
+Epoch #10, batch 800 of 1139
+	Time 0.135 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0338 (average => 0.0338)	Error Ratio 0.5644 (average => 0.5649)
+Epoch #10, batch 900 of 1139
+	Time 0.132 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0320 (average => 0.0338)	Error Ratio 0.5112 (average => 0.5647)
+Epoch #10, batch 1000 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0326 (average => 0.0338)	Error Ratio 0.5402 (average => 0.5650)
+Epoch #10, batch 1100 of 1139
+	Time 0.132 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0366 (average => 0.0338)	Error Ratio 0.5815 (average => 0.5650)
+Epoch: #10 Avg Error Ratio 0.565; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.564; Average Loss 0.034
+Epoch #11, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0354 (average => 0.0337)	Error Ratio 0.6080 (average => 0.5658)
+Epoch #11, batch 200 of 1139
+	Time 0.134 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0294 (average => 0.0335)	Error Ratio 0.5341 (average => 0.5607)
+Epoch #11, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0306 (average => 0.0335)	Error Ratio 0.5556 (average => 0.5602)
+Epoch #11, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0388 (average => 0.0336)	Error Ratio 0.6273 (average => 0.5619)
+Epoch #11, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0323 (average => 0.0337)	Error Ratio 0.5664 (average => 0.5627)
+Epoch #11, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0311 (average => 0.0337)	Error Ratio 0.5262 (average => 0.5629)
+Epoch #11, batch 700 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0333 (average => 0.0337)	Error Ratio 0.5616 (average => 0.5633)
+Epoch #11, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0327 (average => 0.0337)	Error Ratio 0.5477 (average => 0.5636)
+Epoch #11, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0391 (average => 0.0337)	Error Ratio 0.6293 (average => 0.5639)
+Epoch #11, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0383 (average => 0.0338)	Error Ratio 0.6688 (average => 0.5649)
+Epoch #11, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0259 (average => 0.0338)	Error Ratio 0.5403 (average => 0.5650)
+Epoch: #11 Avg Error Ratio 0.565; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.565; Average Loss 0.034
+Epoch #12, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0381 (average => 0.0337)	Error Ratio 0.5886 (average => 0.5639)
+Epoch #12, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0319 (average => 0.0337)	Error Ratio 0.5252 (average => 0.5656)
+Epoch #12, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0329 (average => 0.0337)	Error Ratio 0.5762 (average => 0.5644)
+Epoch #12, batch 400 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0369 (average => 0.0338)	Error Ratio 0.6281 (average => 0.5652)
+Epoch #12, batch 500 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0322 (average => 0.0338)	Error Ratio 0.5769 (average => 0.5644)
+Epoch #12, batch 600 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0282 (average => 0.0338)	Error Ratio 0.5519 (average => 0.5640)
+Epoch #12, batch 700 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0277 (average => 0.0338)	Error Ratio 0.5403 (average => 0.5643)
+Epoch #12, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0315 (average => 0.0337)	Error Ratio 0.5165 (average => 0.5629)
+Epoch #12, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0323 (average => 0.0337)	Error Ratio 0.5694 (average => 0.5635)
+Epoch #12, batch 1000 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0292 (average => 0.0338)	Error Ratio 0.5150 (average => 0.5640)
+Epoch #12, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0309 (average => 0.0338)	Error Ratio 0.5518 (average => 0.5646)
+Epoch: #12 Avg Error Ratio 0.564; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.565; Average Loss 0.034
+Epoch #13, batch 100 of 1139
+	Time 0.132 (average => 0.137)	Data 0.005 (average => 0.007)	Loss 0.0370 (average => 0.0344)	Error Ratio 0.6524 (average => 0.5723)
+Epoch #13, batch 200 of 1139
+	Time 0.131 (average => 0.135)	Data 0.004 (average => 0.006)	Loss 0.0434 (average => 0.0339)	Error Ratio 0.6604 (average => 0.5655)
+Epoch #13, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0318 (average => 0.0339)	Error Ratio 0.5065 (average => 0.5658)
+Epoch #13, batch 400 of 1139
+	Time 0.130 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0364 (average => 0.0339)	Error Ratio 0.5725 (average => 0.5644)
+Epoch #13, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0340 (average => 0.0337)	Error Ratio 0.6000 (average => 0.5626)
+Epoch #13, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0384 (average => 0.0338)	Error Ratio 0.6359 (average => 0.5638)
+Epoch #13, batch 700 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0396 (average => 0.0337)	Error Ratio 0.5853 (average => 0.5632)
+Epoch #13, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0357 (average => 0.0337)	Error Ratio 0.6376 (average => 0.5630)
+Epoch #13, batch 900 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0337 (average => 0.0338)	Error Ratio 0.5532 (average => 0.5639)
+Epoch #13, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0329 (average => 0.0337)	Error Ratio 0.5321 (average => 0.5638)
+Epoch #13, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0345 (average => 0.0338)	Error Ratio 0.6161 (average => 0.5641)
+Epoch: #13 Avg Error Ratio 0.564; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.564; Average Loss 0.034
+Epoch #14, batch 100 of 1139
+	Time 0.136 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0356 (average => 0.0329)	Error Ratio 0.5804 (average => 0.5527)
+Epoch #14, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0341 (average => 0.0332)	Error Ratio 0.5790 (average => 0.5568)
+Epoch #14, batch 300 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0309 (average => 0.0334)	Error Ratio 0.5364 (average => 0.5591)
+Epoch #14, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0369 (average => 0.0336)	Error Ratio 0.6018 (average => 0.5609)
+Epoch #14, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0351 (average => 0.0336)	Error Ratio 0.5904 (average => 0.5614)
+Epoch #14, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0314 (average => 0.0337)	Error Ratio 0.5817 (average => 0.5631)
+Epoch #14, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0300 (average => 0.0338)	Error Ratio 0.5586 (average => 0.5640)
+Epoch #14, batch 800 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0373 (average => 0.0338)	Error Ratio 0.5563 (average => 0.5637)
+Epoch #14, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0363 (average => 0.0338)	Error Ratio 0.5859 (average => 0.5644)
+Epoch #14, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0345 (average => 0.0338)	Error Ratio 0.5642 (average => 0.5641)
+Epoch #14, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0329 (average => 0.0338)	Error Ratio 0.5574 (average => 0.5636)
+Epoch: #14 Avg Error Ratio 0.564; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.563; Average Loss 0.034
+Epoch #15, batch 100 of 1139
+	Time 0.137 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0428 (average => 0.0336)	Error Ratio 0.6646 (average => 0.5621)
+Epoch #15, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0331 (average => 0.0339)	Error Ratio 0.5115 (average => 0.5630)
+Epoch #15, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0355 (average => 0.0338)	Error Ratio 0.5307 (average => 0.5627)
+Epoch #15, batch 400 of 1139
+	Time 0.136 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0323 (average => 0.0337)	Error Ratio 0.5688 (average => 0.5618)
+Epoch #15, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0323 (average => 0.0338)	Error Ratio 0.5303 (average => 0.5628)
+Epoch #15, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0328 (average => 0.0338)	Error Ratio 0.5547 (average => 0.5634)
+Epoch #15, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0240 (average => 0.0338)	Error Ratio 0.4546 (average => 0.5638)
+Epoch #15, batch 800 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0335 (average => 0.0337)	Error Ratio 0.5695 (average => 0.5630)
+Epoch #15, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0372 (average => 0.0338)	Error Ratio 0.6055 (average => 0.5638)
+Epoch #15, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0317 (average => 0.0338)	Error Ratio 0.5101 (average => 0.5639)
+Epoch #15, batch 1100 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0320 (average => 0.0338)	Error Ratio 0.5595 (average => 0.5637)
+Epoch: #15 Avg Error Ratio 0.564; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.563; Average Loss 0.034
+Epoch #16, batch 100 of 1139
+	Time 0.131 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0289 (average => 0.0343)	Error Ratio 0.4831 (average => 0.5657)
+Epoch #16, batch 200 of 1139
+	Time 0.134 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0355 (average => 0.0340)	Error Ratio 0.5767 (average => 0.5622)
+Epoch #16, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0383 (average => 0.0340)	Error Ratio 0.5987 (average => 0.5643)
+Epoch #16, batch 400 of 1139
+	Time 0.135 (average => 0.134)	Data 0.004 (average => 0.006)	Loss 0.0345 (average => 0.0340)	Error Ratio 0.5794 (average => 0.5666)
+Epoch #16, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0326 (average => 0.0340)	Error Ratio 0.5439 (average => 0.5660)
+Epoch #16, batch 600 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0300 (average => 0.0339)	Error Ratio 0.5205 (average => 0.5655)
+Epoch #16, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0359 (average => 0.0339)	Error Ratio 0.6067 (average => 0.5643)
+Epoch #16, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0246 (average => 0.0338)	Error Ratio 0.4622 (average => 0.5635)
+Epoch #16, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0321 (average => 0.0338)	Error Ratio 0.5352 (average => 0.5636)
+Epoch #16, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0334 (average => 0.0338)	Error Ratio 0.5667 (average => 0.5637)
+Epoch #16, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0318 (average => 0.0338)	Error Ratio 0.5369 (average => 0.5636)
+Epoch: #16 Avg Error Ratio 0.563; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.566; Average Loss 0.034
+Epoch #17, batch 100 of 1139
+	Time 0.132 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0377 (average => 0.0343)	Error Ratio 0.6154 (average => 0.5653)
+Epoch #17, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0351 (average => 0.0341)	Error Ratio 0.5647 (average => 0.5644)
+Epoch #17, batch 300 of 1139
+	Time 0.134 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0280 (average => 0.0340)	Error Ratio 0.5270 (average => 0.5637)
+Epoch #17, batch 400 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0342 (average => 0.0341)	Error Ratio 0.5331 (average => 0.5651)
+Epoch #17, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0357 (average => 0.0340)	Error Ratio 0.5927 (average => 0.5645)
+Epoch #17, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0334 (average => 0.0339)	Error Ratio 0.5646 (average => 0.5637)
+Epoch #17, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0335 (average => 0.0338)	Error Ratio 0.5593 (average => 0.5626)
+Epoch #17, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0343 (average => 0.0338)	Error Ratio 0.5747 (average => 0.5628)
+Epoch #17, batch 900 of 1139
+	Time 0.135 (average => 0.133)	Data 0.004 (average => 0.005)	Loss 0.0354 (average => 0.0338)	Error Ratio 0.5565 (average => 0.5636)
+Epoch #17, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0352 (average => 0.0338)	Error Ratio 0.5909 (average => 0.5635)
+Epoch #17, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0328 (average => 0.0338)	Error Ratio 0.5221 (average => 0.5632)
+Epoch: #17 Avg Error Ratio 0.563; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.563; Average Loss 0.034
+Epoch #18, batch 100 of 1139
+	Time 0.134 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0299 (average => 0.0335)	Error Ratio 0.5193 (average => 0.5573)
+Epoch #18, batch 200 of 1139
+	Time 0.132 (average => 0.143)	Data 0.005 (average => 0.006)	Loss 0.0343 (average => 0.0338)	Error Ratio 0.5715 (average => 0.5625)
+Epoch #18, batch 300 of 1139
+	Time 0.135 (average => 0.140)	Data 0.005 (average => 0.006)	Loss 0.0277 (average => 0.0338)	Error Ratio 0.4879 (average => 0.5635)
+Epoch #18, batch 400 of 1139
+	Time 0.129 (average => 0.138)	Data 0.005 (average => 0.006)	Loss 0.0308 (average => 0.0338)	Error Ratio 0.5571 (average => 0.5634)
+Epoch #18, batch 500 of 1139
+	Time 0.132 (average => 0.137)	Data 0.005 (average => 0.005)	Loss 0.0339 (average => 0.0338)	Error Ratio 0.5623 (average => 0.5639)
+Epoch #18, batch 600 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.005)	Loss 0.0385 (average => 0.0338)	Error Ratio 0.6546 (average => 0.5641)
+Epoch #18, batch 700 of 1139
+	Time 0.135 (average => 0.136)	Data 0.005 (average => 0.005)	Loss 0.0324 (average => 0.0338)	Error Ratio 0.5264 (average => 0.5639)
+Epoch #18, batch 800 of 1139
+	Time 0.132 (average => 0.135)	Data 0.005 (average => 0.005)	Loss 0.0328 (average => 0.0339)	Error Ratio 0.5294 (average => 0.5651)
+Epoch #18, batch 900 of 1139
+	Time 0.132 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0401 (average => 0.0338)	Error Ratio 0.6236 (average => 0.5643)
+Epoch #18, batch 1000 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.006)	Loss 0.0322 (average => 0.0338)	Error Ratio 0.5466 (average => 0.5637)
+Epoch #18, batch 1100 of 1139
+	Time 0.132 (average => 0.136)	Data 0.005 (average => 0.006)	Loss 0.0384 (average => 0.0338)	Error Ratio 0.6105 (average => 0.5635)
+Epoch: #18 Avg Error Ratio 0.563; Average Loss 0.034; Avg Time x Batch 0.136
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #19, batch 100 of 1139
+	Time 0.137 (average => 0.137)	Data 0.005 (average => 0.007)	Loss 0.0268 (average => 0.0331)	Error Ratio 0.5170 (average => 0.5519)
+Epoch #19, batch 200 of 1139
+	Time 0.136 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0320 (average => 0.0334)	Error Ratio 0.5389 (average => 0.5565)
+Epoch #19, batch 300 of 1139
+	Time 0.133 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0317 (average => 0.0335)	Error Ratio 0.5391 (average => 0.5588)
+Epoch #19, batch 400 of 1139
+	Time 0.134 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0416 (average => 0.0337)	Error Ratio 0.6335 (average => 0.5603)
+Epoch #19, batch 500 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0281 (average => 0.0338)	Error Ratio 0.4910 (average => 0.5616)
+Epoch #19, batch 600 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0352 (average => 0.0338)	Error Ratio 0.5687 (average => 0.5626)
+Epoch #19, batch 700 of 1139
+	Time 0.134 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0346 (average => 0.0338)	Error Ratio 0.5761 (average => 0.5622)
+Epoch #19, batch 800 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0363 (average => 0.0338)	Error Ratio 0.6304 (average => 0.5630)
+Epoch #19, batch 900 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0273 (average => 0.0337)	Error Ratio 0.4892 (average => 0.5621)
+Epoch #19, batch 1000 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0285 (average => 0.0337)	Error Ratio 0.5364 (average => 0.5623)
+Epoch #19, batch 1100 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0350 (average => 0.0338)	Error Ratio 0.5781 (average => 0.5627)
+Epoch: #19 Avg Error Ratio 0.563; Average Loss 0.034; Avg Time x Batch 0.134
+ * Average Error Ratio 0.563; Average Loss 0.034
+Epoch #20, batch 100 of 1139
+	Time 0.132 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0311 (average => 0.0342)	Error Ratio 0.5537 (average => 0.5667)
+Epoch #20, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0301 (average => 0.0338)	Error Ratio 0.5882 (average => 0.5629)
+Epoch #20, batch 300 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0247 (average => 0.0338)	Error Ratio 0.4340 (average => 0.5627)
+Epoch #20, batch 400 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0337 (average => 0.0337)	Error Ratio 0.5363 (average => 0.5609)
+Epoch #20, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0340 (average => 0.0336)	Error Ratio 0.5520 (average => 0.5603)
+Epoch #20, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0333 (average => 0.0336)	Error Ratio 0.5752 (average => 0.5605)
+Epoch #20, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0320 (average => 0.0337)	Error Ratio 0.5522 (average => 0.5613)
+Epoch #20, batch 800 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0385 (average => 0.0338)	Error Ratio 0.5855 (average => 0.5623)
+Epoch #20, batch 900 of 1139
+	Time 0.141 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0307 (average => 0.0337)	Error Ratio 0.5237 (average => 0.5624)
+Epoch #20, batch 1000 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0322 (average => 0.0337)	Error Ratio 0.5850 (average => 0.5621)
+Epoch #20, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0329 (average => 0.0338)	Error Ratio 0.5712 (average => 0.5622)
+Epoch: #20 Avg Error Ratio 0.562; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.563; Average Loss 0.034
+Epoch #21, batch 100 of 1139
+	Time 0.134 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0342 (average => 0.0336)	Error Ratio 0.5613 (average => 0.5589)
+Epoch #21, batch 200 of 1139
+	Time 0.132 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0315 (average => 0.0339)	Error Ratio 0.5014 (average => 0.5635)
+Epoch #21, batch 300 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0299 (average => 0.0336)	Error Ratio 0.5440 (average => 0.5598)
+Epoch #21, batch 400 of 1139
+	Time 0.135 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0374 (average => 0.0336)	Error Ratio 0.5859 (average => 0.5599)
+Epoch #21, batch 500 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0312 (average => 0.0337)	Error Ratio 0.5304 (average => 0.5610)
+Epoch #21, batch 600 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0358 (average => 0.0338)	Error Ratio 0.6101 (average => 0.5621)
+Epoch #21, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0368 (average => 0.0337)	Error Ratio 0.6038 (average => 0.5620)
+Epoch #21, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0316 (average => 0.0337)	Error Ratio 0.5443 (average => 0.5616)
+Epoch #21, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0242 (average => 0.0337)	Error Ratio 0.4063 (average => 0.5615)
+Epoch #21, batch 1000 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0265 (average => 0.0337)	Error Ratio 0.4852 (average => 0.5615)
+Epoch #21, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0349 (average => 0.0338)	Error Ratio 0.5809 (average => 0.5621)
+Epoch: #21 Avg Error Ratio 0.562; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.563; Average Loss 0.034
+Epoch #22, batch 100 of 1139
+	Time 0.134 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0356 (average => 0.0336)	Error Ratio 0.5814 (average => 0.5614)
+Epoch #22, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0300 (average => 0.0336)	Error Ratio 0.4645 (average => 0.5598)
+Epoch #22, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0371 (average => 0.0336)	Error Ratio 0.6189 (average => 0.5591)
+Epoch #22, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0412 (average => 0.0338)	Error Ratio 0.6497 (average => 0.5616)
+Epoch #22, batch 500 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0390 (average => 0.0339)	Error Ratio 0.5995 (average => 0.5626)
+Epoch #22, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0335 (average => 0.0338)	Error Ratio 0.5679 (average => 0.5614)
+Epoch #22, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0347 (average => 0.0338)	Error Ratio 0.5786 (average => 0.5621)
+Epoch #22, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0368 (average => 0.0339)	Error Ratio 0.6123 (average => 0.5629)
+Epoch #22, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0337 (average => 0.0339)	Error Ratio 0.5633 (average => 0.5627)
+Epoch #22, batch 1000 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0352 (average => 0.0338)	Error Ratio 0.5892 (average => 0.5620)
+Epoch #22, batch 1100 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0405 (average => 0.0338)	Error Ratio 0.6425 (average => 0.5620)
+Epoch: #22 Avg Error Ratio 0.562; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #23, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0293 (average => 0.0338)	Error Ratio 0.4992 (average => 0.5620)
+Epoch #23, batch 200 of 1139
+	Time 0.135 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0336 (average => 0.0338)	Error Ratio 0.5461 (average => 0.5633)
+Epoch #23, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0309 (average => 0.0336)	Error Ratio 0.5643 (average => 0.5598)
+Epoch #23, batch 400 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0303 (average => 0.0335)	Error Ratio 0.5481 (average => 0.5593)
+Epoch #23, batch 500 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0386 (average => 0.0334)	Error Ratio 0.6121 (average => 0.5586)
+Epoch #23, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.004 (average => 0.005)	Loss 0.0350 (average => 0.0336)	Error Ratio 0.5579 (average => 0.5608)
+Epoch #23, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0306 (average => 0.0337)	Error Ratio 0.5449 (average => 0.5609)
+Epoch #23, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0285 (average => 0.0337)	Error Ratio 0.4968 (average => 0.5610)
+Epoch #23, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0362 (average => 0.0337)	Error Ratio 0.6151 (average => 0.5611)
+Epoch #23, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0290 (average => 0.0337)	Error Ratio 0.4721 (average => 0.5611)
+Epoch #23, batch 1100 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0275 (average => 0.0338)	Error Ratio 0.4944 (average => 0.5618)
+Epoch: #23 Avg Error Ratio 0.562; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #24, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0325 (average => 0.0339)	Error Ratio 0.5040 (average => 0.5649)
+Epoch #24, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0364 (average => 0.0338)	Error Ratio 0.5961 (average => 0.5603)
+Epoch #24, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0301 (average => 0.0337)	Error Ratio 0.4920 (average => 0.5592)
+Epoch #24, batch 400 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0312 (average => 0.0339)	Error Ratio 0.5303 (average => 0.5621)
+Epoch #24, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0298 (average => 0.0338)	Error Ratio 0.5223 (average => 0.5621)
+Epoch #24, batch 600 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0338 (average => 0.0338)	Error Ratio 0.5660 (average => 0.5615)
+Epoch #24, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0330 (average => 0.0338)	Error Ratio 0.5488 (average => 0.5613)
+Epoch #24, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0419 (average => 0.0338)	Error Ratio 0.6361 (average => 0.5615)
+Epoch #24, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0368 (average => 0.0338)	Error Ratio 0.6388 (average => 0.5620)
+Epoch #24, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0324 (average => 0.0338)	Error Ratio 0.5499 (average => 0.5622)
+Epoch #24, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0290 (average => 0.0338)	Error Ratio 0.4901 (average => 0.5616)
+Epoch: #24 Avg Error Ratio 0.562; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #25, batch 100 of 1139
+	Time 0.131 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0281 (average => 0.0338)	Error Ratio 0.5247 (average => 0.5626)
+Epoch #25, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0278 (average => 0.0337)	Error Ratio 0.4485 (average => 0.5602)
+Epoch #25, batch 300 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0315 (average => 0.0335)	Error Ratio 0.5345 (average => 0.5589)
+Epoch #25, batch 400 of 1139
+	Time 0.130 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0307 (average => 0.0337)	Error Ratio 0.5018 (average => 0.5620)
+Epoch #25, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0372 (average => 0.0338)	Error Ratio 0.5947 (average => 0.5623)
+Epoch #25, batch 600 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0364 (average => 0.0338)	Error Ratio 0.5761 (average => 0.5621)
+Epoch #25, batch 700 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0310 (average => 0.0337)	Error Ratio 0.5268 (average => 0.5611)
+Epoch #25, batch 800 of 1139
+	Time 0.130 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0367 (average => 0.0337)	Error Ratio 0.5370 (average => 0.5612)
+Epoch #25, batch 900 of 1139
+	Time 0.134 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0298 (average => 0.0338)	Error Ratio 0.5219 (average => 0.5620)
+Epoch #25, batch 1000 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0395 (average => 0.0338)	Error Ratio 0.5986 (average => 0.5616)
+Epoch #25, batch 1100 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0264 (average => 0.0337)	Error Ratio 0.4802 (average => 0.5614)
+Epoch: #25 Avg Error Ratio 0.561; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #26, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0366 (average => 0.0336)	Error Ratio 0.6334 (average => 0.5585)
+Epoch #26, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0365 (average => 0.0338)	Error Ratio 0.6117 (average => 0.5626)
+Epoch #26, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0336 (average => 0.0338)	Error Ratio 0.5787 (average => 0.5622)
+Epoch #26, batch 400 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0407 (average => 0.0336)	Error Ratio 0.6530 (average => 0.5608)
+Epoch #26, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0328 (average => 0.0336)	Error Ratio 0.5662 (average => 0.5608)
+Epoch #26, batch 600 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0376 (average => 0.0337)	Error Ratio 0.5717 (average => 0.5614)
+Epoch #26, batch 700 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0307 (average => 0.0337)	Error Ratio 0.4994 (average => 0.5610)
+Epoch #26, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0320 (average => 0.0338)	Error Ratio 0.5662 (average => 0.5619)
+Epoch #26, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0384 (average => 0.0338)	Error Ratio 0.6175 (average => 0.5624)
+Epoch #26, batch 1000 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0318 (average => 0.0338)	Error Ratio 0.5732 (average => 0.5617)
+Epoch #26, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0340 (average => 0.0337)	Error Ratio 0.5500 (average => 0.5611)
+Epoch: #26 Avg Error Ratio 0.561; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #27, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0358 (average => 0.0333)	Error Ratio 0.5897 (average => 0.5544)
+Epoch #27, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0379 (average => 0.0337)	Error Ratio 0.6365 (average => 0.5602)
+Epoch #27, batch 300 of 1139
+	Time 0.130 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0322 (average => 0.0339)	Error Ratio 0.5575 (average => 0.5617)
+Epoch #27, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0387 (average => 0.0340)	Error Ratio 0.6203 (average => 0.5619)
+Epoch #27, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0309 (average => 0.0339)	Error Ratio 0.5413 (average => 0.5619)
+Epoch #27, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0302 (average => 0.0339)	Error Ratio 0.5182 (average => 0.5617)
+Epoch #27, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0398 (average => 0.0338)	Error Ratio 0.6377 (average => 0.5616)
+Epoch #27, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0261 (average => 0.0338)	Error Ratio 0.4933 (average => 0.5620)
+Epoch #27, batch 900 of 1139
+	Time 0.130 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0355 (average => 0.0338)	Error Ratio 0.5670 (average => 0.5611)
+Epoch #27, batch 1000 of 1139
+	Time 0.133 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0302 (average => 0.0338)	Error Ratio 0.5697 (average => 0.5611)
+Epoch #27, batch 1100 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0364 (average => 0.0338)	Error Ratio 0.5553 (average => 0.5611)
+Epoch: #27 Avg Error Ratio 0.561; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #28, batch 100 of 1139
+	Time 0.128 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0366 (average => 0.0342)	Error Ratio 0.5847 (average => 0.5673)
+Epoch #28, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0343 (average => 0.0339)	Error Ratio 0.5826 (average => 0.5624)
+Epoch #28, batch 300 of 1139
+	Time 0.134 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0304 (average => 0.0337)	Error Ratio 0.4948 (average => 0.5597)
+Epoch #28, batch 400 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0354 (average => 0.0338)	Error Ratio 0.5807 (average => 0.5612)
+Epoch #28, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0321 (average => 0.0339)	Error Ratio 0.5064 (average => 0.5623)
+Epoch #28, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0367 (average => 0.0339)	Error Ratio 0.5815 (average => 0.5615)
+Epoch #28, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0366 (average => 0.0339)	Error Ratio 0.5902 (average => 0.5622)
+Epoch #28, batch 800 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0306 (average => 0.0339)	Error Ratio 0.4723 (average => 0.5617)
+Epoch #28, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0328 (average => 0.0339)	Error Ratio 0.5539 (average => 0.5616)
+Epoch #28, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0304 (average => 0.0338)	Error Ratio 0.5015 (average => 0.5616)
+Epoch #28, batch 1100 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0381 (average => 0.0338)	Error Ratio 0.6125 (average => 0.5615)
+Epoch: #28 Avg Error Ratio 0.561; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.561; Average Loss 0.034
+Epoch #29, batch 100 of 1139
+	Time 0.135 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0282 (average => 0.0339)	Error Ratio 0.5001 (average => 0.5635)
+Epoch #29, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0364 (average => 0.0341)	Error Ratio 0.5782 (average => 0.5648)
+Epoch #29, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0333 (average => 0.0339)	Error Ratio 0.5774 (average => 0.5613)
+Epoch #29, batch 400 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0335 (average => 0.0339)	Error Ratio 0.5886 (average => 0.5626)
+Epoch #29, batch 500 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0340 (average => 0.0337)	Error Ratio 0.5309 (average => 0.5604)
+Epoch #29, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0375 (average => 0.0337)	Error Ratio 0.5969 (average => 0.5606)
+Epoch #29, batch 700 of 1139
+	Time 0.137 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0282 (average => 0.0337)	Error Ratio 0.5032 (average => 0.5602)
+Epoch #29, batch 800 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0322 (average => 0.0337)	Error Ratio 0.5433 (average => 0.5608)
+Epoch #29, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0365 (average => 0.0337)	Error Ratio 0.5883 (average => 0.5611)
+Epoch #29, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0362 (average => 0.0338)	Error Ratio 0.5811 (average => 0.5609)
+Epoch #29, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0314 (average => 0.0337)	Error Ratio 0.5470 (average => 0.5603)
+Epoch: #29 Avg Error Ratio 0.561; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #30, batch 100 of 1139
+	Time 0.135 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0325 (average => 0.0333)	Error Ratio 0.5162 (average => 0.5556)
+Epoch #30, batch 200 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0365 (average => 0.0334)	Error Ratio 0.6049 (average => 0.5559)
+Epoch #30, batch 300 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0323 (average => 0.0335)	Error Ratio 0.5542 (average => 0.5562)
+Epoch #30, batch 400 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0329 (average => 0.0336)	Error Ratio 0.5209 (average => 0.5570)
+Epoch #30, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0331 (average => 0.0337)	Error Ratio 0.5605 (average => 0.5583)
+Epoch #30, batch 600 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0312 (average => 0.0336)	Error Ratio 0.5717 (average => 0.5581)
+Epoch #30, batch 700 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0323 (average => 0.0337)	Error Ratio 0.5472 (average => 0.5595)
+Epoch #30, batch 800 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0290 (average => 0.0337)	Error Ratio 0.5112 (average => 0.5601)
+Epoch #30, batch 900 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0276 (average => 0.0338)	Error Ratio 0.4905 (average => 0.5610)
+Epoch #30, batch 1000 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0370 (average => 0.0338)	Error Ratio 0.6281 (average => 0.5606)
+Epoch #30, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0308 (average => 0.0337)	Error Ratio 0.5216 (average => 0.5605)
+Epoch: #30 Avg Error Ratio 0.560; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.561; Average Loss 0.034
+Epoch #31, batch 100 of 1139
+	Time 0.128 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0277 (average => 0.0340)	Error Ratio 0.5104 (average => 0.5648)
+Epoch #31, batch 200 of 1139
+	Time 0.132 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0287 (average => 0.0338)	Error Ratio 0.4962 (average => 0.5637)
+Epoch #31, batch 300 of 1139
+	Time 0.135 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0338 (average => 0.0336)	Error Ratio 0.5840 (average => 0.5607)
+Epoch #31, batch 400 of 1139
+	Time 0.136 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0385 (average => 0.0336)	Error Ratio 0.6148 (average => 0.5610)
+Epoch #31, batch 500 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.005)	Loss 0.0303 (average => 0.0336)	Error Ratio 0.4951 (average => 0.5617)
+Epoch #31, batch 600 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0270 (average => 0.0337)	Error Ratio 0.4461 (average => 0.5613)
+Epoch #31, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0347 (average => 0.0337)	Error Ratio 0.5961 (average => 0.5608)
+Epoch #31, batch 800 of 1139
+	Time 0.127 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0335 (average => 0.0337)	Error Ratio 0.5364 (average => 0.5609)
+Epoch #31, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0305 (average => 0.0337)	Error Ratio 0.5213 (average => 0.5608)
+Epoch #31, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0370 (average => 0.0337)	Error Ratio 0.5710 (average => 0.5605)
+Epoch #31, batch 1100 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0353 (average => 0.0337)	Error Ratio 0.5916 (average => 0.5602)
+Epoch: #31 Avg Error Ratio 0.560; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #32, batch 100 of 1139
+	Time 0.134 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0317 (average => 0.0336)	Error Ratio 0.4957 (average => 0.5591)
+Epoch #32, batch 200 of 1139
+	Time 0.136 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0301 (average => 0.0337)	Error Ratio 0.5331 (average => 0.5587)
+Epoch #32, batch 300 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0379 (average => 0.0337)	Error Ratio 0.5857 (average => 0.5578)
+Epoch #32, batch 400 of 1139
+	Time 0.131 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0344 (average => 0.0336)	Error Ratio 0.5756 (average => 0.5571)
+Epoch #32, batch 500 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0252 (average => 0.0336)	Error Ratio 0.4717 (average => 0.5579)
+Epoch #32, batch 600 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0312 (average => 0.0337)	Error Ratio 0.5764 (average => 0.5587)
+Epoch #32, batch 700 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0355 (average => 0.0337)	Error Ratio 0.5977 (average => 0.5590)
+Epoch #32, batch 800 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0394 (average => 0.0338)	Error Ratio 0.6064 (average => 0.5605)
+Epoch #32, batch 900 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0371 (average => 0.0337)	Error Ratio 0.6080 (average => 0.5598)
+Epoch #32, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0316 (average => 0.0337)	Error Ratio 0.5350 (average => 0.5598)
+Epoch #32, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0378 (average => 0.0337)	Error Ratio 0.5827 (average => 0.5600)
+Epoch: #32 Avg Error Ratio 0.560; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #33, batch 100 of 1139
+	Time 0.130 (average => 0.135)	Data 0.005 (average => 0.007)	Loss 0.0274 (average => 0.0331)	Error Ratio 0.4800 (average => 0.5510)
+Epoch #33, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0268 (average => 0.0334)	Error Ratio 0.4601 (average => 0.5555)
+Epoch #33, batch 300 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0361 (average => 0.0337)	Error Ratio 0.6190 (average => 0.5587)
+Epoch #33, batch 400 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0330 (average => 0.0338)	Error Ratio 0.5643 (average => 0.5598)
+Epoch #33, batch 500 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0361 (average => 0.0338)	Error Ratio 0.5788 (average => 0.5596)
+Epoch #33, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0318 (average => 0.0337)	Error Ratio 0.5351 (average => 0.5593)
+Epoch #33, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0321 (average => 0.0337)	Error Ratio 0.5346 (average => 0.5602)
+Epoch #33, batch 800 of 1139
+	Time 0.138 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0360 (average => 0.0337)	Error Ratio 0.5943 (average => 0.5601)
+Epoch #33, batch 900 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0391 (average => 0.0337)	Error Ratio 0.6397 (average => 0.5600)
+Epoch #33, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0351 (average => 0.0337)	Error Ratio 0.5605 (average => 0.5597)
+Epoch #33, batch 1100 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0352 (average => 0.0338)	Error Ratio 0.5579 (average => 0.5601)
+Epoch: #33 Avg Error Ratio 0.560; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.561; Average Loss 0.034
+Epoch #34, batch 100 of 1139
+	Time 0.132 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0334 (average => 0.0338)	Error Ratio 0.5815 (average => 0.5595)
+Epoch #34, batch 200 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0311 (average => 0.0337)	Error Ratio 0.4987 (average => 0.5576)
+Epoch #34, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0324 (average => 0.0337)	Error Ratio 0.5511 (average => 0.5580)
+Epoch #34, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0283 (average => 0.0336)	Error Ratio 0.5207 (average => 0.5568)
+Epoch #34, batch 500 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0396 (average => 0.0337)	Error Ratio 0.6198 (average => 0.5578)
+Epoch #34, batch 600 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0359 (average => 0.0337)	Error Ratio 0.5866 (average => 0.5582)
+Epoch #34, batch 700 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0325 (average => 0.0338)	Error Ratio 0.5494 (average => 0.5588)
+Epoch #34, batch 800 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0332 (average => 0.0338)	Error Ratio 0.5794 (average => 0.5591)
+Epoch #34, batch 900 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0367 (average => 0.0338)	Error Ratio 0.5900 (average => 0.5596)
+Epoch #34, batch 1000 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0330 (average => 0.0338)	Error Ratio 0.5036 (average => 0.5600)
+Epoch #34, batch 1100 of 1139
+	Time 0.131 (average => 0.132)	Data 0.005 (average => 0.005)	Loss 0.0318 (average => 0.0338)	Error Ratio 0.5555 (average => 0.5600)
+Epoch: #34 Avg Error Ratio 0.560; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.562; Average Loss 0.034
+Epoch #35, batch 100 of 1139
+	Time 0.131 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0304 (average => 0.0344)	Error Ratio 0.5537 (average => 0.5635)
+Epoch #35, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0369 (average => 0.0341)	Error Ratio 0.5575 (average => 0.5596)
+Epoch #35, batch 300 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0334 (average => 0.0340)	Error Ratio 0.5613 (average => 0.5612)
+Epoch #35, batch 400 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0368 (average => 0.0338)	Error Ratio 0.5775 (average => 0.5594)
+Epoch #35, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.006)	Loss 0.0334 (average => 0.0339)	Error Ratio 0.5458 (average => 0.5600)
+Epoch #35, batch 600 of 1139
+	Time 0.134 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0320 (average => 0.0338)	Error Ratio 0.5716 (average => 0.5595)
+Epoch #35, batch 700 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0336 (average => 0.0338)	Error Ratio 0.6056 (average => 0.5603)
+Epoch #35, batch 800 of 1139
+	Time 0.131 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0386 (average => 0.0337)	Error Ratio 0.5639 (average => 0.5591)
+Epoch #35, batch 900 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0318 (average => 0.0337)	Error Ratio 0.5340 (average => 0.5589)
+Epoch #35, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0288 (average => 0.0337)	Error Ratio 0.5320 (average => 0.5585)
+Epoch #35, batch 1100 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0334 (average => 0.0337)	Error Ratio 0.5896 (average => 0.5593)
+Epoch: #35 Avg Error Ratio 0.559; Average Loss 0.034; Avg Time x Batch 0.132
+ * Average Error Ratio 0.561; Average Loss 0.034
+Epoch #36, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0313 (average => 0.0340)	Error Ratio 0.5326 (average => 0.5622)
+Epoch #36, batch 200 of 1139
+	Time 0.132 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0215 (average => 0.0337)	Error Ratio 0.4219 (average => 0.5585)
+Epoch #36, batch 300 of 1139
+	Time 0.133 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0365 (average => 0.0335)	Error Ratio 0.6053 (average => 0.5567)
+Epoch #36, batch 400 of 1139
+	Time 0.135 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0307 (average => 0.0337)	Error Ratio 0.5607 (average => 0.5582)
+Epoch #36, batch 500 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0378 (average => 0.0339)	Error Ratio 0.6020 (average => 0.5604)
+Epoch #36, batch 600 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0282 (average => 0.0338)	Error Ratio 0.5311 (average => 0.5586)
+Epoch #36, batch 700 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0370 (average => 0.0338)	Error Ratio 0.6100 (average => 0.5587)
+Epoch #36, batch 800 of 1139
+	Time 0.133 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0385 (average => 0.0338)	Error Ratio 0.6400 (average => 0.5586)
+Epoch #36, batch 900 of 1139
+	Time 0.135 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0319 (average => 0.0338)	Error Ratio 0.5105 (average => 0.5590)
+Epoch #36, batch 1000 of 1139
+	Time 0.132 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0301 (average => 0.0338)	Error Ratio 0.4977 (average => 0.5594)
+Epoch #36, batch 1100 of 1139
+	Time 0.136 (average => 0.133)	Data 0.005 (average => 0.005)	Loss 0.0415 (average => 0.0337)	Error Ratio 0.6527 (average => 0.5590)
+Epoch: #36 Avg Error Ratio 0.559; Average Loss 0.034; Avg Time x Batch 0.133
+ * Average Error Ratio 0.561; Average Loss 0.034
+Epoch #37, batch 100 of 1139
+	Time 0.133 (average => 0.136)	Data 0.005 (average => 0.007)	Loss 0.0336 (average => 0.0338)	Error Ratio 0.5627 (average => 0.5609)
+Epoch #37, batch 200 of 1139
+	Time 0.134 (average => 0.135)	Data 0.005 (average => 0.006)	Loss 0.0282 (average => 0.0336)	Error Ratio 0.5012 (average => 0.5574)
+Epoch #37, batch 300 of 1139
+	Time 0.134 (average => 0.134)	Data 0.005 (average => 0.006)	Loss 0.0323 (average => 0.0338)	Error Ratio 0.5639 (average => 0.5590)
+slurmstepd: error: *** JOB 8484319 ON v002 CANCELLED AT 2022-04-28T20:31:45 ***
