@@ -1,2 +1,7 @@
 # 10708_Project
-Project for CMU 10-708 Probalistic Graph Models Spring 2022
+Baseline model found at: https://github.com/priba/nmp_qc
+We thank them for providing an invaluable starting point for a few inexperienced but curious graduate students 
+
+
+
+
