@@ -34,8 +34,6 @@ def sort_ring(mol, atoms):
 
  
 def get_substruct_node(mol, atoms, add_Hs=True):
-    if mol.GetNumAtoms() == len(atoms):
-        return Chem.MolToSmiles(mol)
     if len(atoms) == 1:
         new_smi = mol.GetAtomWithIdx(atoms[0]).GetSymbol()
     elif len(atoms) == 2:

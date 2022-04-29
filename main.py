@@ -36,7 +36,7 @@ parser.add_argument('--resume', type=str, default='./sds_model/qm9/mpnn/',
                     help='path to latest checkpoint')
 # Optimization Options
 parser.add_argument('--batch-size', type=int, default=100, metavar='N',
-                    help='Input batch size for training (default: 20)')
+                    help='Input batch size for training (default: 100)')
 parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='Enables CUDA training')
 parser.add_argument('--epochs', type=int, default=360, metavar='N',
@@ -148,7 +148,7 @@ def main():
         train(train_loader, model, args.cuda, criterion, optimizer, epoch, evaluation, int(args.log_interval), logger)
 
         # evaluate on test set                                                                                                                                                                                                                             
-        er1, output, target = validate(valid_loader, model, criterion, evaluation, args.cuda, int(args.log_interval), logger)
+        er1, output, target = validate(valid_loader, model, criterion, evaluation, args.cuda, int(args.log_interval), logger, str(epoch))
         is_best = er1 > best_er1
         best_er1 = min(er1, best_er1)
         utils.save_checkpoint(s={'epoch': epoch + 1, 'state_dict': model.state_dict(), 'best_er1': best_er1,

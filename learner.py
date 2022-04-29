@@ -60,7 +60,7 @@ def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, lo
     print('Epoch: #{0} Avg Error Ratio {err.avg:.3f}; Average Loss {loss.avg:.3f}; Avg Time x Batch {b_time.avg:.3f}'
           .format(epoch, err=error_ratio, loss=losses, b_time=batch_time),flush=True)
 
-def validate(test_loader, model, criterion, evaluation, cuda, log_interval, logger):
+def validate(val_loader, model, criterion, evaluation, cuda, log_interval, logger, epoch=""):
     batch_time = AverageMeter()
     losses = AverageMeter()
     error_ratio = AverageMeter()
@@ -68,7 +68,7 @@ def validate(test_loader, model, criterion, evaluation, cuda, log_interval, logg
     # switch to evaluate mode                                                                                                                                                                                                                              
     model.eval()
     end = time.time()
-    for i, (g, h, e, target) in enumerate(test_loader):
+    for i, (g, h, e, target) in enumerate(val_loader):
         # Prepare input data                                                                                                                                                                                                                               
         if cuda:
             g, h, e, target = g.cuda(), h.cuda(), e.cuda(), target.cuda()
@@ -77,7 +77,9 @@ def validate(test_loader, model, criterion, evaluation, cuda, log_interval, logg
         output = model(g, h, e)
         predictions = output.tolist()
         ground_truth = target.tolist()
-        with open("analysis.csv", "a") as f:
+        if not os.path.exists("./predictions"):
+            os.mkdir("./predictions")
+        with open(f"./predictions/analysis{epoch}.csv", "a") as f:
             for i, val in enumerate(predictions):
                 f.write("{}, {}\n".format(round(val[0],4), round(ground_truth[i][0],4)))
         # Logs                                                                                                                                                                                                                                            
