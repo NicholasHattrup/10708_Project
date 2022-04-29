@@ -174,7 +174,7 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
     std = np.std(distances)
     def DistanceConverter(x): return (x - mean) / std
 
-    return NodeConverter, EdgeConverter, DistanceConverter
+    return NodeConverter, EdgeConverter, DistanceConverter, [node_n, edge_n]
 
       
 def distance(coord1, coord2):

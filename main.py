@@ -83,7 +83,7 @@ def main():
     print("Building libraries took: ", dt.now() - t0)
 
     KEY, libs = train_lib.MD5, [train_lib, valid_lib, test_lib]
-    NodeConverter, EdgeConverter, DistanceConverter = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
+    NodeConverter, EdgeConverter, DistanceConverter, [node_n, edge_n] = GetCustomizedPCA(libs, args.n_pcs, KEY, modelPath=split_path)
 
     train_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
     valid_lib.update_library(NodeConverter, EdgeConverter, DistanceConverter)
@@ -104,11 +104,11 @@ def main():
                                                collate_fn=utils.collate,                                                                                                                                                                              
                                                num_workers=args.prefetch, pin_memory=True)
 
-    g_tuple, target = train_lib[0]
-    g, nodes, edges = g_tuple
+    # g_tuple, target = train_lib[0]
+    # g, nodes, edges = g_tuple
     
     print('Creating Model',flush=True)
-    in_n = [len(nodes[0]), len(list(edges.values())[0])]
+    in_n = node_n + edge_n #[len(nodes[0]), len(list(edges.values())[0])]
     hidden_state_size = 73
     message_size = 73
     n_layers = 3
