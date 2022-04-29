@@ -4,6 +4,13 @@ Baseline model found at: https://github.com/priba/nmp_qc
 We thank them for providing an invaluable starting point for a few inexperienced but curious graduate students 
 
 
+## Installation
+
+    $ pip install -r requirements.txt
+    $ python main.py
+
+
+
 
 # Data
 The data used in this project can be downloaded [here](https://drive.google.com/file/d/11DR28EFbWWR_EKbVwr-RKMVeLwC2gYft/view?usp=sharing)
