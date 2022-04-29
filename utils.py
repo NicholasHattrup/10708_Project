@@ -156,7 +156,7 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
 
     frag_scaler, link_scaler = MinMaxScaler(), MinMaxScaler()
     train_frag_fps = node_pca.transform(smiles_to_fps(train_fragments, nBits))[:, :node_n]
-    train_link_fps = node_pca.transform(smiles_to_fps(train_linkages, nBits))[:, :node_n]
+    train_link_fps = node_pca.transform(smiles_to_fps(train_linkages, nBits))[:, :edge_n]
     frag_scaler.fit(train_frag_fps)
     link_scaler.fit(train_link_fps)
 
@@ -170,8 +170,8 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
 
     frag_fps = node_pca.transform(smiles_to_fps(fragments, nBits))[:, :node_n]
     link_fps = node_pca.transform(smiles_to_fps(linkages, nBits))[:, :edge_n]
-    frag_fps = frag_scaler(frag_fps)
-    link_fps = link_scaler(link_fps)
+    frag_fps = frag_scaler.transform(frag_fps)
+    link_fps = link_scaler.transform(link_fps)
 
     frag_fp_dict = {fragments[i]: [abs(x) for x in frag_fps[i]] for i in range(len(fragments))}
     link_fp_dict = {linkages[i]: [abs(x) for x in link_fps[i]] for i in range(len(linkages))}
