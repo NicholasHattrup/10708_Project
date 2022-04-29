@@ -6,7 +6,7 @@ import torch.nn.functional as F
 
 class NNet(nn.Module):
 
-    def __init__(self, n_in, n_out, hlayers=(128, 256, 128), act_fn=torch.tanh):
+    def __init__(self, n_in, n_out, hlayers=(128, 256, 128), act_fn=F.relu):
         super(NNet, self).__init__()
         self.n_hlayers = len(hlayers)
         self.fcs = nn.ModuleList([nn.Linear(n_in, hlayers[i], bias=True) if i == 0 else

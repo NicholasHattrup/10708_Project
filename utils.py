@@ -4,8 +4,10 @@ import numpy as np
 import os, hashlib
 from rdkit.Chem import AllChem as Chem
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import normalize, MinMaxScaler
 from joblib import dump, load
 import torch
+from copy import deepcopy
 
 
 def float_bounds(bounds):
@@ -138,8 +140,8 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
         edge_pca = PCA(n_components=nMax[1]).fit(train_link_fps)
         dump(node_pca, modelPath+"edge_"+verificationKey+".joblib")
     
-    node_cev = [sum(node_pca.explained_variance_ratio_[:i]) for i in range(64)] # cummulative explained variance
-    edge_cev = [sum(edge_pca.explained_variance_ratio_[:i]) for i in range(64)]
+    node_cev = [sum(node_pca.explained_variance_ratio_[:i]) for i in range(nMax[0])] # cummulative explained variance
+    edge_cev = [sum(edge_pca.explained_variance_ratio_[:i]) for i in range(nMax[1])]
     if isinstance(node_n, float):
         for i, x in enumerate(node_cev):
             if x < node_n:
@@ -152,7 +154,13 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
                 break
     print(f"Number of PCs: node ({node_n}, {node_cev[node_n-1]:.4f}) \t edge ({edge_n}, {edge_cev[edge_n-1]:.4f})", flush=True)
 
-    fragments, linkages = train_fragments, train_linkages
+    frag_scaler, link_scaler = MinMaxScaler(), MinMaxScaler()
+    train_frag_fps = node_pca.transform(smiles_to_fps(train_fragments, nBits))[:, :node_n]
+    train_link_fps = node_pca.transform(smiles_to_fps(train_linkages, nBits))[:, :node_n]
+    frag_scaler.fit(train_frag_fps)
+    link_scaler.fit(train_link_fps)
+
+    fragments, linkages = deepcopy(train_fragments), deepcopy(train_linkages)
     valid_lib.init_reduction()
     fragments = fragments.union(valid_lib.fragment_library)
     linkages = linkages.union(valid_lib.linkage_library)
@@ -162,17 +170,19 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
 
     frag_fps = node_pca.transform(smiles_to_fps(fragments, nBits))[:, :node_n]
     link_fps = node_pca.transform(smiles_to_fps(linkages, nBits))[:, :edge_n]
+    frag_fps = frag_scaler(frag_fps)
+    link_fps = link_scaler(link_fps)
 
-    frag_fp_dict = {fragments[i]: frag_fps[i] for i in range(len(fragments))}
-    link_fp_dict = {linkages[i]: link_fps[i] for i in range(len(linkages))}
+    frag_fp_dict = {fragments[i]: [abs(x) for x in frag_fps[i]] for i in range(len(fragments))}
+    link_fp_dict = {linkages[i]: [abs(x) for x in link_fps[i]] for i in range(len(linkages))}
 
     def NodeConverter(x): return frag_fp_dict[x]
     def EdgeConverter(x): return link_fp_dict[x]
 
     distances = [dist for G in train_lib.graph_library for (a,b,dist) in G.graph.edges.data('Distance')]
-    mean = np.mean(distances)
-    std = np.std(distances)
-    def DistanceConverter(x): return (x - mean) / std
+    _min = min(distances)
+    _max = max(distances)
+    def DistanceConverter(x): return (x - _min) / (_max - _min)
 
     return NodeConverter, EdgeConverter, DistanceConverter, [node_n, edge_n]
 
