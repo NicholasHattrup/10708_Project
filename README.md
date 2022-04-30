@@ -17,7 +17,7 @@ The default behavior is to search for the best model and resume training, in ord
 
 To begin training a model from scratch (on CPUs or GPUs) simply specify a model directory: 
 
-    $ python main.py --resume "path/to/folder"
+    $ python main.py --resume "path/to/folder/"
 
 # Data
 The data used in this project can be downloaded [here](https://drive.google.com/file/d/11DR28EFbWWR_EKbVwr-RKMVeLwC2gYft/view?usp=sharing)
