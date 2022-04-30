@@ -1,7 +1,7 @@
 import shutil
 import argparse
 import numpy as np
-import os, hashlib
+import os, hashlib, json
 from rdkit.Chem import AllChem as Chem
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import normalize, MinMaxScaler
@@ -138,7 +138,7 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
         print(f"PCA model for edges not found. Start training and saving...")
         train_link_fps = smiles_to_fps(train_linkages, nBits)
         edge_pca = PCA(n_components=nMax[1]).fit(train_link_fps)
-        dump(node_pca, modelPath+"edge_"+verificationKey+".joblib")
+        dump(edge_pca, modelPath+"edge_"+verificationKey+".joblib")
     
     node_cev = [sum(node_pca.explained_variance_ratio_[:i]) for i in range(nMax[0])] # cummulative explained variance
     edge_cev = [sum(edge_pca.explained_variance_ratio_[:i]) for i in range(nMax[1])]
@@ -175,6 +175,9 @@ def GetCustomizedPCA(libs, n_pcs_arg, verificationKey, modelPath="./data/qm9/", 
 
     frag_fp_dict = {fragments[i]: [abs(x) for x in frag_fps[i]] for i in range(len(fragments))}
     link_fp_dict = {linkages[i]: [abs(x) for x in link_fps[i]] for i in range(len(linkages))}
+    import json
+    json.dump(frag_fp_dict, open('./data/qm9/fragments.json', 'w'))
+    json.dump(link_fp_dict, open('./data/qm9/linkages.json', 'w'))
 
     def NodeConverter(x): return frag_fp_dict[x]
     def EdgeConverter(x): return link_fp_dict[x]
