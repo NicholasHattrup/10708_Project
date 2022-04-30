@@ -9,7 +9,9 @@ We thank the authors for providing an invaluable starting point for a few inexpe
     $ pip install -r requirements.txt
     $ python main.py
 
-
+For help
+    
+    $ python main.py --help
 
 
 # Data
