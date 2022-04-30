@@ -13,6 +13,11 @@ For help
     
     $ python main.py --help
 
+The default behavior is to search for the best model and resume training, in order to do this the main.py script must be ran on GPUs. 
+
+To begin training a model from scratch simply specify a model directory 
+
+    $ python main.py --resume "path/to/folder"
 
 # Data
 The data used in this project can be downloaded [here](https://drive.google.com/file/d/11DR28EFbWWR_EKbVwr-RKMVeLwC2gYft/view?usp=sharing)
