@@ -15,7 +15,7 @@ For help
 
 The default behavior is to search for the best model and resume training, in order to do this the main.py script must be ran on GPUs. 
 
-To begin training a model from scratch simply specify a model directory 
+To begin training a model from scratch (on CPUs or GPUs) simply specify a model directory: 
 
     $ python main.py --resume "path/to/folder"
 
