@@ -4,6 +4,10 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.nn.functional as F
 
+# Original authors are: (some parts are modified)
+__author__ = "Pau Riba, Anjan Dutta"
+__email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
+
 class NNet(nn.Module):
 
     def __init__(self, n_in, n_out, hlayers=(128, 256, 128), act_fn=F.relu):

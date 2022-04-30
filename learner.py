@@ -11,11 +11,14 @@ from torch.autograd import Variable
 
 from sklearn.decomposition import PCA
 
-# Our own modules                                                                                                                                                                                                                                          
 import utils
 from utils import *
 from ChemGraph import *
 from LogMetric import Logger, AverageMeter
+
+# Original authors are: (some parts are modified)
+__author__ = "Pau Riba, Anjan Dutta"
+__email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 
 def train(train_loader, model, cuda, criterion, optimizer, epoch, evaluation, log_interval, logger=None):
     batch_time = AverageMeter()

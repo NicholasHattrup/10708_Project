@@ -15,6 +15,10 @@ from sklearn.decomposition import PCA
 from learner import *
 from models import MPNN
 
+# Original authors are: (some parts are modified)
+__author__ = "Pau Riba, Anjan Dutta"
+__email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
+
 parser = argparse.ArgumentParser(description="Substructure graph with neural message passing")
 
 parser.add_argument('--dataset', type=str, default='qm9_sds',
