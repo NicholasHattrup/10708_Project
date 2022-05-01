@@ -25,7 +25,7 @@ parser.add_argument('--dataset', type=str, default='qm9_sds',
                     help='dataset of interest, default: qm9_sds')
 parser.add_argument('--datasetPath', type=str, default='./data/qm9/xyz/',
                     help='dataset path, default: ./data/qm9/xyz/')
-parser.add_argument('--datasetSplitDone', type=bool, default=True,
+parser.add_argument('--datasetSplitDone', action='store_false', default=True,
                     help='whether or not to use pre-split dataset, default: True')
 parser.add_argument('--splitRatio', type=str, default='10000_10000',
                     help='split ratio, *validation_test*, with automated train')
@@ -34,7 +34,7 @@ parser.add_argument('--n-pcs', type=str, default='32_16',
 parser.add_argument('--pcPath', type=str, default='./data/qm9/xyz/',
                     help="path to pre-trained PCA model")
 parser.add_argument('--logPath', type=str, default='./log_sds/qm9/mpnn/', help='log path')
-parser.add_argument('--plotLr', type=bool, default=False, help='allow plotting the data')
+parser.add_argument('--plotLr', action='store_false', default=False, help='allow plotting the data')
 parser.add_argument('--plotPath', type=str, default='./plot/qm9/mpnn/', help='plot path')
 parser.add_argument('--resume', type=str, default='./sds_model/qm9/mpnn/',
                     help='path to latest checkpoint')
