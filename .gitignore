@@ -115,3 +115,8 @@ __pycache__/
 __pycache__/*
 .*/
 *.sub
+analysis.csv
+events.out.tfevents.1651247534.v001.ib.bridges2.psc.edu
+TreeSample.ipynb
+TreeSample.ipynb
+TreeSample.ipynb
